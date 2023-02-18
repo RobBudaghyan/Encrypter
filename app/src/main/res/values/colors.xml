@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="purple_200">#db922c</color>-->
+<!--    <color name="purple_500">#db922c</color>-->
+<!--    <color name="purple_700">#db922c</color>-->
+<!--    <color name="teal_200">#db922c</color>-->
+<!--    <color name="teal_700">#db922c</color>-->
+<!--    <color name="black">#FF000000</color>-->
+<!--    <color name="white">#FFFFFFFF</color>-->
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="primary_black">#0d0d0d</color>
+    <color name="primary_gray_dark">#303030</color>
+    <color name="primary_gray_light">#a8a7a7</color>
+
+    <color name="primary_orange">     #db922c</color>
+    <color name="primary_orange_dark">#ad5803</color>
+
+    <color name="primary_blue">      #0D62D6</color>
+    <color name="primary_blue_dark"> #093570</color>
+
+    <color name="primary_red">       #CB0014</color>
+    <color name="primary_red_dark">  #6b030d</color>
+
+    <color name="primary_green">     #1DA632</color>
+    <color name="primary_green_dark">#0b5917</color>
+
+
+</resources>

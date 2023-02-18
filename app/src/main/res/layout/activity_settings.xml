@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/color_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="37dp"
+            android:text="Color Theme"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.054"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/orange_theme"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toEndOf="@+id/color_theme"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/orange_theme_pressed"/>
+
+
+        <ImageView
+            android:id="@+id/blue_theme"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toEndOf="@+id/orange_theme"
+            app:layout_constraintTop_toTopOf="@+id/orange_theme"
+            android:background="@drawable/blue_theme" />
+
+        <ImageView
+            android:id="@+id/red_theme"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toEndOf="@+id/blue_theme"
+            app:layout_constraintTop_toTopOf="@+id/blue_theme"
+            android:background="@drawable/red_theme" />
+
+        <ImageView
+            android:id="@+id/green_theme"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toEndOf="@+id/red_theme"
+            app:layout_constraintTop_toTopOf="@+id/red_theme"
+            android:background="@drawable/green_theme" />
+
+
+        <TextView
+            android:id="@+id/sound_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="Sounds"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/color_theme"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/color_theme" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_sounds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="208dp"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:thumb="@drawable/thumb_2_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/sound_preference"
+            app:layout_constraintStart_toEndOf="@+id/sound_preference"
+            app:layout_constraintTop_toTopOf="@+id/sound_preference"
+            app:layout_constraintVertical_bias="0.285"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
+        <TextView
+            android:id="@+id/hexadecimal_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="28dp"
+            android:text="Hexadecimal conversion"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sound_preference" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_hexadecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:thumb="@drawable/thumb_2_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/hexadecimal_preference"
+            app:layout_constraintEnd_toEndOf="@+id/switch_sounds"
+            app:layout_constraintStart_toEndOf="@+id/hexadecimal_preference"
+            app:layout_constraintTop_toTopOf="@+id/hexadecimal_preference"
+            app:layout_constraintVertical_bias="0.619"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
+        <TextView
+            android:id="@+id/version_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Version"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.046"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference2" />
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="244dp"
+            android:text="1.0.0"
+            android:textColor="@color/primary_gray_light"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/version_textview"
+            app:layout_constraintStart_toEndOf="@+id/version_textview"
+            app:layout_constraintTop_toTopOf="@+id/version_textview"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <ImageView
+            android:id="@+id/reset_btn"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/reset_orange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/version_textview" />
+
+        <TextView
+            android:id="@+id/hexadecimal_preference2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:text="Third rotor"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/third_rotor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:thumb="@drawable/thumb_2_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/hexadecimal_preference2"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintStart_toEndOf="@+id/hexadecimal_preference"
+            app:layout_constraintTop_toTopOf="@+id/hexadecimal_preference2"
+            app:layout_constraintVertical_bias="0.619"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:itemBackground="@color/primary_gray_dark"
+        app:itemTextColor="@drawable/menu_orange"
+        app:itemIconTint="@drawable/menu_orange"
+        app:menu="@menu/menu"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

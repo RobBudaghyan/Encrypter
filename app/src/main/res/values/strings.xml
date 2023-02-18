@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Encrypter</string>
+
+    <string name="switch_1">Encrypt</string>
+    <string name="switch_2">Decrypt</string>
+
+    <string name="off">Off</string>
+    <string name="on">On</string>
+
+    <string name="write_here">Write here…</string>
+    <string name="home">Home</string>
+    <string name="qr">QR</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+
+    <!--english-->
+    <string name="eng_home_title">Home</string>
+    <string name="eng_home_content">Upper switch has 2 modes: 1st for text encryption, and the 2nd one for decryption. After writing your input in input box you can adjust encryption/decryption parameters for your text. There are 2 parameters (you can set additional 3rd rotor in the settings). 1st one uses Caesar cipher and ranges from 0 (no encryption) to 25. 2nd parameter (and 3rd if selected) use custom ciphers that range from 0 to 10.
+    Note, if you want to decrypt the encrypted text, the same encryption parameters need to be set for decryption.
+    There are 3 additional buttons: delete button which deletes both input and result on board, share button for sharing result on board and its parameters, and copy button that copies to clipboard the result text.
+    </string>
+    <string name="eng_qr_title">QR</string>
+    <string name="eng_qr_content">Switch has 2 modes: 1st mode is text to barcode converter, and the 2nd one is barcode reader which converts from image to text. 1st mode has 3 conversion types: QR Code, Aztec Code, and Data Matrix Code. Also there are 3 buttons for deleting input and result, sharing barcode and downloading the barcode.
+    Note that sharing barcode also requires downloading it into your storage.
+    2nd mode has two input types – You can input by scanning using camera or use your gallery storage for scanning the barcode. Delete button for deleting result text, Share button for sharing the text and Copy button for copying it.
+    </string>
+    <string name="eng_settings_title">Settings</string>
+    <string name="eng_settings_content">4 different color themes can be set by 4 buttons on the top. Click sounds can be enabled and disabled. For hexadecimal encryption/decryption of the text in Home, Hexadecimal conversion can be enabled. For additional encryption level the 3rd rotor for parameters in Home can be enabled. All settings can be reset by appropriate button lower the preferences.</string>
+    <!--russian-->
+    <string name="rus_home_title">Главная</string>
+    <string name="rus_home_content"> Верхний переключатель имеет 2 режима: 1-й для шифрования и 2-й для дешифрования текста. После вашего ввода в вы можете настроить параметры для шифрования/дешифрования вашего текста. Есть 2 параметра (в настройках можно задать дополнительный 3-й ротор). 1-й параметр использует шифр Цезаря и находится в диапазоне от 0 (без шифрования) до 25. 2-й параметр (и 3-й, если он выбран) использует пользовательские шифры в диапазоне от 0 до 10.
+    Обратите внимание: если вы хотите расшифровать зашифрованный текст, необходимо установить те же параметры дешифровки, что и было для шифровки.
+    Есть 3 дополнительные кнопки: кнопка «Delete», которая удаляет как ввод, так и результат на доске, кнопка «Share» для публикации результата на доске и его параметров, и кнопка «Copy», которая копирует в буфер обмена текст результата.
+    </string>
+    <string name="rus_qr_title">QR</string>
+    <string name="rus_qr_content">  Переключатель имеет 2 режима: 1-й режим — конвертер текста в штрих-код, а 2-й — считыватель штрих-кода, который преобразует изображение в текст. 1-й режим имеет 3 типа преобразования: QR-код, Aztec Code и Data Matrix Code. Также есть 3 кнопки: удалить ввод и результат, поделиться штрих-кодом и загрузка штрих-кода.
+    Обратите внимание, что для обмена штрих-кодом также необходимо загрузить его в хранилище.
+    Второй режим имеет два типа ввода: вы можете вводить данные, сканируя с помощью камеры, или использовать хранилище галереи для сканирования штрих-кода. Кнопка «Удалить» для удаления текста результата, кнопка «Поделиться» для обмена текстом и кнопка «Копировать» для его копирования.
+    </string>
+    <string name="rus_settings_title">Параметры</string>
+    <string name="rus_settings_content">4 различные цветовые темы можно установить с помощью 4-х кнопок сверху. Звуки касаний можно включать и выключать. Для шестнадцатеричного шифрования/дешифрования текста можно включить шестнадцатеричное преобразование. Для дополнительного уровня шифрования можно включить еще и 3-й ротор. Все настройки можно сбросить соответствующей кнопкой ниже настроек.</string>
+    <!--armenian-->
+    <string name="arm_home_title">Գլխավոր</string>
+    <string name="arm_home_content">Վերին անջատիչն ունի 2 ռեժիմ՝ 1-ինը՝ տեքստի գաղտնագրման, իսկ 2-րդը՝ վերծանման համար: Ձեր մուտքագրումը գրելուց հետո կարող եք կարգավորել ձեր տեքստի կոդավորման/գաղտնագրման պարամետրերը: Կա 2 պարամետր (կարող եք լրացուցիչ 3-րդ ռոտոր տեղադրել կարգավորումներում): 1-ն օգտագործում է Ցեզարյան ծածկագիրը և տատանվում է 0-ից (առանց գաղտնագրման) մինչև 25: 2-րդ պարամետրը (և 3-րդը, եթե միացված է) օգտագործում են հատուկ ծածկագրեր, որոնք տատանվում են 0-ից 10-ի միջև:
+    Ուշադրություն դարձրեք, եթե ցանկանում եք վերծանել կոդավորված տեքստը, ապա ծածկագրման նույն պարամետրերը պետք է սահմանվեն ապակոդավորման համար:
+    Գոյություն ունի 3 լրացուցիչ կոճակ՝ "Delete" կոճակը, որը ջնջում է և՛ մուտքագրումը, և՛ արդյունքը տախտակի վրա, "Share" կոճակ՝ արդյունքը և դրա պարամետրերը կիսվելու համար, և "Copy" կոճակ, որը պատճենում է արդյունքի տեքստը սեղմատախտակին:</string>
+    <string name="arm_qr_title">QR</string>
+    <string name="arm_qr_content">Անջատիչն ունի 2 ռեժիմ՝ 1-ին ռեժիմը տեքստից շտրիխ կոդ փոխարկիչն է, իսկ 2-րդը՝ շտրիխ ընթերցողն է, որը փոխակերպում է պատկերից տեքստ: 1-ին ռեժիմն ունի փոխակերպման 3 տեսակ՝ "QR Code", "Aztec Code" և "Data Matrix Code": Նաև կա 3 կոճակ՝ մուտքագրումը և արդյունքը ջնջելու, շտրիխ կոդով կիսվելու և շտրիխ կոդը ներբեռնելու համար:
+    Նկատի ունեցեք, որ շտրիխ կոդով կիսվելու համար անհրաժեշտ է նաև այն ներբեռնել ձեր պահեստում:
+    2-րդ ռեժիմն ունի մուտքագրման երկու տեսակ. Դուք կարող եք մուտքագրել՝ սկանավորելով տեսախցիկի միջոցով կամ օգտագործել պատկերասրահի պահեստը՝ շտրիխ կոդը սկանավորելու համար: Ջնջել կոճակը՝ արդյունքի տեքստը ջնջելու համար, կիսվելու կոճակը՝ տեքստով կիսվելու համար և պատճենել կոճակը՝ այն պատճենելու համար:</string>
+    <string name="arm_settings_title">Կարգավորումներ</string>
+    <string name="arm_settings_content">4 տարբեր գունային թեմաներ կարող են սահմանվել վերևի 4 կոճակներով: Սեղմման ձայները կարող են միացվել և անջատվել: Տեքստի տասնվեցացակն համակարգով կոդավորման/վերծանման համար կա համապատասխան անջատիչ: Գաղտնագրման լրացուցիչ մակարդակի համար կարող է միացված լինել 3-րդ ռոտորը: Բոլոր կարգավորումները կարող են վերականգնել սկզբնական դիրք "Reset Settings" կոճակով։</string>
+</resources>
