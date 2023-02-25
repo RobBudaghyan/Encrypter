@@ -1,9 +1,8 @@
 package com.example.encrypter;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -15,14 +14,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -31,45 +26,42 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getPrefsBoolean("third_rotor_on")) setContentView(R.layout.activity_home_extended);
+        // set layout depending on settings
+        if(check_third_rotor()) setContentView(R.layout.activity_home_extended);
         else setContentView(R.layout.activity_home);
 
         EditText input_text = findViewById(R.id.input_edittext);
-
         TextView result_textview = findViewById(R.id.result_textview);
         TextView seekbar_text_1 = findViewById(R.id.seekbar_text_1);
         TextView seekbar_text_2 = findViewById(R.id.seekbar_text_2);
         TextView seekbar_text_3 = findViewById(R.id.seekbar_text_3);
-
         ImageView delete = findViewById(R.id.delete_btn);
         ImageView share = findViewById(R.id.share_btn);
         ImageView copy = findViewById(R.id.copy_btn);
-
         ImageView plus_1 = findViewById(R.id.plus_btn_1);
         ImageView plus_2 = findViewById(R.id.plus_btn_2);
         ImageView plus_3 = findViewById(R.id.plus_btn_3);
         ImageView minus_1 = findViewById(R.id.minus_btn_1);
         ImageView minus_2 = findViewById(R.id.minus_btn_2);
         ImageView minus_3 = findViewById(R.id.minus_btn_3);
-
         SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
         SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
         SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
-
         SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
 
-//bottom navigation
+        // bottom navigation update
         bottomNavigation();
 
-//theme color
+        // theme color update
         setTheme();
 
-//switch
+        // encrypt/decrypt switch
         switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            convertRun();
             makeClickSound();
         });
 
-//input
+        // input edittext field
         input_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -81,16 +73,15 @@ public class HomeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-//delete button
+        // delete input and result button
         delete.setOnClickListener(v -> {
             input_text.setText("");
             result_textview.setText("");
-
             makeClickSound();
         });
 
 
-//share button
+        // share result button
         share.setOnClickListener(v -> {
             if(!result_textview.getText().toString().equals("")) {
                 Intent shareIntent = new Intent();
@@ -110,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
-//copy button
+        // copy result button
         copy.setOnClickListener(v -> {
             if (!result_textview.getText().toString().equals("")) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -121,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
-//seekbar progress
+        // rotor seekbars
         seekbar_1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -131,9 +122,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                makeClickSound();
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
         });
         seekbar_2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -144,9 +133,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                makeClickSound();
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
         });
         if(seekbar_3 != null) {
             seekbar_3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -158,71 +145,107 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {}
                 @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    makeClickSound();
-                }
+                public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
             });
         }
 
-//plus and minus buttons for seekbars
+        // plus and minus buttons of seekbars
         plus_1.setOnClickListener(v -> {
             int k = seekbar_1.getProgress();
             seekbar_1.setProgress(k + 1);
-
             makeClickSound();
         });
-        //plus_1.setOnLongClickListener();
         plus_2.setOnClickListener(v -> {
             int k = seekbar_2.getProgress();
             seekbar_2.setProgress(k + 1);
-
             makeClickSound();
         });
         if(plus_3 != null){
             plus_3.setOnClickListener(v -> {
                 int k = seekbar_3.getProgress();
                 seekbar_3.setProgress(k + 1);
-
                 makeClickSound();
             });
         }
         minus_1.setOnClickListener(v -> {
             int k = seekbar_1.getProgress();
             seekbar_1.setProgress(k - 1);
-
             makeClickSound();
         });
         minus_2.setOnClickListener(v -> {
             int k = seekbar_2.getProgress();
             seekbar_2.setProgress(k - 1);
-
             makeClickSound();
         });
         if(minus_3 != null){
             minus_3.setOnClickListener(v -> {
             int k = seekbar_3.getProgress();
             seekbar_3.setProgress(k - 1);
-
             makeClickSound();
         });}
     }
 
+    // open activity with class name given to it
     private void openActivity(Class activity_class){
         startActivity(new Intent(getApplicationContext(),activity_class));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 
+    // return integer from shared preferences with given key
     private int getPrefsInt(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getInt(key,0);
     }
 
+    // return boolean from shared preferences with given key
     private boolean getPrefsBoolean(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getBoolean(key,false);
     }
 
+    // check third rotor is enabled/disabled
+    private boolean check_third_rotor(){
+        SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
+        return prefs.getBoolean("third_rotor_on",true);
+    }
+
+    // make click sound
+    private void makeClickSound(){
+        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
+        boolean sounds_on = getPrefsBoolean("sounds_on");
+        if(sounds_on) clickSound.start();
+    }
+
+    // execute encryption/decryption and update result text bar
+    private void convertRun(){
+        EditText input_text = findViewById(R.id.input_edittext);
+        TextView result_textview = findViewById(R.id.result_textview);
+        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
+        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
+        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
+        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
+
+        boolean hex_on = getPrefsBoolean("hex_on");
+
+        result_textview.setMovementMethod(new ScrollingMovementMethod());
+
+        String input = input_text.getText().toString();
+        String result = "";
+        int rotor_3;
+        if(seekbar_3 == null) rotor_3 = -1;
+        else rotor_3 = seekbar_3.getProgress();
+        try {
+            result = Conversion.runConversion(input, seekbar_1.getProgress(), seekbar_2.getProgress(),
+                    rotor_3, switch_decrypt.isChecked(), hex_on);
+        } catch (Exception e) {
+            result = "Something Went Wrong :(";
+        }
+        result_textview.setText(result);
+    }
+
+    // bottom navigation bar
+    @SuppressLint("NonConstantResourceId")
     private void bottomNavigation(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home_menu);
@@ -247,6 +270,8 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    // update color theme of app using shared preferences
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void setTheme(){
         ImageView delete = findViewById(R.id.delete_btn);
         ImageView share = findViewById(R.id.share_btn);
@@ -264,10 +289,10 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         int [][] states = new int [][]{
-                new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected}, // enabled
-                new int[] {-android.R.attr.state_enabled}, // disabled
-                new int[] {android.R.attr.state_enabled, android.R.attr.state_selected}, // selected
-                new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}  // pressed
+                new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected},
+                new int[] {-android.R.attr.state_enabled},
+                new int[] {android.R.attr.state_enabled, android.R.attr.state_selected},
+                new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}
         };
         int[] colors_orange = new int[0], colors_blue = new int[0], colors_red = new int[0], colors_green = new int[0];
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -359,43 +384,6 @@ public class HomeActivity extends AppCompatActivity {
                 bottomNavigationView.setItemTextColor(colorStateList_green);
                 break;
         }
-    }
-
-    private void makeClickSound(){
-        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
-        boolean sounds_on = getPrefsBoolean("sounds_on");
-
-        if(sounds_on) clickSound.start();
-    }
-
-    private void convertRun(){
-        EditText input_text = findViewById(R.id.input_edittext);
-        TextView result_textview = findViewById(R.id.result_textview);
-        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
-        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
-        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
-        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
-
-
-        boolean hex_on = getPrefsBoolean("hex_on");
-
-            result_textview.setMovementMethod(new ScrollingMovementMethod());
-
-            String input = input_text.getText().toString();
-            String result = "";
-            int rotor_3;
-            if(seekbar_3 == null) rotor_3 = -1;
-            else rotor_3 = seekbar_3.getProgress();
-            try {
-                result = Conversion.runConversion(input, seekbar_1.getProgress(), seekbar_2.getProgress(),
-                        rotor_3, switch_decrypt.isChecked(), hex_on);
-            } catch (Exception e) {
-                result = "Something Went Wrong :(";
-            }
-            result_textview.setText(result);
-
-
-            makeClickSound();
     }
 
 

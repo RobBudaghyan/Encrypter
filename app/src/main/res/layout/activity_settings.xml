@@ -175,6 +175,7 @@
             android:layout_marginStart="60dp"
             android:textOff="@string/off"
             android:textOn="@string/on"
+            android:checked="true"
             android:thumb="@drawable/thumb_2_orange"
             app:layout_constraintBottom_toBottomOf="@+id/hexadecimal_preference2"
             app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"

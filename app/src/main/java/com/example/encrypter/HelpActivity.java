@@ -1,28 +1,22 @@
 package com.example.encrypter;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HelpActivity extends AppCompatActivity {
 
     int lang_selected = 0;
-    // 0 = english
-    // 1 = russian
-    // 2 = armenian
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +26,9 @@ public class HelpActivity extends AppCompatActivity {
         ImageView rus_btn = findViewById(R.id.lang_rus);
         ImageView arm_btn = findViewById(R.id.lang_arm);
 
-//bottom navigation
+        // bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.help_menu);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             makeClickSound();
             switch (item.getItemId()){
@@ -51,14 +44,13 @@ public class HelpActivity extends AppCompatActivity {
                     openActivity(SettingsActivity.class);
                     return true;
             }
-
             return false;
         });
 
-//set theme
+        // theme color update
         setTheme();
 
-//languages option
+        // english button
         eng_btn.setOnClickListener(v -> {
             eng_btn.setBackgroundResource(R.drawable.eng_flag_pressed);
             rus_btn.setBackgroundResource(R.drawable.rus_flag);
@@ -68,6 +60,7 @@ public class HelpActivity extends AppCompatActivity {
             updateHelp();
         });
 
+        // russian button
         rus_btn.setOnClickListener(v -> {
             eng_btn.setBackgroundResource(R.drawable.eng_flag);
             rus_btn.setBackgroundResource(R.drawable.rus_flag_pressed);
@@ -77,6 +70,7 @@ public class HelpActivity extends AppCompatActivity {
             updateHelp();
         });
 
+        // armenian button
         arm_btn.setOnClickListener(v -> {
             eng_btn.setBackgroundResource(R.drawable.eng_flag);
             rus_btn.setBackgroundResource(R.drawable.rus_flag);
@@ -85,15 +79,16 @@ public class HelpActivity extends AppCompatActivity {
             makeClickSound();
             updateHelp();
         });
-
     }
 
+    // open activity with class name given to it
     private void openActivity(Class activity_class){
         startActivity(new Intent(getApplicationContext(),activity_class));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 
+    // update guide after language select
     private void updateHelp(){
         TextView home_title = findViewById(R.id.home_title);
         TextView home_content= findViewById(R.id.home_content);
@@ -128,17 +123,26 @@ public class HelpActivity extends AppCompatActivity {
         }
     }
 
+    // return integer from shared preferences with given key
     private int getPrefsInt(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getInt(key,0);
     }
 
+    // return boolean from shared preferences with given key
     private boolean getPrefsBoolean(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getBoolean(key,false);
     }
 
+    // make click sound
+    private void makeClickSound(){
+        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
+        boolean sounds_on = getPrefsBoolean("sounds_on");
+        if(sounds_on) clickSound.start();
+    }
 
+    // update color theme of app using shared preferences
     private void setTheme(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -186,13 +190,6 @@ public class HelpActivity extends AppCompatActivity {
                 bottomNavigationView.setItemTextColor(colorStateList_green);
                 break;
         }
-    }
-
-    private void makeClickSound(){
-        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
-        boolean sounds_on = getPrefsBoolean("sounds_on");
-
-        if(sounds_on) clickSound.start();
     }
 
 }

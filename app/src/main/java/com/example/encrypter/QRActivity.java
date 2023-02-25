@@ -1,6 +1,8 @@
 package com.example.encrypter;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,106 +31,98 @@ import java.util.Objects;
 
 public class QRActivity extends AppCompatActivity {
 
-    BarcodeFormat barcode_format;
+    BarcodeFormat barcode_format = BarcodeFormat.QR_CODE;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qractivity);
 
         EditText input_text = findViewById(R.id.input_edittext);
-
-        ImageView delete = findViewById(R.id.delete_btn);
-        ImageView share = findViewById(R.id.share_btn);
-        ImageView download = findViewById(R.id.download_btn);
-        ImageView result = findViewById(R.id.result);
-
+        ImageView delete_btn = findViewById(R.id.delete_btn);
+        ImageView share_btn = findViewById(R.id.share_btn);
+        ImageView download_btn = findViewById(R.id.download_btn);
+        ImageView result_txt = findViewById(R.id.result);
         SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
-
         RadioGroup radioGroup = findViewById(R.id.code_radio_group);
 
-
-//barcode method option
-        barcode_format = BarcodeFormat.QR_CODE;
+        // set barcode conversion method
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-
             switch (radioGroup.getCheckedRadioButtonId()) {
                 case R.id.one_radio_btn:
                     barcode_format = BarcodeFormat.QR_CODE;
-                    runBtn();
+                    convertRun();
                     break;
                 case R.id.two_radio_btn:
                     barcode_format = BarcodeFormat.AZTEC;
-                    runBtn();
+                    convertRun();
                     break;
                 case R.id.three_radio_btn:
                     barcode_format = BarcodeFormat.DATA_MATRIX;
-                    runBtn();
+                    convertRun();
                     break;
             }
             makeClickSound();
         });
 
-//switch
+        // bottom navigation update
+        bottomNavigation();
+
+        // theme color update
+        setTheme();
+
+        // encrypt/decrypt switch
         switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
             makeClickSound();
             if (isChecked) openActivity(QRActivityDecrypt.class);
         });
 
-//bottom navigation
-        bottomNavigation();
 
-//theme color
-        setTheme();
-
-//input
+        // input text field
         input_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                runBtn();
+                convertRun();
             }
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
-//delete button
-        delete.setOnClickListener(v -> {
+        // delete input and barcode button
+        delete_btn.setOnClickListener(v -> {
             input_text.setText("");
-            result.setImageResource(R.drawable.empty_image_icon);
-
+            result_txt.setImageResource(R.drawable.empty_image_icon);
             makeClickSound();
         });
 
-//download button
-        download.setOnClickListener(v -> {
-            Drawable d = result.getDrawable();
+        // download barcode button
+        download_btn.setOnClickListener(v -> {
+            Drawable d = result_txt.getDrawable();
             Bitmap bitmap = null;
             bitmap = ((BitmapDrawable) d).getBitmap();
-
-            Drawable check = getDrawable(R.drawable.empty_image_icon);
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable check = getDrawable(R.drawable.empty_image_icon);
             Bitmap check_bitmap = ((BitmapDrawable) check).getBitmap();
             if(bitmap != check_bitmap) {
                 try {
                     downloadBitmap(bitmap);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Download failed", Toast.LENGTH_SHORT).show();
                 }
-
             }
             makeClickSound();
         });
 
-//share button
-        share.setOnClickListener(v -> {
-            Drawable d = result.getDrawable();
+        // share barcode button
+        share_btn.setOnClickListener(v -> {
+            Drawable d = result_txt.getDrawable();
             Bitmap bitmap = null;
             bitmap = ((BitmapDrawable) d).getBitmap();
 
-            Drawable check = getDrawable(R.drawable.empty_image_icon);
+            @SuppressLint("UseCompatLoadingForDrawables") Drawable check = getDrawable(R.drawable.empty_image_icon);
             Bitmap check_bitmap = ((BitmapDrawable) check).getBitmap();
             if (bitmap != check_bitmap) {
                 shareBitmap(bitmap);
@@ -139,25 +133,23 @@ public class QRActivity extends AppCompatActivity {
 
     }
 
-    private void runBtn(){
+    // execute to barcode/from barcode and update result view bar
+    private void convertRun(){
         EditText input_text = findViewById(R.id.input_edittext);
         ImageView result = findViewById(R.id.result);
-
                 String input = input_text.getText().toString();
-
                 try {
                     generateQR(input, barcode_format);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     result.setImageResource(R.drawable.empty_image_icon);
                 }
-
                 if (Objects.equals(input, "")) result.setImageResource(R.drawable.empty_image_icon);
-
     }
 
+    // generate barcode given text and format
     private void generateQR(String input, BarcodeFormat barcode_format){
         ImageView result = findViewById(R.id.result);
-
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
             BitMatrix matrix = writer.encode(input, barcode_format,800,800);
@@ -170,62 +162,72 @@ public class QRActivity extends AppCompatActivity {
         }
     }
 
+    // share barcode given bitmap of it
     private void shareBitmap(Bitmap bitmap) {
         Intent i = new Intent(Intent.ACTION_SEND);
-
         i.setType("image/*");
         i.putExtra(Intent.EXTRA_STREAM, getImageUri(QRActivity.this, bitmap));
         try {
             startActivity(Intent.createChooser(i, "My Profile"));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Toast.makeText(getApplicationContext(),"Couldn't share",Toast.LENGTH_SHORT).show();
         }
     }
 
+    // download barcode given bitmap of it
     private void downloadBitmap(Bitmap bitmap){
-
-        Runnable runnable = new Runnable(){
-            public void run() {
-                try {
-                    getImageUri(QRActivity.this, bitmap);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        Runnable runnable = () -> {
+            try {
+                getImageUri(QRActivity.this, bitmap);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
             }
         };
         Thread thread = new Thread(runnable);
         thread.start();
-
         Toast.makeText(getApplicationContext(), "Downloaded", Toast.LENGTH_SHORT).show();
     }
 
+    // return uri of barcode for download and share
     private Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-
         int rand = (int) (Math.random() * 10000);
         String str = rand + "";
-
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, str, null);
         return Uri.parse(path);
     }
 
+    // open activity with class name given to it
     private void openActivity(Class activity_class){
         startActivity(new Intent(getApplicationContext(),activity_class));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 
+    // return integer from shared preferences with given key
     private int getPrefsInt(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getInt(key,0);
     }
 
+    // return boolean from shared preferences with given key
     private boolean getPrefsBoolean(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getBoolean(key,false);
     }
 
+    // make click sound
+    private void makeClickSound(){
+        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
+        boolean sounds_on = getPrefsBoolean("sounds_on");
+        if(sounds_on) clickSound.start();
+    }
+
+    // bottom navigation bar
+    @SuppressLint("NonConstantResourceId")
     private void bottomNavigation(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.qr_menu);
@@ -246,12 +248,11 @@ public class QRActivity extends AppCompatActivity {
                     openActivity(SettingsActivity.class);
                     return true;
             }
-
             return false;
         });
-
     }
 
+    // update color theme of app using shared preferences
     private void setTheme(){
         ImageView delete = findViewById(R.id.delete_btn);
         ImageView share = findViewById(R.id.share_btn);
@@ -261,10 +262,10 @@ public class QRActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         int [][] states = new int [][]{
-                new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected}, // enabled
-                new int[] {-android.R.attr.state_enabled}, // disabled
-                new int[] {android.R.attr.state_enabled, android.R.attr.state_selected}, // selected
-                new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}  // pressed
+                new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected},
+                new int[] {-android.R.attr.state_enabled},
+                new int[] {android.R.attr.state_enabled, android.R.attr.state_selected},
+                new int[] {android.R.attr.state_enabled, android.R.attr.state_pressed}
         };
         int[] colors_orange = new int[0], colors_blue = new int[0], colors_red = new int[0], colors_green = new int[0];
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -324,14 +325,6 @@ public class QRActivity extends AppCompatActivity {
                 bottomNavigationView.setItemTextColor(colorStateList_green);
                 break;
         }
-
-    }
-
-    private void makeClickSound(){
-        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
-        boolean sounds_on = getPrefsBoolean("sounds_on");
-
-        if(sounds_on) clickSound.start();
     }
 
 }

@@ -29,52 +29,50 @@ public class Conversion {
         char letter;
         String result = "";
 
-//english encryption
-        array_Mover(eng_1, eng_2, rotor_1);
-        array_Mover(eng_big_1, eng_big_2, rotor_1);
-//
+        //1st rotor conversion
 
-//russian encryption
-        array_Mover(rus_1, rus_2, rotor_1);
-        array_Mover(rus_big_1, rus_big_2, rotor_1);
-//
+        //  english conversion
+        arrayMover(eng_1, eng_2, rotor_1);
+        arrayMover(eng_big_1, eng_big_2, rotor_1);
+        // russian conversion
+        arrayMover(rus_1, rus_2, rotor_1);
+        arrayMover(rus_big_1, rus_big_2, rotor_1);
+        // armenian conversion
+        arrayMover(arm_1, arm_2, rotor_1);
+        arrayMover(arm_big_1, arm_big_2, rotor_1);
+        // symbol conversion
+        arrayMover(symbol_1, symbol_2, rotor_1);
+        // number conversion
+        arrayMover(number_1, number_2, rotor_1);
 
-//armenian encryption
-        array_Mover(arm_1, arm_2, rotor_1);
-        array_Mover(arm_big_1, arm_big_2, rotor_1);
-//
+        // 2nd rotor conversion
+        letterChanger(eng_2, rotor_2);
+        letterChanger(eng_big_2, rotor_2);
+        letterChanger(rus_2, rotor_2);
+        letterChanger(rus_big_2, rotor_2);
+        letterChanger(arm_2, rotor_2);
+        letterChanger(arm_big_2, rotor_2);
+        letterChanger(symbol_2, rotor_2);
+        numberChanger(number_2,rotor_2);
 
-//symbol encryption
-        array_Mover(symbol_1, symbol_2, rotor_1);
-//
-
-//number encryption
-        array_Mover(number_1, number_2, rotor_1);
-//
-//second encryption
-        letter_Changer(eng_2, rotor_2);
-        letter_Changer(eng_big_2, rotor_2);
-        letter_Changer(rus_2, rotor_2);
-        letter_Changer(rus_big_2, rotor_2);
-        letter_Changer(arm_2, rotor_2);
-        letter_Changer(arm_big_2, rotor_2);
-        letter_Changer(symbol_2, rotor_2);
-
+        // 3rd rotor conversion
         if(rotor_3 != -1){
-            letter_Changer_advanced(eng_2, rotor_3);
-            letter_Changer_advanced(eng_big_2, rotor_3);
-            letter_Changer_advanced(rus_2, rotor_3);
-            letter_Changer_advanced(rus_big_2, rotor_3);
-            letter_Changer_advanced(arm_2, rotor_3);
-            letter_Changer_advanced(arm_big_2, rotor_3);
-            letter_Changer_advanced(symbol_2, rotor_3);
+            letterChangerAdvanced(eng_2, rotor_3);
+            letterChangerAdvanced(eng_big_2, rotor_3);
+            letterChangerAdvanced(rus_2, rotor_3);
+            letterChangerAdvanced(rus_big_2, rotor_3);
+            letterChangerAdvanced(arm_2, rotor_3);
+            letterChangerAdvanced(arm_big_2, rotor_3);
+            letterChangerAdvanced(symbol_2, rotor_3);
+            numberChangerAdvanced(number_2,rotor_3);
         }
 
-//check input length
+        //check input length
         if(input.length() > 3000) return "* not more than 3000 letters *";
 
+        // processing text data
         if (!decrypt_on) {
-////encryption
+            // encryption
             for (i = 0; i < input.length(); i++) {
                 letter = input.charAt(i);
 
@@ -112,29 +110,28 @@ public class Conversion {
                         break;
                     }
                 }
-
                 for (j = 0; j < number_1.length; j++) {
                     if (letter == number_1[j]) {
                         letter = number_2[j];
                         break;
                     }
                 }
-
                 result = result + letter;
             }
 
-            if(hexadecimal_on) result = hexadecimalEncryption(result,false);
+            if(hexadecimal_on)
+                result = hexadecimalEncryption(result,false);
+        }
 
-        } else {
-////decryption
-
-                if(hexadecimal_on) input = hexadecimalEncryption(input,true);
-                if(input == null) return "* not hexadecimal input *";
-
+        else {
+            // decryption
+            if(hexadecimal_on)
+                input = hexadecimalEncryption(input,true);
+            if(input == null)
+                return "* not hexadecimal input *";
 
             for (i = 0; i < input.length(); i++) {
                 letter = input.charAt(i);
-
                 for (j = 0; j < eng_1.length; j++) {
                     if (letter == eng_2[j]) {
                         letter = eng_1[j];
@@ -144,7 +141,6 @@ public class Conversion {
                         break;
                     }
                 }
-
                 for (j = 0; j < symbol_1.length; j++) {
                     if (letter == symbol_2[j]) {
                         letter = symbol_1[j];
@@ -169,22 +165,27 @@ public class Conversion {
                         break;
                     }
                 }
-
                 for (j = 0; j < number_1.length; j++) {
                     if (letter == number_2[j]) {
                         letter = number_1[j];
                         break;
                     }
                 }
-
                 result = result + letter;
             }
         }
-
         return result;
     }
 
-    private static void array_Mover(char[] Array_1, char[] Array_2, int point) {
+    // swap letters given array and two indexes
+    private static void swap(char[] Array_2, int a, int b) {
+        char r = Array_2[a];
+        Array_2[a] = Array_2[b];
+        Array_2[b] = r;
+    }
+
+    // move given array by given point
+    private static void arrayMover(char[] Array_1, char[] Array_2, int point) {
         int i, j;
 
         while (point >= Array_1.length) point -= Array_1.length;
@@ -199,7 +200,8 @@ public class Conversion {
         }
     }
 
-    private static void letter_Changer(char[] Array_2, int point) {
+    // replace letter given array by given point
+    private static void letterChanger(char[] Array_2, int point) {
         if (point != 0) {
             if (point % 2 == 0) {
                 swap(Array_2, 1, 9);
@@ -255,7 +257,8 @@ public class Conversion {
 
     }
 
-    private static void letter_Changer_advanced(char[] Array_2, int point) {
+    // replace letter given array by given point (advanced)
+    private static void letterChangerAdvanced(char[] Array_2, int point) {
         if (point != 0) {
             if (point % 2 == 0) {
                 swap(Array_2, 0, 9);
@@ -311,6 +314,83 @@ public class Conversion {
 
     }
 
+    // replace number given array by given point
+    private static void numberChanger(char[] Array_2, int point){
+        if (point != 0) {
+            if (point % 2 == 0) {
+                swap(Array_2, 0, 3);
+                swap(Array_2, 2, 4);
+                swap(Array_2, 6, 9);
+                swap(Array_2, 7, 1);
+            } else {
+                swap(Array_2, 7, 8);
+                swap(Array_2, 0, 6);
+                swap(Array_2, 5, 4);
+                swap(Array_2, 1, 2);
+            }
+            if (point % 3 == 0) {
+                swap(Array_2, 8, 7);
+                swap(Array_2, 5, 2);
+            } else {
+                swap(Array_2, 0, 6);
+                swap(Array_2, 3, 4);
+            }
+            if (point % 4 == 0) {
+                swap(Array_2, 1, 5);
+                swap(Array_2, 4, 0);
+            } else {
+                swap(Array_2, 2, 9);
+                swap(Array_2, 3, 4);
+            }
+            if (point % 5 == 0) {
+                swap(Array_2, 5, 7);
+                swap(Array_2, 0, 8);
+            } else {
+                swap(Array_2, 8, 3);
+                swap(Array_2, 2, 5);
+            }
+        }
+    }
+
+    // replace number given array by given point (advanced)
+    private static void numberChangerAdvanced(char[] Array_2, int point){
+        if (point != 0) {
+            if (point % 2 == 0) {
+                swap(Array_2, 4, 7);
+                swap(Array_2, 1, 5);
+                swap(Array_2, 3, 9);
+                swap(Array_2, 0, 6);
+            } else {
+                swap(Array_2, 1, 2);
+                swap(Array_2, 4, 3);
+                swap(Array_2, 6, 0);
+                swap(Array_2, 5, 8);
+            }
+            if (point % 3 == 0) {
+                swap(Array_2, 1, 2);
+                swap(Array_2, 3, 4);
+            } else {
+                swap(Array_2, 6, 3);
+                swap(Array_2, 1, 0);
+            }
+            if (point % 4 == 0) {
+                swap(Array_2, 7, 8);
+                swap(Array_2, 5, 2);
+            } else {
+                swap(Array_2, 4, 3);
+                swap(Array_2, 0, 4);
+            }
+            if (point % 5 == 0) {
+                swap(Array_2, 1, 9);
+                swap(Array_2, 4, 7);
+            } else {
+                swap(Array_2, 5, 8);
+                swap(Array_2, 3, 1);
+            }
+        }
+    }
+
+    // 16 base (hexadecimal) conversion given input and state
     private static String hexadecimalEncryption(String input, boolean decrypt_on){
         String result = "";
         String r = "";
@@ -323,7 +403,6 @@ public class Conversion {
                 else result = result + r;
             }
         }
-
         else{
             try{
                 int k = 0;
@@ -350,14 +429,7 @@ public class Conversion {
                 return null;
             }
         }
-
         return result;
-    }
-
-    private static void swap(char[] Array_2, int a, int b) {
-        char r = Array_2[a];
-        Array_2[a] = Array_2[b];
-        Array_2[b] = r;
     }
 
 }

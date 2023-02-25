@@ -1,6 +1,5 @@
 package com.example.encrypter;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import android.content.Intent;
@@ -8,22 +7,12 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 
 public class SettingsActivity extends AppCompatActivity {
 
     int theme_color = 0;
-    // 0 = orange
-    // 1 = blue
-    // 2 = red
-    // 3 = green
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +23,21 @@ public class SettingsActivity extends AppCompatActivity {
         ImageView blue_theme = findViewById(R.id.blue_theme);
         ImageView red_theme = findViewById(R.id.red_theme);
         ImageView green_theme = findViewById(R.id.green_theme);
-
-        updatePrefs();
-
-//bottom navigation
-        bottomNavigation();
-
         ImageView reset = findViewById(R.id.reset_btn);
-
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
         SwitchCompat switch_rotor = findViewById(R.id.third_rotor);
 
-//applying theme color
+        // bottom navigation update
+        bottomNavigation();
+
+        // update shared preferences
+        updatePrefs();
+
+        // applying theme color
         setTheme();
 
-//theme color change
+        // orange theme button
         orange_theme.setOnClickListener(v -> {
             theme_color = 0;
             savePrefs();
@@ -57,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
             makeClickSound();
         });
 
+        // blue theme button
         blue_theme.setOnClickListener(v -> {
             theme_color = 1;
             savePrefs();
@@ -64,6 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
             makeClickSound();
         });
 
+        // red theme button
         red_theme.setOnClickListener(v -> {
             theme_color = 2;
             savePrefs();
@@ -71,6 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
             makeClickSound();
         });
 
+        // green theme button
         green_theme.setOnClickListener(v -> {
             theme_color = 3;
             savePrefs();
@@ -79,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-//reset button
+        // reset settings button
         reset.setOnClickListener(view -> {
             for (int i = 0; i < 3; i++) {
                 resetPrefs();
@@ -88,17 +79,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-//switches
+        // hexadecimal encryption switch
         switch_hexadecimal.setOnCheckedChangeListener((buttonView, isChecked) -> {
             savePrefs();
             makeClickSound();
         });
 
+        // sounds switch
         switch_sounds.setOnCheckedChangeListener((buttonView, isChecked) -> {
             savePrefs();
             openActivity(SettingsActivity.class);
         });
 
+        // third rotor switch
         switch_rotor.setOnCheckedChangeListener((buttonView, isChecked) -> {
             savePrefs();
             makeClickSound();
@@ -106,18 +99,21 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    // save preferences after destroying activity
     @Override
     protected void onDestroy() {
         savePrefs();
         super.onDestroy();
     }
 
+    // open activity with class name given to it
     private void openActivity(Class activity_class){
         startActivity(new Intent(getApplicationContext(),activity_class));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 
+    // save preferences in shared preferences
     private void savePrefs(){
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
@@ -133,15 +129,18 @@ public class SettingsActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    // reset all preferences
     private void resetPrefs(){
         SharedPreferences.Editor editor = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE).edit();
         editor.clear();
         editor.putInt("color_id", 0);
         editor.putBoolean("sounds_on",false);
         editor.putBoolean("hex_on",false);
+        editor.putBoolean("third_rotor_on", false);
         editor.apply();
     }
 
+    // update the preferences for app
     private void updatePrefs(){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
 
@@ -151,19 +150,28 @@ public class SettingsActivity extends AppCompatActivity {
 
         switch_sounds.setChecked(prefs.getBoolean("sounds_on",false));
         switch_hexadecimal.setChecked(prefs.getBoolean("hex_on",false));
-        third_rotor.setChecked(prefs.getBoolean("third_rotor_on",false));
+        third_rotor.setChecked(prefs.getBoolean("third_rotor_on",true));
     }
 
+    // return integer from shared preferences with given key
     private int getPrefsInt(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getInt(key,0);
     }
 
+    // return boolean from shared preferences with given key
     private boolean getPrefsBoolean(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getBoolean(key,false);
     }
 
+    private void makeClickSound(){
+        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
+        boolean sounds_on = getPrefsBoolean("sounds_on");
+        if(sounds_on) clickSound.start();
+    }
+
+    // bottom navigation bar
     private void bottomNavigation(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.settings_menu);
@@ -189,6 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    // update color theme of app using shared preferences
     private void setTheme(){
         ImageView reset = findViewById(R.id.reset_btn);
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
@@ -285,13 +294,6 @@ public class SettingsActivity extends AppCompatActivity {
                 green_theme.setBackgroundResource(R.drawable.green_theme_pressed);
                 break;
         }
-    }
-
-    private void makeClickSound(){
-        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
-        boolean sounds_on = getPrefsBoolean("sounds_on");
-
-        if(sounds_on) clickSound.start();
     }
 
 }
