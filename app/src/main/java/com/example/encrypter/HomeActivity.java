@@ -88,11 +88,11 @@ public class HomeActivity extends AppCompatActivity {
                 shareIntent.setAction(Intent.ACTION_SEND);
                 String share1 = "";
                 if(seekbar_3 != null) {
-                    share1 = result_textview.getText().toString() + "\n" + "Rotor1 - " + seekbar_1.getProgress()
-                        + ", Rotor2 - " + seekbar_2.getProgress() + ", Rotor3 - " + seekbar_3.getProgress();}
+                    share1 = result_textview.getText().toString();
+                }
                 else{
-                    share1 = result_textview.getText().toString() + "\n" + "Rotor1 - " + seekbar_1.getProgress() +
-                    ", Rotor2 - " + seekbar_2.getProgress();}
+                    share1 = result_textview.getText().toString();
+                }
                 shareIntent.putExtra(Intent.EXTRA_TEXT, (CharSequence) share1);
                 shareIntent.setType("text/plain");
                 shareIntent = Intent.createChooser(shareIntent, "Share Via: ");
