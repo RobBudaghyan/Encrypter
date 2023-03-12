@@ -20,15 +20,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Random;
+
 public class HomeActivity extends AppCompatActivity {
+
+    // global values for rotor seekbars
+    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // set layout depending on settings
-        if(check_third_rotor()) setContentView(R.layout.activity_home_extended);
-        else setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home);
 
         EditText input_text = findViewById(R.id.input_edittext);
         TextView result_textview = findViewById(R.id.result_textview);
@@ -38,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         ImageView delete = findViewById(R.id.delete_btn);
         ImageView share = findViewById(R.id.share_btn);
         ImageView copy = findViewById(R.id.copy_btn);
+        ImageView random = findViewById(R.id.random_btn);
         ImageView plus_1 = findViewById(R.id.plus_btn_1);
         ImageView plus_2 = findViewById(R.id.plus_btn_2);
         ImageView plus_3 = findViewById(R.id.plus_btn_3);
@@ -61,6 +65,16 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
+        // get intent-extra values for updating fields
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            String input = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+            input_text.setText(input);
+        }
+
         // input edittext field
         input_text.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,19 +94,13 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
-
         // share result button
         share.setOnClickListener(v -> {
             if(!result_textview.getText().toString().equals("")) {
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 String share1 = "";
-                if(seekbar_3 != null) {
-                    share1 = result_textview.getText().toString();
-                }
-                else{
-                    share1 = result_textview.getText().toString();
-                }
+                share1 = result_textview.getText().toString();
                 shareIntent.putExtra(Intent.EXTRA_TEXT, (CharSequence) share1);
                 shareIntent.setType("text/plain");
                 shareIntent = Intent.createChooser(shareIntent, "Share Via: ");
@@ -112,7 +120,23 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
+        //
+        random.setOnClickListener(v -> {
+            setRandomValuesForRotors();
+            makeClickSound();
+        });
+
         // rotor seekbars
+        setRandomValuesForRotors();
+        if(VAL1 != -1){
+            seekbar_1.setProgress(VAL1);
+            seekbar_2.setProgress(VAL2);
+            seekbar_3.setProgress(VAL3);
+            seekbar_text_1.setText(String.valueOf(seekbar_1.getProgress()));
+            seekbar_text_2.setText(String.valueOf(seekbar_2.getProgress()));
+            seekbar_text_3.setText(String.valueOf(seekbar_3.getProgress()));
+        }
+        convertRun();
         seekbar_1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -135,19 +159,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
         });
-        if(seekbar_3 != null) {
-            seekbar_3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    seekbar_text_3.setText(String.valueOf(progress));
-                    convertRun();
-                }
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {}
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
-            });
-        }
+        seekbar_3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekbar_text_3.setText(String.valueOf(progress));
+                convertRun();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
+        });
+
+
 
         // plus and minus buttons of seekbars
         plus_1.setOnClickListener(v -> {
@@ -160,13 +184,11 @@ public class HomeActivity extends AppCompatActivity {
             seekbar_2.setProgress(k + 1);
             makeClickSound();
         });
-        if(plus_3 != null){
             plus_3.setOnClickListener(v -> {
                 int k = seekbar_3.getProgress();
                 seekbar_3.setProgress(k + 1);
                 makeClickSound();
             });
-        }
         minus_1.setOnClickListener(v -> {
             int k = seekbar_1.getProgress();
             seekbar_1.setProgress(k - 1);
@@ -177,17 +199,31 @@ public class HomeActivity extends AppCompatActivity {
             seekbar_2.setProgress(k - 1);
             makeClickSound();
         });
-        if(minus_3 != null){
             minus_3.setOnClickListener(v -> {
             int k = seekbar_3.getProgress();
             seekbar_3.setProgress(k - 1);
             makeClickSound();
         });}
-    }
 
     // open activity with class name given to it
     private void openActivity(Class activity_class){
-        startActivity(new Intent(getApplicationContext(),activity_class));
+        EditText input_text = findViewById(R.id.input_edittext);
+        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
+        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
+        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
+        // send field values to new activity
+        Intent i = new Intent(HomeActivity.this, activity_class);
+        if(!input_text.getText().toString().equals("")) {
+            String input = input_text.getText().toString();
+            i.putExtra("input_text", input);
+        }
+        int val_1 = seekbar_1.getProgress();
+        int val_2 = seekbar_2.getProgress();
+        int val_3 = seekbar_3.getProgress();
+        i.putExtra("val_1", val_1);
+        i.putExtra("val_2", val_2);
+        i.putExtra("val_3", val_3);
+        startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
@@ -202,12 +238,6 @@ public class HomeActivity extends AppCompatActivity {
     private boolean getPrefsBoolean(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getBoolean(key,false);
-    }
-
-    // check third rotor is enabled/disabled
-    private boolean check_third_rotor(){
-        SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
-        return prefs.getBoolean("third_rotor_on",true);
     }
 
     // make click sound
@@ -232,16 +262,38 @@ public class HomeActivity extends AppCompatActivity {
 
         String input = input_text.getText().toString();
         String result = "";
-        int rotor_3;
-        if(seekbar_3 == null) rotor_3 = -1;
-        else rotor_3 = seekbar_3.getProgress();
         try {
             result = Conversion.runConversion(input, seekbar_1.getProgress(), seekbar_2.getProgress(),
-                    rotor_3, switch_decrypt.isChecked(), hex_on);
+                    seekbar_3.getProgress(), switch_decrypt.isChecked(), hex_on);
         } catch (Exception e) {
             result = "Something Went Wrong :(";
         }
         result_textview.setText(result);
+    }
+
+    private void setRandomValuesForRotors(){
+        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
+        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
+        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
+        TextView seekbar_text_1 = findViewById(R.id.seekbar_text_1);
+        TextView seekbar_text_2 = findViewById(R.id.seekbar_text_2);
+        TextView seekbar_text_3 = findViewById(R.id.seekbar_text_3);
+
+        Random rand = new Random();
+        final int limit_1 = 26;
+        final int limit_2 = 11;
+
+        int val_1 = rand.nextInt(limit_1);
+        int val_2 = rand.nextInt(limit_2);
+        int val_3 = rand.nextInt(limit_2);
+
+        seekbar_1.setProgress(val_1);
+        seekbar_text_1.setText(String.valueOf(val_1));
+        seekbar_2.setProgress(val_2);
+        seekbar_text_2.setText(String.valueOf(val_2));
+        seekbar_3.setProgress(val_3);
+        seekbar_text_3.setText(String.valueOf(val_3));
+
     }
 
     // bottom navigation bar
@@ -249,6 +301,7 @@ public class HomeActivity extends AppCompatActivity {
     private void bottomNavigation(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home_menu);
+
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -276,6 +329,7 @@ public class HomeActivity extends AppCompatActivity {
         ImageView delete = findViewById(R.id.delete_btn);
         ImageView share = findViewById(R.id.share_btn);
         ImageView copy = findViewById(R.id.copy_btn);
+        ImageView random = findViewById(R.id.random_btn);
         ImageView plus_1 = findViewById(R.id.plus_btn_1);
         ImageView plus_2 = findViewById(R.id.plus_btn_2);
         ImageView plus_3 = findViewById(R.id.plus_btn_3);
@@ -317,6 +371,7 @@ public class HomeActivity extends AppCompatActivity {
                 delete.setBackgroundResource(R.drawable.delete_btn_orange);
                 share.setBackgroundResource(R.drawable.share_btn_orange);
                 copy.setBackgroundResource(R.drawable.copy_btn_orange);
+                random.setBackgroundResource(R.drawable.random_btn_orange);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_orange));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_orange));
                 if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_orange));
@@ -335,6 +390,7 @@ public class HomeActivity extends AppCompatActivity {
                 delete.setBackgroundResource(R.drawable.delete_btn_blue);
                 share.setBackgroundResource(R.drawable.share_btn_blue);
                 copy.setBackgroundResource(R.drawable.copy_btn_blue);
+                random.setBackgroundResource(R.drawable.random_btn_blue);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_blue));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_blue));
                 if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_blue));
@@ -353,6 +409,7 @@ public class HomeActivity extends AppCompatActivity {
                 delete.setBackgroundResource(R.drawable.delete_btn_red);
                 share.setBackgroundResource(R.drawable.share_btn_red);
                 copy.setBackgroundResource(R.drawable.copy_btn_red);
+                random.setBackgroundResource(R.drawable.random_btn_red);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_red));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_red));
                 if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_red));
@@ -371,6 +428,7 @@ public class HomeActivity extends AppCompatActivity {
                 delete.setBackgroundResource(R.drawable.delete_btn_green);
                 share.setBackgroundResource(R.drawable.share_btn_green);
                 copy.setBackgroundResource(R.drawable.copy_btn_green);
+                random.setBackgroundResource(R.drawable.random_btn_green);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_green));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_green));
                 if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_green));

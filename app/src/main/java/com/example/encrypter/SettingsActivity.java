@@ -12,7 +12,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    int theme_color = 0;
+    int THEME_COLOR = 0;
+    // global values for rotor seekbars
+    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    // global value for input text
+    String INPUT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity {
         ImageView reset = findViewById(R.id.reset_btn);
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat switch_rotor = findViewById(R.id.third_rotor);
 
         // bottom navigation update
         bottomNavigation();
@@ -39,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // orange theme button
         orange_theme.setOnClickListener(v -> {
-            theme_color = 0;
+            THEME_COLOR = 0;
             savePrefs();
             setTheme();
             makeClickSound();
@@ -47,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // blue theme button
         blue_theme.setOnClickListener(v -> {
-            theme_color = 1;
+            THEME_COLOR = 1;
             savePrefs();
             setTheme();
             makeClickSound();
@@ -55,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // red theme button
         red_theme.setOnClickListener(v -> {
-            theme_color = 2;
+            THEME_COLOR = 2;
             savePrefs();
             setTheme();
             makeClickSound();
@@ -63,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // green theme button
         green_theme.setOnClickListener(v -> {
-            theme_color = 3;
+            THEME_COLOR = 3;
             savePrefs();
             setTheme();
             makeClickSound();
@@ -91,11 +94,14 @@ public class SettingsActivity extends AppCompatActivity {
             openActivity(SettingsActivity.class);
         });
 
-        // third rotor switch
-        switch_rotor.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            savePrefs();
-            makeClickSound();
-        });
+        // get intent-extra values for updating fields
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            INPUT = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+        }
 
     }
 
@@ -106,25 +112,16 @@ public class SettingsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    // open activity with class name given to it
-    private void openActivity(Class activity_class){
-        startActivity(new Intent(getApplicationContext(),activity_class));
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        finish();
-    }
-
     // save preferences in shared preferences
     private void savePrefs(){
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat third_rotor = findViewById(R.id.third_rotor);
 
         SharedPreferences.Editor editor = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE).edit();
 
-        editor.putInt("color_id",theme_color);
+        editor.putInt("color_id", THEME_COLOR);
         editor.putBoolean("sounds_on",switch_sounds.isChecked());
         editor.putBoolean("hex_on",switch_hexadecimal.isChecked());
-        editor.putBoolean("third_rotor_on",third_rotor.isChecked());
 
         editor.apply();
     }
@@ -136,7 +133,6 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt("color_id", 0);
         editor.putBoolean("sounds_on",false);
         editor.putBoolean("hex_on",false);
-        editor.putBoolean("third_rotor_on", false);
         editor.apply();
     }
 
@@ -146,11 +142,22 @@ public class SettingsActivity extends AppCompatActivity {
 
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat third_rotor = findViewById(R.id.third_rotor);
 
         switch_sounds.setChecked(prefs.getBoolean("sounds_on",false));
         switch_hexadecimal.setChecked(prefs.getBoolean("hex_on",false));
-        third_rotor.setChecked(prefs.getBoolean("third_rotor_on",true));
+    }
+
+    // open activity with class name given to it
+    private void openActivity(Class activity_class){
+        // send field values to new activity
+        Intent i = new Intent(SettingsActivity.this, activity_class);
+        i.putExtra("val_1", VAL1);
+        i.putExtra("val_2", VAL2);
+        i.putExtra("val_3", VAL3);
+        i.putExtra("input_text", INPUT);
+        startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        finish();
     }
 
     // return integer from shared preferences with given key
@@ -202,7 +209,6 @@ public class SettingsActivity extends AppCompatActivity {
         ImageView reset = findViewById(R.id.reset_btn);
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat switch_rotor = findViewById(R.id.third_rotor);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         ImageView orange_theme = findViewById(R.id.orange_theme);
@@ -234,11 +240,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         switch (getPrefsInt("color_id")) {
             case 0:
-                theme_color = 0;
+                THEME_COLOR = 0;
                 setTheme(R.style.Orange_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_orange);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_orange);
-                switch_rotor.setThumbResource(R.drawable.thumb_2_orange);
                 reset.setBackgroundResource(R.drawable.reset_btn_orange);
                 bottomNavigationView.setItemIconTintList(colorStateList_orange);
                 bottomNavigationView.setItemTextColor(colorStateList_orange);
@@ -249,11 +254,10 @@ public class SettingsActivity extends AppCompatActivity {
                 green_theme.setBackgroundResource(R.drawable.green_theme);
                 break;
             case 1:
-                theme_color = 1;
+                THEME_COLOR = 1;
                 setTheme(R.style.Blue_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_blue);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_blue);
-                switch_rotor.setThumbResource(R.drawable.thumb_2_blue);
                 reset.setBackgroundResource(R.drawable.reset_btn_blue);
                 bottomNavigationView.setItemIconTintList(colorStateList_blue);
                 bottomNavigationView.setItemTextColor(colorStateList_blue);
@@ -264,11 +268,10 @@ public class SettingsActivity extends AppCompatActivity {
                 green_theme.setBackgroundResource(R.drawable.green_theme);
                 break;
             case 2:
-                theme_color = 2;
+                THEME_COLOR = 2;
                 setTheme(R.style.Red_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_red);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_red);
-                switch_rotor.setThumbResource(R.drawable.thumb_2_red);
                 reset.setBackgroundResource(R.drawable.reset_btn_red);
                 bottomNavigationView.setItemIconTintList(colorStateList_red);
                 bottomNavigationView.setItemTextColor(colorStateList_red);
@@ -279,11 +282,10 @@ public class SettingsActivity extends AppCompatActivity {
                 green_theme.setBackgroundResource(R.drawable.green_theme);
                 break;
             case 3:
-                theme_color = 3;
+                THEME_COLOR = 3;
                 setTheme(R.style.Green_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_green);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_green);
-                switch_rotor.setThumbResource(R.drawable.thumb_2_green);
                 reset.setBackgroundResource(R.drawable.reset_btn_green);
                 bottomNavigationView.setItemIconTintList(colorStateList_green);
                 bottomNavigationView.setItemTextColor(colorStateList_green);

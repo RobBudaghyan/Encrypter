@@ -15,6 +15,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HelpActivity extends AppCompatActivity {
 
     int lang_selected = 0;
+    // global values for rotor seekbars
+    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    // global value for input text
+    String INPUT;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -50,6 +54,15 @@ public class HelpActivity extends AppCompatActivity {
         // theme color update
         setTheme();
 
+        // get intent-extra values for updating fields
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            INPUT = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+        }
+
         // english button
         eng_btn.setOnClickListener(v -> {
             eng_btn.setBackgroundResource(R.drawable.eng_flag_pressed);
@@ -79,13 +92,6 @@ public class HelpActivity extends AppCompatActivity {
             makeClickSound();
             updateHelp();
         });
-    }
-
-    // open activity with class name given to it
-    private void openActivity(Class activity_class){
-        startActivity(new Intent(getApplicationContext(),activity_class));
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        finish();
     }
 
     // update guide after language select
@@ -121,6 +127,19 @@ public class HelpActivity extends AppCompatActivity {
             settings_title.setText(getResources().getString(R.string.arm_settings_title));
             settings_content.setText(getResources().getString(R.string.arm_settings_content));
         }
+    }
+
+    // open activity with class name given to it
+    private void openActivity(Class activity_class){
+        // send field values to new activity
+        Intent i = new Intent(HelpActivity.this, activity_class);
+        i.putExtra("val_1", VAL1);
+        i.putExtra("val_2", VAL2);
+        i.putExtra("val_3", VAL3);
+        i.putExtra("input_text", INPUT);
+        startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        finish();
     }
 
     // return integer from shared preferences with given key

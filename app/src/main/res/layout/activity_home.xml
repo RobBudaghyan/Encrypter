@@ -35,26 +35,34 @@
             android:ems="10"
             android:hint="@string/write_here"
             android:inputType="textPersonName"
+            android:maxLength="3000"
             android:paddingLeft="17dp"
             android:paddingRight="17dp"
             android:scrollbars="horizontal"
             android:text=""
-            android:maxLength="3000"
             android:textColor="@color/white"
             android:textColorHint="@color/primary_gray_light"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch_decrypt"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/switch_decrypt" />
 
 
         <ImageView
             android:id="@+id/delete_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/delete_btn_orange"
+            app:layout_constraintEnd_toStartOf="@+id/random_btn"
+            app:layout_constraintTop_toTopOf="@+id/random_btn" />
+
+        <ImageView
+            android:id="@+id/random_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/random_btn_orange"
             app:layout_constraintEnd_toStartOf="@+id/share_btn"
             app:layout_constraintTop_toTopOf="@+id/share_btn" />
 
@@ -65,6 +73,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/share_btn_orange"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.576"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/input_edittext" />
 
@@ -72,7 +81,7 @@
             android:id="@+id/copy_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/copy_btn_orange"
             app:layout_constraintStart_toEndOf="@+id/share_btn"
             app:layout_constraintTop_toTopOf="@+id/share_btn" />
@@ -83,6 +92,7 @@
             android:layout_height="145dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/input_text_xml"
+            android:hint="See here..."
             android:paddingStart="15dp"
             android:paddingTop="12dp"
             android:paddingEnd="15dp"
@@ -90,7 +100,6 @@
             android:scrollbars="vertical"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:hint="@string/see_here"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +109,7 @@
             android:id="@+id/seekbar_1"
             android:layout_width="360dp"
             android:layout_height="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:indeterminate="false"
             android:max="25"
             android:min="0"
@@ -149,7 +158,7 @@
             android:id="@+id/seekbar_2"
             android:layout_width="360dp"
             android:layout_height="30dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             android:indeterminate="false"
             android:max="10"
             android:min="0"
@@ -194,6 +203,57 @@
             app:layout_constraintStart_toStartOf="@+id/seekbar_2"
             app:layout_constraintTop_toBottomOf="@+id/seekbar_2" />
 
+        <SeekBar
+            android:id="@+id/seekbar_3"
+            android:layout_width="360dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:indeterminate="false"
+            android:max="10"
+            android:min="0"
+            android:progress="0"
+            android:progressDrawable="@drawable/seekbar_background"
+            android:thumb="@drawable/thumb_3_orange"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar_2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/seekbar_2"
+            app:layout_constraintTop_toBottomOf="@+id/minus_btn_2" />
+
+        <ImageView
+            android:id="@+id/minus_btn_3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/minus_btn_orange"
+            app:layout_constraintStart_toStartOf="@+id/seekbar_3"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar_3" />
+
+        <ImageView
+            android:id="@+id/plus_btn_3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/plus_btn_orange"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar_3"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar_3" />
+
+
+        <TextView
+            android:id="@+id/seekbar_text_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="@string/_0"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/seekbar_3"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/seekbar_3"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar_3" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -205,6 +265,7 @@
         app:itemTextColor="@drawable/menu_orange"
         app:itemIconTint="@drawable/menu_orange"
         app:menu="@menu/menu"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        />
 
 </RelativeLayout>

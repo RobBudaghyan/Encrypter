@@ -32,6 +32,8 @@ import java.util.Objects;
 public class QRActivity extends AppCompatActivity {
 
     BarcodeFormat barcode_format = BarcodeFormat.QR_CODE;
+    // global values for rotor seekbars
+    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -78,6 +80,18 @@ public class QRActivity extends AppCompatActivity {
             if (isChecked) openActivity(QRActivityDecrypt.class);
         });
 
+        // get intent-extra values for updating fields
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            String input = intent.getExtras().getString("input_text");
+            //
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+            //
+            input_text.setText(input);
+            convertRun();
+        }
 
         // input text field
         input_text.addTextChangedListener(new TextWatcher() {
@@ -202,7 +216,17 @@ public class QRActivity extends AppCompatActivity {
 
     // open activity with class name given to it
     private void openActivity(Class activity_class){
-        startActivity(new Intent(getApplicationContext(),activity_class));
+        EditText input_text = findViewById(R.id.input_edittext);
+        // send field values to new activity
+        Intent i = new Intent(QRActivity.this, activity_class);
+        if(!input_text.getText().toString().equals("")) {
+            String input = input_text.getText().toString();
+            i.putExtra("input_text", input);
+        }
+        i.putExtra("val_1", VAL1);
+        i.putExtra("val_2", VAL2);
+        i.putExtra("val_3", VAL3);
+        startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
