@@ -91,7 +91,14 @@ public class SettingsActivity extends AppCompatActivity {
         // sounds switch
         switch_sounds.setOnCheckedChangeListener((buttonView, isChecked) -> {
             savePrefs();
-            openActivity(SettingsActivity.class);
+            Intent i = new Intent(SettingsActivity.this, SettingsActivity.class);
+            i.putExtra("val_1", VAL1);
+            i.putExtra("val_2", VAL2);
+            i.putExtra("val_3", VAL3);
+            i.putExtra("input_text", INPUT);
+            startActivity(i);
+            overridePendingTransition(0,0);
+            finish();
         });
 
         // get intent-extra values for updating fields

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/color_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Color Theme"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="@+id/object_for_orientation"
+            app:layout_constraintHorizontal_bias="0.059"
+            app:layout_constraintStart_toStartOf="@+id/object_for_orientation"
+            app:layout_constraintTop_toBottomOf="@+id/object_for_orientation" />
+
+        <ImageView
+            android:id="@+id/orange_theme"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/orange_theme_pressed"
+            app:layout_constraintEnd_toStartOf="@+id/blue_theme"
+            app:layout_constraintTop_toTopOf="@+id/blue_theme" />
+
+        <ImageView
+            android:id="@+id/blue_theme"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/blue_theme"
+            app:layout_constraintEnd_toStartOf="@+id/red_theme"
+            app:layout_constraintTop_toTopOf="@+id/red_theme" />
+
+
+        <ImageView
+            android:id="@+id/red_theme"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/red_theme"
+            app:layout_constraintEnd_toStartOf="@+id/green_theme"
+            app:layout_constraintTop_toTopOf="@+id/green_theme" />
+
+        <ImageView
+            android:id="@+id/green_theme"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/green_theme"
+            app:layout_constraintEnd_toEndOf="@+id/object_for_orientation"
+            app:layout_constraintTop_toTopOf="@+id/color_theme" />
+
+        <TextView
+            android:id="@+id/sound_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Sounds"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="@+id/color_theme"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/color_theme"
+            app:layout_constraintTop_toBottomOf="@+id/color_theme" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_sounds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:thumb="@drawable/thumb_2_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/sound_preference"
+            app:layout_constraintEnd_toEndOf="@+id/green_theme"
+            app:layout_constraintTop_toTopOf="@+id/sound_preference"
+            app:layout_constraintVertical_bias="0.347"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
+        <TextView
+            android:id="@+id/hexadecimal_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:text="Hexadecimal conversion"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="@+id/sound_preference"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/sound_preference"
+            app:layout_constraintTop_toBottomOf="@+id/sound_preference" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_hexadecimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:thumb="@drawable/thumb_2_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/hexadecimal_preference"
+            app:layout_constraintEnd_toEndOf="@+id/switch_sounds"
+            app:layout_constraintStart_toStartOf="@+id/switch_sounds"
+            app:layout_constraintTop_toTopOf="@+id/hexadecimal_preference"
+            app:layout_constraintVertical_bias="0.619"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
+
+        <TextView
+            android:id="@+id/version_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:text="@string/version"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
+            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="1.0.0"
+            android:textColor="@color/primary_gray_light"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@+id/version_textview"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintTop_toTopOf="@+id/version_textview"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/reset_btn"
+            android:layout_width="200dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="52dp"
+            android:background="@drawable/reset_orange"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/switch_hexadecimal"
+            app:layout_constraintTop_toBottomOf="@+id/version_textview" />
+
+        <TextView
+            android:id="@+id/object_for_orientation"
+            android:layout_width="700dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:itemBackground="@color/primary_gray_dark"
+        app:itemTextColor="@drawable/menu_orange"
+        app:itemIconTint="@drawable/menu_orange"
+        app:menu="@menu/menu"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

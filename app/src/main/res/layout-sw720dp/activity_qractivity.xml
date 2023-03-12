@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QRActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_decrypt"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:textOff="@string/switch_1"
+            android:textOn="@string/switch_2"
+            android:thumb="@drawable/thumb_1_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
+
+        <EditText
+            android:id="@+id/input_edittext"
+            android:layout_width="680dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/input_text_xml"
+            android:ems="10"
+            android:hint="@string/write_here"
+            android:inputType="textPersonName"
+            android:maxLength="3000"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:scrollbars="horizontal"
+            android:text=""
+            android:textColor="@color/white"
+            android:textColorHint="@color/primary_gray_light"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_decrypt" />
+
+        <ImageView
+            android:id="@+id/delete_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/delete_btn_orange"
+            app:layout_constraintEnd_toStartOf="@+id/share_btn"
+            app:layout_constraintTop_toTopOf="@+id/share_btn" />
+
+        <ImageView
+            android:id="@+id/share_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/share_btn_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_edittext" />
+
+        <ImageView
+            android:id="@+id/download_btn"
+            android:layout_width="65dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/download_btn_orange"
+            app:layout_constraintStart_toEndOf="@+id/share_btn"
+            app:layout_constraintTop_toTopOf="@+id/share_btn" />
+
+        <ImageView
+            android:id="@+id/result"
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/qr_stroke_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/share_btn"
+            app:srcCompat="@drawable/empty_image_icon" />
+
+        <RadioGroup
+            android:id="@+id/code_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="45dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/result"
+            app:layout_constraintTop_toBottomOf="@+id/result">
+
+
+            <RadioButton
+                android:id="@+id/one_radio_btn"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/two_radio_btn"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:checked="false" />
+
+            <RadioButton
+                android:id="@+id/three_radio_btn"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:checked="false" />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/one_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="QR Code"
+            android:textSize="29sp"
+            app:layout_constraintStart_toEndOf="@+id/code_radio_group"
+            app:layout_constraintTop_toTopOf="@+id/code_radio_group" />
+
+        <TextView
+            android:id="@+id/two_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:text="Aztec Code"
+            android:textSize="29sp"
+            app:layout_constraintStart_toStartOf="@+id/one_txt"
+            app:layout_constraintTop_toBottomOf="@+id/one_txt" />
+
+        <TextView
+            android:id="@+id/three_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:text="Data Matrix Code"
+            android:textSize="29sp"
+            app:layout_constraintStart_toStartOf="@+id/two_txt"
+            app:layout_constraintTop_toBottomOf="@+id/two_txt" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:itemBackground="@color/primary_gray_dark"
+        app:itemTextColor="@drawable/menu_orange"
+        app:itemIconTint="@drawable/menu_orange"
+        app:menu="@menu/menu"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

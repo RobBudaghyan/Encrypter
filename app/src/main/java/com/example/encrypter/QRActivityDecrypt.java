@@ -172,8 +172,8 @@ public class QRActivityDecrypt extends AppCompatActivity {
         i.putExtra("val_3", VAL3);
         i.putExtra("input_text", INPUT);
         startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
-        overridePendingTransition(250,250);
     }
 
     // read barcode after scan
