@@ -15,65 +15,62 @@
             android:id="@+id/color_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="28dp"
             android:text="Color Theme"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.054"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/object_for_orientation"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/object_for_orientation"
+            app:layout_constraintTop_toBottomOf="@+id/object_for_orientation" />
 
         <ImageView
             android:id="@+id/orange_theme"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="35dp"
-            app:layout_constraintStart_toEndOf="@+id/color_theme"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/orange_theme_pressed"/>
-
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/orange_theme_pressed"
+            app:layout_constraintEnd_toStartOf="@+id/blue_theme"
+            app:layout_constraintTop_toTopOf="@+id/blue_theme" />
 
         <ImageView
             android:id="@+id/blue_theme"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginStart="25dp"
-            app:layout_constraintStart_toEndOf="@+id/orange_theme"
-            app:layout_constraintTop_toTopOf="@+id/orange_theme"
-            android:background="@drawable/blue_theme" />
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/blue_theme"
+            app:layout_constraintEnd_toStartOf="@+id/red_theme"
+            app:layout_constraintTop_toTopOf="@+id/red_theme" />
+
 
         <ImageView
             android:id="@+id/red_theme"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginStart="25dp"
-            app:layout_constraintStart_toEndOf="@+id/blue_theme"
-            app:layout_constraintTop_toTopOf="@+id/blue_theme"
-            android:background="@drawable/red_theme" />
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/red_theme"
+            app:layout_constraintEnd_toStartOf="@+id/green_theme"
+            app:layout_constraintTop_toTopOf="@+id/green_theme" />
 
         <ImageView
             android:id="@+id/green_theme"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginStart="25dp"
-            app:layout_constraintStart_toEndOf="@+id/red_theme"
-            app:layout_constraintTop_toTopOf="@+id/red_theme"
-            android:background="@drawable/green_theme" />
-
+            android:background="@drawable/green_theme"
+            app:layout_constraintEnd_toEndOf="@+id/switch_sounds"
+            app:layout_constraintTop_toTopOf="@+id/color_theme" />
 
         <TextView
             android:id="@+id/sound_preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="40dp"
             android:text="Sounds"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/color_theme"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/color_theme"
             app:layout_constraintTop_toBottomOf="@+id/color_theme" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -95,12 +92,13 @@
             android:id="@+id/hexadecimal_preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="36dp"
             android:text="Hexadecimal conversion"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/sound_preference"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/sound_preference"
             app:layout_constraintTop_toBottomOf="@+id/sound_preference" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -118,6 +116,7 @@
             app:showText="true"
             app:track="@drawable/switch_track" />
 
+
         <TextView
             android:id="@+id/version_textview"
             android:layout_width="wrap_content"
@@ -126,11 +125,10 @@
             android:text="Version"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.046"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
             app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
-
 
         <TextView
             android:id="@+id/version"
@@ -149,11 +147,21 @@
             android:id="@+id/reset_btn"
             android:layout_width="160dp"
             android:layout_height="50dp"
-            android:layout_marginStart="208dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="36dp"
             android:background="@drawable/reset_orange"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/switch_hexadecimal"
             app:layout_constraintTop_toBottomOf="@+id/version_textview" />
+
+        <TextView
+            android:id="@+id/object_for_orientation"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
