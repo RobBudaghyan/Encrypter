@@ -24,8 +24,9 @@ import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
 
-    // global values for rotor seekbars
+    // global values
     int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    int BARCODE_INDEX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,8 @@ public class HomeActivity extends AppCompatActivity {
 
         // encrypt/decrypt switch
         switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            convertRun();
+            input_text.setText("");
+            result_textview.setText("");
             makeClickSound();
         });
 
@@ -72,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
             VAL1 = intent.getExtras().getInt("val_1");
             VAL2 = intent.getExtras().getInt("val_2");
             VAL3 = intent.getExtras().getInt("val_3");
+            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
             input_text.setText(input);
         }
 
@@ -120,7 +123,7 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
-        //
+        // random values for rotors button
         random.setOnClickListener(v -> {
             setRandomValuesForRotors();
             makeClickSound();
@@ -223,6 +226,7 @@ public class HomeActivity extends AppCompatActivity {
         i.putExtra("val_1", val_1);
         i.putExtra("val_2", val_2);
         i.putExtra("val_3", val_3);
+        i.putExtra("barcode_index",BARCODE_INDEX);
         startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
@@ -248,7 +252,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // execute encryption/decryption and update result text bar
-    private void convertRun(){
+    public void convertRun(){
         EditText input_text = findViewById(R.id.input_edittext);
         TextView result_textview = findViewById(R.id.result_textview);
         SeekBar seekbar_1 = findViewById(R.id.seekbar_1);

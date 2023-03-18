@@ -37,10 +37,10 @@ import java.util.Map;
 public class QRActivityDecrypt extends AppCompatActivity {
 
     static int SELECT_PICTURE = 200;
-    // global values for rotor seekbars
+    // global values
     int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    // global value for input text
     String INPUT;
+    int BARCODE_INDEX = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class QRActivityDecrypt extends AppCompatActivity {
             VAL1 = intent.getExtras().getInt("val_1");
             VAL2 = intent.getExtras().getInt("val_2");
             VAL3 = intent.getExtras().getInt("val_3");
+            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
         }
 
         // camera scan button
@@ -156,24 +157,16 @@ public class QRActivityDecrypt extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(intentResult != null){
             if (intentResult.getContents() != null) {
-                result_textview.setText(intentResult.getContents());
+                result_textview.setText(getDecryptedText(intentResult.getContents()));
             } else {
                 result_textview.setText("");
             }
         }
     }
 
-    // open activity with class name given to it
-    private void openActivity(Class activity_class){
-        // send field values to new activity
-        Intent i = new Intent(QRActivityDecrypt.this, activity_class);
-        i.putExtra("val_1", VAL1);
-        i.putExtra("val_2", VAL2);
-        i.putExtra("val_3", VAL3);
-        i.putExtra("input_text", INPUT);
-        startActivity(i);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        finish();
+    // return encrypted text of input
+    private String getDecryptedText(String input){
+        return Conversion.runConversion(input,VAL1,VAL2,VAL3,true,getPrefsBoolean("hex_on"));
     }
 
     // read barcode after scan
@@ -183,7 +176,7 @@ public class QRActivityDecrypt extends AppCompatActivity {
         MultiFormatReader mReader = new MultiFormatReader();
         Map<DecodeHintType,Object> hints = new EnumMap<DecodeHintType,Object>(DecodeHintType.class);
         hints.put(DecodeHintType.TRY_HARDER, true);
-        List<BarcodeFormat> formats = Arrays.asList(BarcodeFormat.QR_CODE,BarcodeFormat.AZTEC,BarcodeFormat.DATA_MATRIX);
+        List<BarcodeFormat> formats = Arrays.asList(BarcodeFormat.QR_CODE,BarcodeFormat.AZTEC, BarcodeFormat.CODE_128);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, formats);
         mReader.setHints(hints);
 
@@ -197,12 +190,27 @@ public class QRActivityDecrypt extends AppCompatActivity {
         try {
             result = mReader.decodeWithState(bb);
             String resultString = result.getText();
+            resultString = getDecryptedText(resultString);
             result_textview.setText(resultString);
         }
         catch (NotFoundException e) {
             result_textview.setText("");
             Toast.makeText(getApplicationContext(), "Couldn't find Barcode here", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // open activity with class name given to it
+    private void openActivity(Class activity_class){
+        // send field values to new activity
+        Intent i = new Intent(QRActivityDecrypt.this, activity_class);
+        i.putExtra("val_1", VAL1);
+        i.putExtra("val_2", VAL2);
+        i.putExtra("val_3", VAL3);
+        i.putExtra("input_text", INPUT);
+        i.putExtra("barcode_index",BARCODE_INDEX);
+        startActivity(i);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        finish();
     }
 
     // return integer from shared preferences with given key

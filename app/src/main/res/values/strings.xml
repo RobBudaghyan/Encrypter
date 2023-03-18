@@ -53,4 +53,7 @@
     <string name="see_here">See here...</string>
     <string name="_0">0</string>
     <string name="version">Version</string>
+    <string name="qr_code">QR Code</string>
+    <string name="aztec_code">Aztec Code</string>
+    <string name="code_128">Code 128</string>
 </resources>

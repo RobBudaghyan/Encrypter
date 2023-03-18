@@ -92,7 +92,7 @@
             android:layout_height="145dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/input_text_xml"
-            android:hint="See here..."
+            android:hint="@string/see_here"
             android:paddingStart="15dp"
             android:paddingTop="12dp"
             android:paddingEnd="15dp"
