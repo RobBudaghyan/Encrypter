@@ -59,18 +59,8 @@ public class QRActivity extends AppCompatActivity {
         RadioButton two_radio_btn = findViewById(R.id.two_radio_btn);
         RadioButton three_radio_btn = findViewById(R.id.three_radio_btn);
 
-
-        // get intent-extra values for updating fields
-        Intent intent = getIntent();
-        if(intent.getExtras() != null) {
-            INPUT = intent.getExtras().getString("input_text");
-            VAL1 = intent.getExtras().getInt("val_1");
-            VAL2 = intent.getExtras().getInt("val_2");
-            VAL3 = intent.getExtras().getInt("val_3");
-            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
-            input_text.setText(INPUT);
-            convertRun();
-        }
+        // update globals from intent
+        updateGlobals();
 
         // update radio buttons
         if(BARCODE_INDEX != -1){
@@ -80,7 +70,6 @@ public class QRActivity extends AppCompatActivity {
         else{
             setRadioButton(0);
         }
-
 
         // set barcode conversion method
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -328,6 +317,22 @@ public class QRActivity extends AppCompatActivity {
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
         if(sounds_on) clickSound.start();
+    }
+
+    // update all globals
+    private void updateGlobals(){
+        EditText input_text = findViewById(R.id.input_edittext);
+
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            INPUT = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
+            input_text.setText(INPUT);
+            convertRun();
+        }
     }
 
     // bottom navigation bar

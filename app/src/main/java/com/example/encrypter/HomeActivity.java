@@ -67,16 +67,10 @@ public class HomeActivity extends AppCompatActivity {
             makeClickSound();
         });
 
+
+        updateGlobals();
         // get intent-extra values for updating fields
-        Intent intent = getIntent();
-        if(intent.getExtras() != null) {
-            String input = intent.getExtras().getString("input_text");
-            VAL1 = intent.getExtras().getInt("val_1");
-            VAL2 = intent.getExtras().getInt("val_2");
-            VAL3 = intent.getExtras().getInt("val_3");
-            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
-            input_text.setText(input);
-        }
+
 
         // input edittext field
         input_text.addTextChangedListener(new TextWatcher() {
@@ -297,7 +291,21 @@ public class HomeActivity extends AppCompatActivity {
         seekbar_text_2.setText(String.valueOf(val_2));
         seekbar_3.setProgress(val_3);
         seekbar_text_3.setText(String.valueOf(val_3));
+    }
 
+    // update all globals
+    private void updateGlobals(){
+        EditText input_text = findViewById(R.id.input_edittext);
+
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            String input = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
+            input_text.setText(input);
+        }
     }
 
     // bottom navigation bar

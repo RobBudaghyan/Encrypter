@@ -54,15 +54,8 @@ public class HelpActivity extends AppCompatActivity {
         // theme color update
         setTheme();
 
-        // get intent-extra values for updating fields
-        Intent intent = getIntent();
-        if(intent.getExtras() != null) {
-            INPUT = intent.getExtras().getString("input_text");
-            VAL1 = intent.getExtras().getInt("val_1");
-            VAL2 = intent.getExtras().getInt("val_2");
-            VAL3 = intent.getExtras().getInt("val_3");
-            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
-        }
+        // update globals from intent
+        updateGlobals();
 
         // english button
         eng_btn.setOnClickListener(v -> {
@@ -161,6 +154,18 @@ public class HelpActivity extends AppCompatActivity {
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
         if(sounds_on) clickSound.start();
+    }
+
+    // update all globals
+    private void updateGlobals(){
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            INPUT = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
+        }
     }
 
     // update color theme of app using shared preferences

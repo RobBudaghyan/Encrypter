@@ -68,15 +68,8 @@ public class QRActivityDecrypt extends AppCompatActivity {
             if(!isChecked) openActivity(QRActivity.class);
         });
 
-        // get intent-extra values for updating fields
-        Intent intent = getIntent();
-        if(intent.getExtras() != null) {
-            INPUT = intent.getExtras().getString("input_text");
-            VAL1 = intent.getExtras().getInt("val_1");
-            VAL2 = intent.getExtras().getInt("val_2");
-            VAL3 = intent.getExtras().getInt("val_3");
-            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
-        }
+        // update globals from intent
+        updateGlobals();
 
         // camera scan button
         camera_btn.setOnClickListener(v -> {
@@ -85,7 +78,6 @@ public class QRActivityDecrypt extends AppCompatActivity {
             intentIntegrator.setPrompt("For flash use volume up key");
             intentIntegrator.setOrientationLocked(true);
             intentIntegrator.setBeepEnabled(false);
-            //intentIntegrator.setRequestCode(SCAN);
             intentIntegrator.setCaptureActivity(Capture.class);
             intentIntegrator.initiateScan();
             makeClickSound();
@@ -174,9 +166,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
         TextView result_textview = findViewById(R.id.result_textview);
 
         MultiFormatReader mReader = new MultiFormatReader();
-        Map<DecodeHintType,Object> hints = new EnumMap<DecodeHintType,Object>(DecodeHintType.class);
+        Map<DecodeHintType,Object> hints = new EnumMap<>(DecodeHintType.class);
         hints.put(DecodeHintType.TRY_HARDER, true);
-        List<BarcodeFormat> formats = Arrays.asList(BarcodeFormat.QR_CODE,BarcodeFormat.AZTEC, BarcodeFormat.CODE_128);
+        List<BarcodeFormat> formats = Arrays.asList(BarcodeFormat.QR_CODE,BarcodeFormat.AZTEC, BarcodeFormat.CODE_128, BarcodeFormat.PDF_417);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, formats);
         mReader.setHints(hints);
 
@@ -230,6 +222,18 @@ public class QRActivityDecrypt extends AppCompatActivity {
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
         if(sounds_on) clickSound.start();
+    }
+
+    // update all globals
+    private void updateGlobals(){
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            INPUT = intent.getExtras().getString("input_text");
+            VAL1 = intent.getExtras().getInt("val_1");
+            VAL2 = intent.getExtras().getInt("val_2");
+            VAL3 = intent.getExtras().getInt("val_3");
+            BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
+        }
     }
 
     // bottom navigation bar

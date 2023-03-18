@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         // applying theme color
         setTheme();
 
-        // get intent-extra values for updating fields
+        // update globals from intent
         updateGlobals();
 
         // orange theme button
