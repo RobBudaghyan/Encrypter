@@ -24,6 +24,7 @@ import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
 
+
     // global values
     int VAL1 = -1, VAL2 = -1, VAL3 = -1;
     int BARCODE_INDEX;
@@ -54,6 +55,17 @@ public class HomeActivity extends AppCompatActivity {
         SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
         SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
 
+        // random values for seekbars
+        setRandomValuesForRotors();
+
+        //biometric verification
+        if(getPrefsBoolean("biometric_on") && !checkBiometricPass()){
+            openActivity(BiometricPrompt.class);
+        }
+
+        // update global values
+        updateGlobals();
+
         // bottom navigation update
         bottomNavigation();
 
@@ -66,11 +78,6 @@ public class HomeActivity extends AppCompatActivity {
             result_textview.setText("");
             makeClickSound();
         });
-
-
-        updateGlobals();
-        // get intent-extra values for updating fields
-
 
         // input edittext field
         input_text.addTextChangedListener(new TextWatcher() {
@@ -124,7 +131,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // rotor seekbars
-        setRandomValuesForRotors();
         if(VAL1 != -1){
             seekbar_1.setProgress(VAL1);
             seekbar_2.setProgress(VAL2);
@@ -306,6 +312,15 @@ public class HomeActivity extends AppCompatActivity {
             BARCODE_INDEX = intent.getExtras().getInt("barcode_index");
             input_text.setText(input);
         }
+    }
+
+    private boolean checkBiometricPass(){
+        boolean pass = false;
+        Intent intent = getIntent();
+        if(intent.getExtras() != null) {
+            pass = intent.getExtras().getBoolean("lock_passed");
+        }
+        return pass;
     }
 
     // bottom navigation bar

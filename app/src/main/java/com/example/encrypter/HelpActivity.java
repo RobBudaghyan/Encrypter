@@ -132,6 +132,7 @@ public class HelpActivity extends AppCompatActivity {
         i.putExtra("val_3", VAL3);
         i.putExtra("input_text", INPUT);
         i.putExtra("barcode_index",BARCODE_INDEX);
+        i.putExtra("lock_passed", true);
         startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();

@@ -15,10 +15,10 @@
             android:id="@+id/color_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="16dp"
             android:text="Color Theme"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="@+id/object_for_orientation"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/object_for_orientation"
@@ -64,10 +64,10 @@
             android:id="@+id/sound_preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="32dp"
             android:text="Sounds"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="@+id/color_theme"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/color_theme"
@@ -95,11 +95,24 @@
             android:layout_marginTop="36dp"
             android:text="Hexadecimal conversion"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="@+id/sound_preference"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/sound_preference"
             app:layout_constraintTop_toBottomOf="@+id/sound_preference" />
+
+        <TextView
+            android:id="@+id/biometric_preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Biometric Verification"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
+            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_hexadecimal"
@@ -117,6 +130,20 @@
             app:track="@drawable/switch_track" />
 
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_biometric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:thumb="@drawable/thumb_2_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/biometric_preference"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintStart_toStartOf="@+id/switch_hexadecimal"
+            app:layout_constraintTop_toTopOf="@+id/biometric_preference"
+            app:showText="true"
+            app:track="@drawable/switch_track" />
+
         <TextView
             android:id="@+id/version_textview"
             android:layout_width="wrap_content"
@@ -124,11 +151,11 @@
             android:layout_marginTop="32dp"
             android:text="Version"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
-            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
+            app:layout_constraintTop_toBottomOf="@+id/biometric_preference" />
 
         <TextView
             android:id="@+id/saved_keys_txt"
@@ -137,7 +164,7 @@
             android:layout_marginTop="36dp"
             android:text="Saved Keys"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="@+id/version_textview"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/version_textview"
@@ -148,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Key 1:"
+            android:text="Key 1"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/saved_keys_txt"
@@ -161,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:text="Key 2:"
+            android:text="Key 2"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/key_1_text"
@@ -174,7 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:text="Key 3:"
+            android:text="Key 3"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/key_2_text"
@@ -238,7 +265,7 @@
             android:id="@+id/reset_btn"
             android:layout_width="160dp"
             android:layout_height="50dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/reset_orange"
             app:layout_constraintEnd_toEndOf="@+id/change_key_3_btn"
             app:layout_constraintHorizontal_bias="1.0"
@@ -249,12 +276,12 @@
             android:id="@+id/open_key_1_btn"
             android:layout_width="80dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="12dp"
             android:background="@drawable/open_btn_orange"
             app:layout_constraintBottom_toBottomOf="@+id/change_key_1_btn"
             app:layout_constraintEnd_toStartOf="@+id/change_key_1_btn"
             app:layout_constraintTop_toTopOf="@+id/change_key_1_btn"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/open_key_2_btn"

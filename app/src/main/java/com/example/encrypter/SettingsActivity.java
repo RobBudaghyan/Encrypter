@@ -46,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         ImageView change_key_3 = findViewById(R.id.change_key_3_btn);
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
+        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
 
         // bottom navigation update
         bottomNavigation();
@@ -100,6 +101,12 @@ public class SettingsActivity extends AppCompatActivity {
             openActivity(SettingsActivity.class);
         });
 
+        // biometric verification switch
+        switch_biometric.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            savePrefsToSharedPreferences();
+            makeClickSound();
+        });
+
         // reset settings button
         reset.setOnClickListener(view -> {
             for (int i = 0; i < 3; i++) {
@@ -110,8 +117,9 @@ public class SettingsActivity extends AppCompatActivity {
             resetKeys();
             updateKeys();
             updateKeyTextViews();
-        });
 
+
+        });
 
         // update keys and its texts
         updateKeys();
@@ -127,22 +135,23 @@ public class SettingsActivity extends AppCompatActivity {
             VAL1 = KEY1[0];
             VAL2 = KEY1[1];
             VAL3 = KEY1[2];
+            makeClickSound();
             openActivity(HomeActivity.class);
         });
         open_key_2.setOnClickListener(v -> {
             VAL1 = KEY2[0];
             VAL2 = KEY2[1];
             VAL3 = KEY2[2];
+            makeClickSound();
             openActivity(HomeActivity.class);
         });
         open_key_3.setOnClickListener(v -> {
             VAL1 = KEY3[0];
             VAL2 = KEY3[1];
             VAL3 = KEY3[2];
+            makeClickSound();
             openActivity(HomeActivity.class);
         });
-
-
 
     }
 
@@ -264,12 +273,14 @@ public class SettingsActivity extends AppCompatActivity {
     private void savePrefsToSharedPreferences(){
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
+        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
 
         SharedPreferences.Editor editor = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE).edit();
 
         editor.putInt("color_id", THEME_COLOR);
         editor.putBoolean("sounds_on",switch_sounds.isChecked());
         editor.putBoolean("hex_on",switch_hexadecimal.isChecked());
+        editor.putBoolean("biometric_on",switch_biometric.isChecked());
 
         editor.apply();
     }
@@ -281,6 +292,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt("color_id", 0);
         editor.putBoolean("sounds_on",false);
         editor.putBoolean("hex_on",false);
+        editor.putBoolean("biometric_on",false);
         editor.apply();
         VAL1 = 0;
         VAL2 = 0;
@@ -295,9 +307,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
+        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
 
         switch_sounds.setChecked(prefs.getBoolean("sounds_on",false));
         switch_hexadecimal.setChecked(prefs.getBoolean("hex_on",false));
+        switch_biometric.setChecked(prefs.getBoolean("biometric_on",false));
     }
 
     // open activity with class name given to it
@@ -309,6 +323,7 @@ public class SettingsActivity extends AppCompatActivity {
         i.putExtra("val_3", VAL3);
         i.putExtra("input_text", INPUT);
         i.putExtra("barcode_index",BARCODE_INDEX);
+        i.putExtra("lock_passed", true);
         startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
@@ -365,6 +380,7 @@ public class SettingsActivity extends AppCompatActivity {
         ImageView reset = findViewById(R.id.reset_btn);
         SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
         SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
+        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         ImageView orange_theme = findViewById(R.id.orange_theme);
@@ -407,6 +423,7 @@ public class SettingsActivity extends AppCompatActivity {
                 setTheme(R.style.Orange_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_orange);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_orange);
+                switch_biometric.setThumbResource(R.drawable.thumb_2_orange);
                 reset.setBackgroundResource(R.drawable.reset_btn_orange);
                 bottomNavigationView.setItemIconTintList(colorStateList_orange);
                 bottomNavigationView.setItemTextColor(colorStateList_orange);
@@ -428,6 +445,7 @@ public class SettingsActivity extends AppCompatActivity {
                 setTheme(R.style.Blue_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_blue);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_blue);
+                switch_biometric.setThumbResource(R.drawable.thumb_2_blue);
                 reset.setBackgroundResource(R.drawable.reset_btn_blue);
                 bottomNavigationView.setItemIconTintList(colorStateList_blue);
                 bottomNavigationView.setItemTextColor(colorStateList_blue);
@@ -449,6 +467,7 @@ public class SettingsActivity extends AppCompatActivity {
                 setTheme(R.style.Red_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_red);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_red);
+                switch_biometric.setThumbResource(R.drawable.thumb_2_red);
                 reset.setBackgroundResource(R.drawable.reset_btn_red);
                 bottomNavigationView.setItemIconTintList(colorStateList_red);
                 bottomNavigationView.setItemTextColor(colorStateList_red);
@@ -470,6 +489,7 @@ public class SettingsActivity extends AppCompatActivity {
                 setTheme(R.style.Green_Theme);
                 switch_sounds.setThumbResource(R.drawable.thumb_2_green);
                 switch_hexadecimal.setThumbResource(R.drawable.thumb_2_green);
+                switch_biometric.setThumbResource(R.drawable.thumb_2_green);
                 reset.setBackgroundResource(R.drawable.reset_btn_green);
                 bottomNavigationView.setItemIconTintList(colorStateList_green);
                 bottomNavigationView.setItemTextColor(colorStateList_green);

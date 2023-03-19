@@ -295,6 +295,7 @@ public class QRActivity extends AppCompatActivity {
         i.putExtra("val_2", VAL2);
         i.putExtra("val_3", VAL3);
         i.putExtra("barcode_index",barcode_index);
+        i.putExtra("lock_passed", true);
         startActivity(i);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
