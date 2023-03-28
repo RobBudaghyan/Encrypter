@@ -97,6 +97,7 @@ public class RSA_Encrypt extends AppCompatActivity {
         //
         switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
             openActivity(RSA_Decrypt.class);
+            makeClickSound();
         });
 
 
@@ -110,17 +111,13 @@ public class RSA_Encrypt extends AppCompatActivity {
 
         input_public_key.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 runConversion();
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
         if (!Objects.equals(INPUT, "")) {
@@ -130,17 +127,13 @@ public class RSA_Encrypt extends AppCompatActivity {
 
         input_text.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 runConversion();
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
 
@@ -149,6 +142,7 @@ public class RSA_Encrypt extends AppCompatActivity {
             input_public_key.setText("");
             input_text.setText("");
             result_textview.setText("");
+            makeClickSound();
         });
         // share result button
         share.setOnClickListener(v -> {
@@ -162,6 +156,7 @@ public class RSA_Encrypt extends AppCompatActivity {
                 shareIntent = Intent.createChooser(shareIntent, "Share Via: ");
                 startActivity(shareIntent);
             }
+            makeClickSound();
         });
         // copy result button
         copy.setOnClickListener(v -> {
@@ -171,6 +166,7 @@ public class RSA_Encrypt extends AppCompatActivity {
                 ClipData clip1 = ClipData.newPlainText("text", cop1);
                 clipboard.setPrimaryClip(clip1);
             }
+            makeClickSound();
         });
 
     }
@@ -263,15 +259,12 @@ public class RSA_Encrypt extends AppCompatActivity {
             String result = "";
             try {
                 result = RSA_Conversion.runEncrypt(stringToPublicKey(input_public_key.getText().toString()), input_text.getText().toString());
-            } catch (NoSuchPaddingException | InvalidKeyException e) {
-                result_textview.setText("Invalid Key format");
-            } catch (IllegalBlockSizeException e) {
+                result_textview.setText(result);
+            }  catch (IllegalBlockSizeException e) {
                 result_textview.setText("Maximum 245 characters");
-            } catch (NoSuchAlgorithmException | BadPaddingException e) {
-                result_textview.setText("Something went wrong");
+            } catch (Exception e) {
+                result_textview.setText("Invalid Key format");
             }
-
-            result_textview.setText(result);
         }
     }
 
@@ -331,6 +324,7 @@ public class RSA_Encrypt extends AppCompatActivity {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        makeClickSound();
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {

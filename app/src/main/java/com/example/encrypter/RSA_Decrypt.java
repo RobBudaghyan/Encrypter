@@ -88,6 +88,7 @@ public class RSA_Decrypt extends AppCompatActivity {
 
         switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
             openActivity(RSA_Encrypt.class);
+            makeClickSound();
         });
 
 
@@ -95,6 +96,7 @@ public class RSA_Decrypt extends AppCompatActivity {
         delete.setOnClickListener(v -> {
             input_text.setText("");
             result_textview.setText("");
+            makeClickSound();
         });
         // share result button
         share.setOnClickListener(v -> {
@@ -108,6 +110,7 @@ public class RSA_Decrypt extends AppCompatActivity {
                 shareIntent = Intent.createChooser(shareIntent, "Share Via: ");
                 startActivity(shareIntent);
             }
+            makeClickSound();
         });
         // copy result button
         copy.setOnClickListener(v -> {
@@ -117,6 +120,7 @@ public class RSA_Decrypt extends AppCompatActivity {
                 ClipData clip1 = ClipData.newPlainText("text", cop1);
                 clipboard.setPrimaryClip(clip1);
             }
+            makeClickSound();
         });
 
         input_text.addTextChangedListener(new TextWatcher() {
@@ -246,6 +250,7 @@ public class RSA_Decrypt extends AppCompatActivity {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        makeClickSound();
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {

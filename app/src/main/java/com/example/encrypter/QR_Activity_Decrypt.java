@@ -270,6 +270,7 @@ public class QR_Activity_Decrypt extends AppCompatActivity {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        makeClickSound();
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {

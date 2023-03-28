@@ -86,6 +86,7 @@ public class AES_Activity extends AppCompatActivity {
             INPUT = "";
             input_text.setText("");
             result_textview.setText("");
+            makeClickSound();
         });
 
 
@@ -120,6 +121,7 @@ public class AES_Activity extends AppCompatActivity {
             input_key.setText("");
             input_text.setText("");
             result_textview.setText("");
+            makeClickSound();
         });
         // share result button
         share.setOnClickListener(v -> {
@@ -133,6 +135,7 @@ public class AES_Activity extends AppCompatActivity {
                 shareIntent = Intent.createChooser(shareIntent, "Share Via: ");
                 startActivity(shareIntent);
             }
+            makeClickSound();
         });
         // copy result button
         copy.setOnClickListener(v -> {
@@ -142,6 +145,7 @@ public class AES_Activity extends AppCompatActivity {
                 ClipData clip1 = ClipData.newPlainText("text", cop1);
                 clipboard.setPrimaryClip(clip1);
             }
+            makeClickSound();
         });
 
     }
@@ -235,6 +239,7 @@ public class AES_Activity extends AppCompatActivity {
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        makeClickSound();
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
