@@ -22,7 +22,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.038"
+            app:layout_constraintVertical_bias="0.049"
             app:showText="true"
             app:track="@drawable/switch_track" />
 
@@ -140,6 +140,17 @@
             android:background="@drawable/plus_btn_orange"
             app:layout_constraintEnd_toEndOf="@+id/seekbar_1"
             app:layout_constraintTop_toBottomOf="@+id/seekbar_1" />
+
+        <ImageView
+            android:id="@+id/help_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/help_menu_icon"
+            android:onClick="openPopUpWindow"
+            app:layout_constraintBottom_toBottomOf="@+id/switch_decrypt"
+            app:layout_constraintStart_toEndOf="@+id/switch_decrypt" />
 
         <TextView
             android:id="@+id/seekbar_text_1"

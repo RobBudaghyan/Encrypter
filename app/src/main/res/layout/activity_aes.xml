@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QRActivity">
+    tools:context=".AES_Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_decrypt"
@@ -39,14 +38,14 @@
             app:layout_constraintStart_toEndOf="@+id/switch_decrypt" />
 
         <EditText
-            android:id="@+id/input_edittext"
+            android:id="@+id/input_key"
             android:layout_width="345dp"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/input_text_xml"
             android:ems="10"
-            android:hint="@string/write_here"
-            android:inputType="textPersonName"
+            android:hint="Key for Conversion"
+            android:inputType="textLongMessage"
             android:paddingLeft="17dp"
             android:paddingRight="17dp"
             android:scrollbars="horizontal"
@@ -58,111 +57,74 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_decrypt" />
 
+        <EditText
+            android:id="@+id/input_text"
+            android:layout_width="345dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/input_text_xml"
+            android:ems="10"
+            android:hint="Your Message"
+            android:inputType="textLongMessage"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:scrollbars="horizontal"
+            android:text=""
+            android:maxLength="210"
+            android:textColor="@color/white"
+            android:textColorHint="@color/primary_gray_light"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/input_key"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/input_key"
+            app:layout_constraintTop_toBottomOf="@+id/input_key" />
 
         <ImageView
             android:id="@+id/delete_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/delete_btn_orange"
             app:layout_constraintEnd_toStartOf="@+id/share_btn"
             app:layout_constraintTop_toTopOf="@+id/share_btn" />
-
 
         <ImageView
             android:id="@+id/share_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/share_btn_orange"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_edittext" />
+            app:layout_constraintEnd_toEndOf="@+id/input_text"
+            app:layout_constraintStart_toStartOf="@+id/input_text"
+            app:layout_constraintTop_toBottomOf="@+id/input_text" />
 
         <ImageView
-            android:id="@+id/download_btn"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="24dp"
-            android:background="@drawable/download_btn_orange"
+            android:id="@+id/copy_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/copy_btn_orange"
             app:layout_constraintStart_toEndOf="@+id/share_btn"
             app:layout_constraintTop_toTopOf="@+id/share_btn" />
 
-        <ImageView
-            android:id="@+id/result"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/qr_stroke_orange"
+        <TextView
+            android:id="@+id/result_textview"
+            android:layout_width="350dp"
+            android:layout_height="145dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/input_text_xml"
+            android:hint="@string/see_here"
+            android:paddingStart="15dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/share_btn"
-            app:srcCompat="@drawable/empty_image_icon" />
-
-        <RadioGroup
-            android:id="@+id/code_radio_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@+id/two_txt"
-            app:layout_constraintTop_toBottomOf="@+id/result">
-
-
-            <RadioButton
-                android:id="@+id/one_radio_btn"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:checked="false" />
-
-            <RadioButton
-                android:id="@+id/two_radio_btn"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:checked="false" />
-
-            <RadioButton
-                android:id="@+id/three_radio_btn"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:checked="false" />
-
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/one_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="29dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/qr_code"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.513"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/code_radio_group" />
-
-        <TextView
-            android:id="@+id/two_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/aztec_code"
-            android:textSize="23sp"
-            app:layout_constraintStart_toStartOf="@+id/one_txt"
-            app:layout_constraintTop_toBottomOf="@+id/one_txt" />
-
-        <TextView
-            android:id="@+id/three_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/code_128"
-            android:textSize="23sp"
-            app:layout_constraintStart_toStartOf="@+id/two_txt"
-            app:layout_constraintTop_toBottomOf="@+id/two_txt" />
+            app:layout_constraintTop_toBottomOf="@+id/share_btn" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -177,4 +139,5 @@
         app:menu="@menu/menu"
         android:layout_alignParentBottom="true"
         />
+
 </RelativeLayout>

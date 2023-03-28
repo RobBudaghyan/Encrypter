@@ -15,10 +15,10 @@
             android:id="@+id/color_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Color Theme"
-            android:textColor="@color/white"
-            android:textSize="19sp"
+            android:textColor="@color/gray_super_light"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/object_for_orientation"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/object_for_orientation"
@@ -66,8 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Sounds"
-            android:textColor="@color/white"
-            android:textSize="19sp"
+            android:textColor="@color/gray_super_light"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/color_theme"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/color_theme"
@@ -89,30 +89,43 @@
             app:track="@drawable/switch_track" />
 
         <TextView
+            android:id="@+id/home_qr_settings_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Home and QR Settings"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="@+id/version_textview"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/version_textview"
+            app:layout_constraintTop_toBottomOf="@+id/version_textview" />
+
+        <TextView
             android:id="@+id/hexadecimal_preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="Hexadecimal conversion"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/sound_preference"
+            android:layout_marginTop="16dp"
+            android:text="Hexadecimal Encryption"
+            android:textColor="@color/gray_super_light"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/home_qr_settings_txt"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/sound_preference"
-            app:layout_constraintTop_toBottomOf="@+id/sound_preference" />
+            app:layout_constraintStart_toStartOf="@+id/home_qr_settings_txt"
+            app:layout_constraintTop_toBottomOf="@+id/home_qr_settings_txt" />
 
         <TextView
             android:id="@+id/biometric_preference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="28dp"
             android:text="Biometric Verification"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
+            android:textColor="@color/gray_super_light"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/sound_preference"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
-            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
+            app:layout_constraintStart_toStartOf="@+id/sound_preference"
+            app:layout_constraintTop_toBottomOf="@+id/sound_preference" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_hexadecimal"
@@ -148,105 +161,14 @@
             android:id="@+id/version_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="28dp"
             android:text="Version"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
+            android:textColor="@color/gray_super_light"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/biometric_preference"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
+            app:layout_constraintStart_toStartOf="@+id/biometric_preference"
             app:layout_constraintTop_toBottomOf="@+id/biometric_preference" />
-
-        <TextView
-            android:id="@+id/saved_keys_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="Saved Keys"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/version_textview"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/version_textview"
-            app:layout_constraintTop_toBottomOf="@+id/version_textview" />
-
-        <TextView
-            android:id="@+id/key_1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Key 1"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/saved_keys_txt"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/saved_keys_txt"
-            app:layout_constraintTop_toBottomOf="@+id/saved_keys_txt" />
-
-        <TextView
-            android:id="@+id/key_2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="Key 2"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/key_1_text"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/key_1_text"
-            app:layout_constraintTop_toBottomOf="@+id/key_1_text" />
-
-        <TextView
-            android:id="@+id/key_3_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="Key 3"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/key_2_text"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/key_2_text"
-            app:layout_constraintTop_toBottomOf="@+id/key_2_text" />
-
-        <TextView
-            android:id="@+id/key_1_values"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0:0:0"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/key_1_text"
-            app:layout_constraintEnd_toStartOf="@+id/open_key_1_btn"
-            app:layout_constraintStart_toEndOf="@+id/key_1_text"
-            app:layout_constraintTop_toTopOf="@+id/key_1_text"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
-            android:id="@+id/key_2_values"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0:0:0"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/key_2_text"
-            app:layout_constraintEnd_toStartOf="@+id/open_key_2_btn"
-            app:layout_constraintStart_toEndOf="@+id/key_2_text"
-            app:layout_constraintTop_toTopOf="@+id/key_2_text"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/key_3_values"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0:0:0"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/key_3_text"
-            app:layout_constraintEnd_toStartOf="@+id/open_key_3_btn"
-            app:layout_constraintStart_toEndOf="@+id/key_3_text"
-            app:layout_constraintTop_toTopOf="@+id/key_3_text"
-            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/version"
@@ -261,79 +183,92 @@
             app:layout_constraintTop_toTopOf="@+id/version_textview"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/rsa_settings_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="RSA Settings"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="@+id/hexadecimal_preference"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/hexadecimal_preference"
+            app:layout_constraintTop_toBottomOf="@+id/hexadecimal_preference" />
+
+
+        <TextView
+            android:id="@+id/public_key_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:maxWidth="300dp"
+            android:text="Your Public Key:  "
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/rsa_settings_txt"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/rsa_settings_txt"
+            app:layout_constraintTop_toBottomOf="@+id/rsa_settings_txt" />
+
+        <TextView
+            android:id="@+id/private_key_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:maxWidth="300dp"
+            android:text="Your Private Key:  "
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/public_key_txt"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/public_key_txt"
+            app:layout_constraintTop_toBottomOf="@+id/public_key_txt" />
+
+        <ImageView
+            android:id="@+id/copy_private_key"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/copy_btn_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/private_key_txt"
+            app:layout_constraintEnd_toEndOf="@+id/copy_public_key"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/copy_public_key"
+            app:layout_constraintTop_toBottomOf="@+id/copy_public_key"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+        <ImageView
+            android:id="@+id/copy_public_key"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/copy_btn_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/public_key_txt"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/switch_hexadecimal"
+            app:layout_constraintTop_toTopOf="@+id/public_key_txt"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/change_keys_btn"
+            android:layout_width="110dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/change_keys_btn_orange"
+            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/switch_hexadecimal"
+            app:layout_constraintTop_toBottomOf="@+id/copy_private_key" />
+
         <ImageView
             android:id="@+id/reset_btn"
             android:layout_width="160dp"
             android:layout_height="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginBottom="140dp"
             android:background="@drawable/reset_orange"
-            app:layout_constraintEnd_toEndOf="@+id/change_key_3_btn"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/change_key_3_btn"
-            app:layout_constraintTop_toBottomOf="@+id/change_key_3_btn" />
-
-        <ImageView
-            android:id="@+id/open_key_1_btn"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/open_btn_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/change_key_1_btn"
-            app:layout_constraintEnd_toStartOf="@+id/change_key_1_btn"
-            app:layout_constraintTop_toTopOf="@+id/change_key_1_btn"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/open_key_2_btn"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
-            android:background="@drawable/open_btn_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/change_key_2_btn"
-            app:layout_constraintEnd_toEndOf="@+id/open_key_1_btn"
-            app:layout_constraintStart_toStartOf="@+id/open_key_1_btn"
-            app:layout_constraintTop_toTopOf="@+id/change_key_2_btn" />
-
-        <ImageView
-            android:id="@+id/open_key_3_btn"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
-            android:background="@drawable/open_btn_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/change_key_3_btn"
-            app:layout_constraintEnd_toEndOf="@+id/open_key_2_btn"
-            app:layout_constraintStart_toStartOf="@+id/open_key_2_btn"
-            app:layout_constraintTop_toTopOf="@+id/change_key_3_btn"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/change_key_1_btn"
-            android:layout_width="90dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/change_btn_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/key_1_text"
-            app:layout_constraintEnd_toEndOf="@+id/switch_hexadecimal"
-            app:layout_constraintTop_toTopOf="@+id/key_1_text"
-            app:layout_constraintVertical_bias="0.48" />
-
-        <ImageView
-            android:id="@+id/change_key_2_btn"
-            android:layout_width="90dp"
-            android:layout_height="48dp"
-            android:background="@drawable/change_btn_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/key_2_text"
-            app:layout_constraintEnd_toEndOf="@+id/change_key_1_btn"
-            app:layout_constraintStart_toStartOf="@+id/change_key_1_btn"
-            app:layout_constraintTop_toTopOf="@+id/key_2_text" />
-
-        <ImageView
-            android:id="@+id/change_key_3_btn"
-            android:layout_width="90dp"
-            android:layout_height="48dp"
-            android:background="@drawable/change_btn_orange"
-            app:layout_constraintBottom_toBottomOf="@+id/key_3_text"
-            app:layout_constraintEnd_toEndOf="@+id/change_key_2_btn"
-            app:layout_constraintStart_toStartOf="@+id/change_key_2_btn"
-            app:layout_constraintTop_toTopOf="@+id/key_3_text" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/object_for_orientation"

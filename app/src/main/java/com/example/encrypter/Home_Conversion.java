@@ -1,6 +1,6 @@
 package com.example.encrypter;
 
-public class Conversion {
+public class Home_Conversion {
 
     protected static String runConversion(String input, int rotor_1, int rotor_2, int rotor_3, boolean decrypt_on, boolean hexadecimal_on) {
 

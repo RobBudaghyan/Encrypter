@@ -19,6 +19,7 @@
     <color name="primary_black">#0d0d0d</color>
     <color name="primary_gray_dark">#303030</color>
     <color name="primary_gray_light">#a8a7a7</color>
+    <color name="gray_super_light">#c7c7c7</color>
 
     <color name="primary_orange">     #db922c</color>
     <color name="primary_orange_dark">#ad5803</color>

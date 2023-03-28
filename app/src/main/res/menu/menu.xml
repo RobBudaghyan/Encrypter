@@ -12,9 +12,14 @@
         android:icon="@drawable/qr_menu_icon"/>
 
     <item
-        android:id="@+id/help_menu"
-        android:title="@string/help"
-        android:icon="@drawable/help_menu_icon"/>
+        android:id="@+id/aes_menu"
+        android:title="@string/aes"
+        android:icon="@drawable/aes_menu_icon"/>
+
+    <item
+        android:id="@+id/rsa_menu"
+        android:title="@string/rsa"
+        android:icon="@drawable/rsa_menu_icon"/>
 
     <item
         android:id="@+id/settings_menu"

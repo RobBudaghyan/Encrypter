@@ -4,16 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -24,35 +39,57 @@ public class SettingsActivity extends AppCompatActivity {
     int BARCODE_INDEX = -1;
 
     // key values
-    int[] KEY1 = {0,0,0};
-    int[] KEY2 = {0,0,0};
-    int[] KEY3 = {0,0,0};
+    PublicKey publicKey;
+    PrivateKey privateKey;
+    static int KEY_SIZE = 2048;
+
+    ImageView copy_public_key;
+    ImageView copy_private_key;
+    ImageView change_keys_btn;
+    ImageView orange_theme;
+    ImageView blue_theme;
+    ImageView red_theme;
+    ImageView green_theme;
+    ImageView reset;
+    TextView public_key_txt;
+    TextView private_key_txt;
+    SwitchCompat switch_sounds;
+    SwitchCompat switch_hexadecimal;
+    SwitchCompat switch_biometric;
+    BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        ImageView orange_theme = findViewById(R.id.orange_theme);
-        ImageView blue_theme = findViewById(R.id.blue_theme);
-        ImageView red_theme = findViewById(R.id.red_theme);
-        ImageView green_theme = findViewById(R.id.green_theme);
-        ImageView reset = findViewById(R.id.reset_btn);
-        ImageView open_key_1 = findViewById(R.id.open_key_1_btn);
-        ImageView open_key_2 = findViewById(R.id.open_key_2_btn);
-        ImageView open_key_3 = findViewById(R.id.open_key_3_btn);
-        ImageView change_key_1 = findViewById(R.id.change_key_1_btn);
-        ImageView change_key_2 = findViewById(R.id.change_key_2_btn);
-        ImageView change_key_3 = findViewById(R.id.change_key_3_btn);
-        SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
-        SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
+        orange_theme = findViewById(R.id.orange_theme);
+        blue_theme = findViewById(R.id.blue_theme);
+        red_theme = findViewById(R.id.red_theme);
+        green_theme = findViewById(R.id.green_theme);
+        reset = findViewById(R.id.reset_btn);
+        switch_sounds = findViewById(R.id.switch_sounds);
+        switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
+        switch_biometric = findViewById(R.id.switch_biometric);
+        copy_public_key = findViewById(R.id.copy_public_key);
+        copy_private_key = findViewById(R.id.copy_private_key);
+        public_key_txt = findViewById(R.id.public_key_txt);
+        private_key_txt = findViewById(R.id.private_key_txt);
+        change_keys_btn = findViewById(R.id.change_keys_btn);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // bottom navigation update
         bottomNavigation();
 
         // update shared preferences
         updatePrefs();
+
+        if(privateKey == null || publicKey == null){
+            generateNewKeys();
+            savePrefsToSharedPreferences();
+            updatePrefs();
+        }
 
         // applying theme color
         setTheme();
@@ -109,49 +146,41 @@ public class SettingsActivity extends AppCompatActivity {
 
         // reset settings button
         reset.setOnClickListener(view -> {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 resetPrefs();
                 updatePrefs();
                 setTheme();
             }
-            resetKeys();
-            updateKeys();
-            updateKeyTextViews();
-
-
+            generateNewKeys();
+            savePrefsToSharedPreferences();
+            updatePrefs();
+            openActivity(SettingsActivity.class);
         });
 
-        // update keys and its texts
-        updateKeys();
-        updateKeyTextViews();
-
-        // change values of selected key
-        change_key_1.setOnClickListener(v -> changeKey(0));
-        change_key_2.setOnClickListener(v -> changeKey(1));
-        change_key_3.setOnClickListener(v -> changeKey(2));
-
-        // open home with values of selected key
-        open_key_1.setOnClickListener(v -> {
-            VAL1 = KEY1[0];
-            VAL2 = KEY1[1];
-            VAL3 = KEY1[2];
+//
+        change_keys_btn.setOnClickListener(v -> {
+            generateNewKeys();
+            savePrefsToSharedPreferences();
+            updatePrefs();
             makeClickSound();
-            openActivity(HomeActivity.class);
         });
-        open_key_2.setOnClickListener(v -> {
-            VAL1 = KEY2[0];
-            VAL2 = KEY2[1];
-            VAL3 = KEY2[2];
+
+        copy_public_key.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            String cop1 = publicKeyToString(publicKey);
+            ClipData clip1 = ClipData.newPlainText("public_key", cop1);
+            clipboard.setPrimaryClip(clip1);
             makeClickSound();
-            openActivity(HomeActivity.class);
         });
-        open_key_3.setOnClickListener(v -> {
-            VAL1 = KEY3[0];
-            VAL2 = KEY3[1];
-            VAL3 = KEY3[2];
+
+        copy_private_key.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            String cop1 = privateKeyToString(privateKey);
+            ClipData clip1 = ClipData.newPlainText("private_key", cop1);
+            clipboard.setPrimaryClip(clip1);
             makeClickSound();
-            openActivity(HomeActivity.class);
         });
+
 
     }
 
@@ -159,28 +188,20 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         savePrefsToSharedPreferences();
-        updateKeys();
-        saveKeysToSharedPreferences();
         super.onDestroy();
     }
 
-    // update key texts
-    private void updateKeyTextViews(){
-        TextView key_1_values = findViewById(R.id.key_1_values);
-        TextView key_2_values = findViewById(R.id.key_2_values);
-        TextView key_3_values = findViewById(R.id.key_3_values);
-
-        String str = "";
-        str += String.valueOf(KEY1[0]) + ":" + String.valueOf(KEY1[1]) + ":" + String.valueOf(KEY1[2]);
-        key_1_values.setText(str);
-
-        str = "";
-        str += String.valueOf(KEY2[0]) + ":" + String.valueOf(KEY2[1]) + ":" + String.valueOf(KEY2[2]);
-        key_2_values.setText(str);
-        str = "";
-
-        str += String.valueOf(KEY3[0]) + ":" + String.valueOf(KEY3[1]) + ":" + String.valueOf(KEY3[2]);
-        key_3_values.setText(str);
+    public void generateNewKeys(){
+        KeyPairGenerator kpg = null;
+        try {
+            kpg = KeyPairGenerator.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        kpg.initialize(KEY_SIZE);
+        KeyPair kp = kpg.genKeyPair();
+        publicKey = kp.getPublic();
+        privateKey = kp.getPrivate();
     }
 
     // update all globals
@@ -195,92 +216,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    // change selected key
-    private void changeKey(int index){
-        switch(index){
-            case 0:
-                KEY1[0] = VAL1;
-                KEY1[1] = VAL2;
-                KEY1[2] = VAL3;
-                break;
-            case 1:
-                KEY2[0] = VAL1;
-                KEY2[1] = VAL2;
-                KEY2[2] = VAL3;
-                break;
-            case 2:
-                KEY3[0] = VAL1;
-                KEY3[1] = VAL2;
-                KEY3[2] = VAL3;
-                break;
-        }
-        saveKeysToSharedPreferences();
-        updateKeys();
-        updateKeyTextViews();
-    }
-
-    // update all keys from shared preferences
-    private void updateKeys(){
-        SharedPreferences prefs = getSharedPreferences("SAVED_KEYS", MODE_PRIVATE);
-
-        KEY1 = new int[]{prefs.getInt("key1_val1",0),
-                prefs.getInt("key1_val2",0), prefs.getInt("key1_val3",0)};
-
-        KEY2 = new int[]{prefs.getInt("key2_val1",0),
-                prefs.getInt("key2_val2",0), prefs.getInt("key2_val3",0)};
-
-        KEY3 = new int[]{prefs.getInt("key3_val1",0),
-                prefs.getInt("key3_val2",0), prefs.getInt("key3_val3",0)};
-    }
-
-    // save values to shared preferences
-    private void saveKeysToSharedPreferences(){
-        SharedPreferences.Editor editor = getSharedPreferences("SAVED_KEYS", MODE_PRIVATE).edit();
-        editor.putInt("key1_val1", KEY1[0]);
-        editor.putInt("key1_val2", KEY1[1]);
-        editor.putInt("key1_val3", KEY1[2]);
-
-        editor.putInt("key2_val1", KEY2[0]);
-        editor.putInt("key2_val2", KEY2[1]);
-        editor.putInt("key2_val3", KEY2[2]);
-
-        editor.putInt("key3_val1", KEY3[0]);
-        editor.putInt("key3_val2", KEY3[1]);
-        editor.putInt("key3_val3", KEY3[2]);
-
-        editor.apply();
-    }
-
-    // reset all keys
-    private void resetKeys(){
-        SharedPreferences.Editor editor = getSharedPreferences("SAVED_KEYS", MODE_PRIVATE).edit();
-        editor.putInt("key1_val1", 0);
-        editor.putInt("key1_val2", 0);
-        editor.putInt("key1_val3", 0);
-
-        editor.putInt("key2_val1", 0);
-        editor.putInt("key2_val2", 0);
-        editor.putInt("key2_val3", 0);
-
-        editor.putInt("key3_val1", 0);
-        editor.putInt("key3_val2", 0);
-        editor.putInt("key3_val3", 0);
-
-        editor.apply();
-    }
 
     // save preferences in shared preferences
     private void savePrefsToSharedPreferences(){
-        SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
-        SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
-
         SharedPreferences.Editor editor = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE).edit();
 
         editor.putInt("color_id", THEME_COLOR);
         editor.putBoolean("sounds_on",switch_sounds.isChecked());
         editor.putBoolean("hex_on",switch_hexadecimal.isChecked());
         editor.putBoolean("biometric_on",switch_biometric.isChecked());
+
+        editor.putString("private_key",privateKeyToString(privateKey));
+        editor.putString("public_key",publicKeyToString(publicKey));
 
         editor.apply();
     }
@@ -293,25 +240,86 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putBoolean("sounds_on",false);
         editor.putBoolean("hex_on",false);
         editor.putBoolean("biometric_on",false);
-        editor.apply();
         VAL1 = 0;
         VAL2 = 0;
         VAL3 = 0;
         INPUT = "";
         BARCODE_INDEX = 0;
+        editor.apply();
     }
 
     // update the preferences for app
     private void updatePrefs(){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
 
-        SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
-        SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
-
         switch_sounds.setChecked(prefs.getBoolean("sounds_on",false));
         switch_hexadecimal.setChecked(prefs.getBoolean("hex_on",false));
         switch_biometric.setChecked(prefs.getBoolean("biometric_on",false));
+
+        privateKey = stringToPrivateKey(prefs.getString("private_key",getResources().getString(R.string.default_private_key)));
+        publicKey = stringToPublicKey(prefs.getString("public_key",getResources().getString(R.string.default_public_key)));
+
+        public_key_txt.setText("Your Public Key:  " + getPreviewOfKey(publicKeyToString(publicKey)));
+        private_key_txt.setText("Your Private Key:  " + getPreviewOfKey(privateKeyToString(privateKey)));
+    }
+
+    public PrivateKey stringToPrivateKey(String privateK) {
+        PrivateKey prvKey = null;
+        try {
+            byte[] privateBytes = new byte[0];
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                privateBytes = Base64.getDecoder().decode(privateK);
+            }
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            prvKey = keyFactory.generatePrivate(keySpec);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return prvKey;
+    }
+
+    public static PublicKey stringToPublicKey(String publicK) {
+        PublicKey pubKey = null;
+        try {
+            byte[] publicBytes = new byte[0];
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                publicBytes = Base64.getDecoder().decode(publicK);
+            }
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            pubKey = keyFactory.generatePublic(keySpec);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return pubKey;
+    }
+
+    private String getPreviewOfKey(String txt) {
+        String result = "";
+
+        result += "***";
+        for (int i = 65; i < 75; i++) {
+            result += txt.charAt(i);
+        }
+        result += "***";
+
+        return result;
+    }
+
+    private static String privateKeyToString(PrivateKey privateKey){
+        String str = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            str = Base64.getEncoder().encodeToString(privateKey.getEncoded());
+        }
+        return str;
+    }
+    private static String publicKeyToString(PublicKey publicKey){
+        String str = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            str = Base64.getEncoder().encodeToString(publicKey.getEncoded());
+        }
+        return str;
     }
 
     // open activity with class name given to it
@@ -351,7 +359,6 @@ public class SettingsActivity extends AppCompatActivity {
     // bottom navigation bar
     @SuppressLint("NonConstantResourceId")
     private void bottomNavigation(){
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.settings_menu);
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
@@ -364,8 +371,11 @@ public class SettingsActivity extends AppCompatActivity {
                 case R.id.qr_menu:
                     openActivity(QRActivity.class);
                     return true;
-                case R.id.help_menu:
-                    openActivity(HelpActivity.class);
+                case R.id.aes_menu:
+                    openActivity(AES_Activity.class);
+                    return true;
+                case R.id.rsa_menu:
+                    openActivity(RSA_Encrypt.class);
                     return true;
                 case R.id.settings_menu:
                     return true;
@@ -377,24 +387,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     // update color theme of app using shared preferences
     private void setTheme(){
-        ImageView reset = findViewById(R.id.reset_btn);
-        SwitchCompat switch_sounds = findViewById(R.id.switch_sounds);
-        SwitchCompat switch_hexadecimal = findViewById(R.id.switch_hexadecimal);
-        SwitchCompat switch_biometric = findViewById(R.id.switch_biometric);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        ImageView orange_theme = findViewById(R.id.orange_theme);
-        ImageView blue_theme = findViewById(R.id.blue_theme);
-        ImageView red_theme = findViewById(R.id.red_theme);
-        ImageView green_theme = findViewById(R.id.green_theme);
-
-        ImageView open_key_1 = findViewById(R.id.open_key_1_btn);
-        ImageView open_key_2 = findViewById(R.id.open_key_2_btn);
-        ImageView open_key_3 = findViewById(R.id.open_key_3_btn);
-        ImageView change_key_1 = findViewById(R.id.change_key_1_btn);
-        ImageView change_key_2 = findViewById(R.id.change_key_2_btn);
-        ImageView change_key_3 = findViewById(R.id.change_key_3_btn);
-
         int [][] states = new int [][]{
                 new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected}, // enabled
                 new int[] {-android.R.attr.state_enabled}, // disabled
@@ -427,18 +419,14 @@ public class SettingsActivity extends AppCompatActivity {
                 reset.setBackgroundResource(R.drawable.reset_btn_orange);
                 bottomNavigationView.setItemIconTintList(colorStateList_orange);
                 bottomNavigationView.setItemTextColor(colorStateList_orange);
-
-                open_key_1.setBackgroundResource(R.drawable.open_btn_orange);
-                open_key_2.setBackgroundResource(R.drawable.open_btn_orange);
-                open_key_3.setBackgroundResource(R.drawable.open_btn_orange);
-                change_key_1.setBackgroundResource(R.drawable.change_btn_orange);
-                change_key_2.setBackgroundResource(R.drawable.change_btn_orange);
-                change_key_3.setBackgroundResource(R.drawable.change_btn_orange);
-
                 orange_theme.setBackgroundResource(R.drawable.orange_theme_pressed);
                 blue_theme.setBackgroundResource(R.drawable.blue_theme);
                 red_theme.setBackgroundResource(R.drawable.red_theme);
                 green_theme.setBackgroundResource(R.drawable.green_theme);
+
+                copy_private_key.setBackgroundResource(R.drawable.copy_btn_orange);
+                copy_public_key.setBackgroundResource(R.drawable.copy_btn_orange);
+                change_keys_btn.setBackgroundResource(R.drawable.change_keys_btn_orange);
                 break;
             case 1:
                 THEME_COLOR = 1;
@@ -449,18 +437,14 @@ public class SettingsActivity extends AppCompatActivity {
                 reset.setBackgroundResource(R.drawable.reset_btn_blue);
                 bottomNavigationView.setItemIconTintList(colorStateList_blue);
                 bottomNavigationView.setItemTextColor(colorStateList_blue);
-
-                open_key_1.setBackgroundResource(R.drawable.open_btn_blue);
-                open_key_2.setBackgroundResource(R.drawable.open_btn_blue);
-                open_key_3.setBackgroundResource(R.drawable.open_btn_blue);
-                change_key_1.setBackgroundResource(R.drawable.change_btn_blue);
-                change_key_2.setBackgroundResource(R.drawable.change_btn_blue);
-                change_key_3.setBackgroundResource(R.drawable.change_btn_blue);
-
                 orange_theme.setBackgroundResource(R.drawable.orange_theme);
                 blue_theme.setBackgroundResource(R.drawable.blue_theme_pressed);
                 red_theme.setBackgroundResource(R.drawable.red_theme);
                 green_theme.setBackgroundResource(R.drawable.green_theme);
+
+                copy_private_key.setBackgroundResource(R.drawable.copy_btn_blue);
+                copy_public_key.setBackgroundResource(R.drawable.copy_btn_blue);
+                change_keys_btn.setBackgroundResource(R.drawable.change_keys_btn_blue);
                 break;
             case 2:
                 THEME_COLOR = 2;
@@ -471,18 +455,14 @@ public class SettingsActivity extends AppCompatActivity {
                 reset.setBackgroundResource(R.drawable.reset_btn_red);
                 bottomNavigationView.setItemIconTintList(colorStateList_red);
                 bottomNavigationView.setItemTextColor(colorStateList_red);
-
-                open_key_1.setBackgroundResource(R.drawable.open_btn_red);
-                open_key_2.setBackgroundResource(R.drawable.open_btn_red);
-                open_key_3.setBackgroundResource(R.drawable.open_btn_red);
-                change_key_1.setBackgroundResource(R.drawable.change_btn_red);
-                change_key_2.setBackgroundResource(R.drawable.change_btn_red);
-                change_key_3.setBackgroundResource(R.drawable.change_btn_red);
-
                 orange_theme.setBackgroundResource(R.drawable.orange_theme);
                 blue_theme.setBackgroundResource(R.drawable.blue_theme);
                 red_theme.setBackgroundResource(R.drawable.red_theme_pressed);
                 green_theme.setBackgroundResource(R.drawable.green_theme);
+
+                copy_private_key.setBackgroundResource(R.drawable.copy_btn_red);
+                copy_public_key.setBackgroundResource(R.drawable.copy_btn_red);
+                change_keys_btn.setBackgroundResource(R.drawable.change_keys_btn_red);
                 break;
             case 3:
                 THEME_COLOR = 3;
@@ -493,18 +473,14 @@ public class SettingsActivity extends AppCompatActivity {
                 reset.setBackgroundResource(R.drawable.reset_btn_green);
                 bottomNavigationView.setItemIconTintList(colorStateList_green);
                 bottomNavigationView.setItemTextColor(colorStateList_green);
-
-                open_key_1.setBackgroundResource(R.drawable.open_btn_green);
-                open_key_2.setBackgroundResource(R.drawable.open_btn_green);
-                open_key_3.setBackgroundResource(R.drawable.open_btn_green);
-                change_key_1.setBackgroundResource(R.drawable.change_btn_green);
-                change_key_2.setBackgroundResource(R.drawable.change_btn_green);
-                change_key_3.setBackgroundResource(R.drawable.change_btn_green);
-
                 orange_theme.setBackgroundResource(R.drawable.orange_theme);
                 blue_theme.setBackgroundResource(R.drawable.blue_theme);
                 red_theme.setBackgroundResource(R.drawable.red_theme);
                 green_theme.setBackgroundResource(R.drawable.green_theme_pressed);
+
+                copy_private_key.setBackgroundResource(R.drawable.copy_btn_green);
+                copy_public_key.setBackgroundResource(R.drawable.copy_btn_green);
+                change_keys_btn.setBackgroundResource(R.drawable.change_keys_btn_green);
                 break;
         }
     }

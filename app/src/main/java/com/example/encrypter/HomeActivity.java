@@ -14,8 +14,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,31 +35,58 @@ public class HomeActivity extends AppCompatActivity {
     int VAL1 = -1, VAL2 = -1, VAL3 = -1;
     int BARCODE_INDEX;
 
+    EditText input_text;
+    TextView result_textview;
+    TextView seekbar_text_1;
+    TextView seekbar_text_2;
+    TextView seekbar_text_3;
+    ImageView delete;
+    ImageView share;
+    ImageView copy;
+    ImageView random;
+    ImageView plus_1;
+    ImageView plus_2;
+    ImageView plus_3;
+    ImageView minus_1;
+    ImageView minus_2;
+    ImageView minus_3;
+    ImageView help_btn;
+    SeekBar seekbar_1;
+    SeekBar seekbar_2;
+    SeekBar seekbar_3;
+    SwitchCompat switch_decrypt;
+    BottomNavigationView bottomNavigationView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
 
-        EditText input_text = findViewById(R.id.input_edittext);
-        TextView result_textview = findViewById(R.id.result_textview);
-        TextView seekbar_text_1 = findViewById(R.id.seekbar_text_1);
-        TextView seekbar_text_2 = findViewById(R.id.seekbar_text_2);
-        TextView seekbar_text_3 = findViewById(R.id.seekbar_text_3);
-        ImageView delete = findViewById(R.id.delete_btn);
-        ImageView share = findViewById(R.id.share_btn);
-        ImageView copy = findViewById(R.id.copy_btn);
-        ImageView random = findViewById(R.id.random_btn);
-        ImageView plus_1 = findViewById(R.id.plus_btn_1);
-        ImageView plus_2 = findViewById(R.id.plus_btn_2);
-        ImageView plus_3 = findViewById(R.id.plus_btn_3);
-        ImageView minus_1 = findViewById(R.id.minus_btn_1);
-        ImageView minus_2 = findViewById(R.id.minus_btn_2);
-        ImageView minus_3 = findViewById(R.id.minus_btn_3);
-        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
-        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
-        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
-        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
+        input_text = findViewById(R.id.input_edittext);
+        result_textview = findViewById(R.id.result_textview);
+        seekbar_text_1 = findViewById(R.id.seekbar_text_1);
+        seekbar_text_2 = findViewById(R.id.seekbar_text_2);
+        seekbar_text_3 = findViewById(R.id.seekbar_text_3);
+        delete = findViewById(R.id.delete_btn);
+        share = findViewById(R.id.share_btn);
+        copy = findViewById(R.id.copy_btn);
+        random = findViewById(R.id.random_btn);
+        plus_1 = findViewById(R.id.plus_btn_1);
+        plus_2 = findViewById(R.id.plus_btn_2);
+        plus_3 = findViewById(R.id.plus_btn_3);
+        minus_1 = findViewById(R.id.minus_btn_1);
+        minus_2 = findViewById(R.id.minus_btn_2);
+        minus_3 = findViewById(R.id.minus_btn_3);
+        help_btn = findViewById(R.id.help_btn);
+        seekbar_1 = findViewById(R.id.seekbar_1);
+        seekbar_2 = findViewById(R.id.seekbar_2);
+        seekbar_3 = findViewById(R.id.seekbar_3);
+        switch_decrypt = findViewById(R.id.switch_decrypt);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+
 
         // random values for seekbars
         setRandomValuesForRotors();
@@ -174,8 +207,6 @@ public class HomeActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {makeClickSound();}
         });
 
-
-
         // plus and minus buttons of seekbars
         plus_1.setOnClickListener(v -> {
             int k = seekbar_1.getProgress();
@@ -206,14 +237,16 @@ public class HomeActivity extends AppCompatActivity {
             int k = seekbar_3.getProgress();
             seekbar_3.setProgress(k - 1);
             makeClickSound();
-        });}
+        });
+
+
+    }
+
+
+
 
     // open activity with class name given to it
     private void openActivity(Class activity_class){
-        EditText input_text = findViewById(R.id.input_edittext);
-        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
-        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
-        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
         // send field values to new activity
         Intent i = new Intent(HomeActivity.this, activity_class);
         if(!input_text.getText().toString().equals("")) {
@@ -253,13 +286,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // execute encryption/decryption and update result text bar
     public void convertRun(){
-        EditText input_text = findViewById(R.id.input_edittext);
-        TextView result_textview = findViewById(R.id.result_textview);
-        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
-        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
-        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
-        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
-
         boolean hex_on = getPrefsBoolean("hex_on");
 
         result_textview.setMovementMethod(new ScrollingMovementMethod());
@@ -267,7 +293,7 @@ public class HomeActivity extends AppCompatActivity {
         String input = input_text.getText().toString();
         String result = "";
         try {
-            result = Conversion.runConversion(input, seekbar_1.getProgress(), seekbar_2.getProgress(),
+            result = Home_Conversion.runConversion(input, seekbar_1.getProgress(), seekbar_2.getProgress(),
                     seekbar_3.getProgress(), switch_decrypt.isChecked(), hex_on);
         } catch (Exception e) {
             result = "Something Went Wrong :(";
@@ -276,13 +302,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setRandomValuesForRotors(){
-        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
-        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
-        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
-        TextView seekbar_text_1 = findViewById(R.id.seekbar_text_1);
-        TextView seekbar_text_2 = findViewById(R.id.seekbar_text_2);
-        TextView seekbar_text_3 = findViewById(R.id.seekbar_text_3);
-
         Random rand = new Random();
         final int limit_1 = 26;
         final int limit_2 = 11;
@@ -301,8 +320,6 @@ public class HomeActivity extends AppCompatActivity {
 
     // update all globals
     private void updateGlobals(){
-        EditText input_text = findViewById(R.id.input_edittext);
-
         Intent intent = getIntent();
         if(intent.getExtras() != null) {
             String input = intent.getExtras().getString("input_text");
@@ -323,12 +340,36 @@ public class HomeActivity extends AppCompatActivity {
         return pass;
     }
 
+    public void openPopUpWindow(View view) {
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.help_popup_home, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+
     // bottom navigation bar
     @SuppressLint("NonConstantResourceId")
     private void bottomNavigation(){
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home_menu);
-
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -339,8 +380,11 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.qr_menu:
                     openActivity(QRActivity.class);
                     return true;
-                case R.id.help_menu:
-                    openActivity(HelpActivity.class);
+                case R.id.aes_menu:
+                    openActivity(AES_Activity.class);
+                    return true;
+                case R.id.rsa_menu:
+                    openActivity(RSA_Encrypt.class);
                     return true;
                 case R.id.settings_menu:
                     openActivity(SettingsActivity.class);
@@ -353,22 +397,6 @@ public class HomeActivity extends AppCompatActivity {
     // update color theme of app using shared preferences
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setTheme(){
-        ImageView delete = findViewById(R.id.delete_btn);
-        ImageView share = findViewById(R.id.share_btn);
-        ImageView copy = findViewById(R.id.copy_btn);
-        ImageView random = findViewById(R.id.random_btn);
-        ImageView plus_1 = findViewById(R.id.plus_btn_1);
-        ImageView plus_2 = findViewById(R.id.plus_btn_2);
-        ImageView plus_3 = findViewById(R.id.plus_btn_3);
-        ImageView minus_1 = findViewById(R.id.minus_btn_1);
-        ImageView minus_2 = findViewById(R.id.minus_btn_2);
-        ImageView minus_3 = findViewById(R.id.minus_btn_3);
-        SeekBar seekbar_1 = findViewById(R.id.seekbar_1);
-        SeekBar seekbar_2 = findViewById(R.id.seekbar_2);
-        SeekBar seekbar_3 = findViewById(R.id.seekbar_3);
-        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
         int [][] states = new int [][]{
                 new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected},
                 new int[] {-android.R.attr.state_enabled},
@@ -401,15 +429,17 @@ public class HomeActivity extends AppCompatActivity {
                 random.setBackgroundResource(R.drawable.random_btn_orange);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_orange));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_orange));
-                if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_orange));
+                seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_orange));
                 plus_1.setBackgroundResource(R.drawable.plus_btn_orange);
                 plus_2.setBackgroundResource(R.drawable.plus_btn_orange);
-                if(plus_3 != null) plus_3.setBackgroundResource(R.drawable.plus_btn_orange);
+                plus_3.setBackgroundResource(R.drawable.plus_btn_orange);
                 minus_1.setBackgroundResource(R.drawable.minus_btn_orange);
                 minus_2.setBackgroundResource(R.drawable.minus_btn_orange);
-                if(minus_3 != null) minus_3.setBackgroundResource(R.drawable.minus_btn_orange);
+                minus_3.setBackgroundResource(R.drawable.minus_btn_orange);
                 bottomNavigationView.setItemIconTintList(colorStateList_orange);
                 bottomNavigationView.setItemTextColor(colorStateList_orange);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_orange);
                 break;
             case 1:
                 setTheme(R.style.Blue_Theme);
@@ -420,15 +450,17 @@ public class HomeActivity extends AppCompatActivity {
                 random.setBackgroundResource(R.drawable.random_btn_blue);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_blue));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_blue));
-                if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_blue));
+                seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_blue));
                 plus_1.setBackgroundResource(R.drawable.plus_btn_blue);
                 plus_2.setBackgroundResource(R.drawable.plus_btn_blue);
-                if(plus_3 != null) plus_3.setBackgroundResource(R.drawable.plus_btn_blue);
+                plus_3.setBackgroundResource(R.drawable.plus_btn_blue);
                 minus_1.setBackgroundResource(R.drawable.minus_btn_blue);
                 minus_2.setBackgroundResource(R.drawable.minus_btn_blue);
-                if(minus_3 != null) minus_3.setBackgroundResource(R.drawable.minus_btn_blue);
+                minus_3.setBackgroundResource(R.drawable.minus_btn_blue);
                 bottomNavigationView.setItemIconTintList(colorStateList_blue);
                 bottomNavigationView.setItemTextColor(colorStateList_blue);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_blue);
                 break;
             case 2:
                 setTheme(R.style.Red_Theme);
@@ -439,15 +471,17 @@ public class HomeActivity extends AppCompatActivity {
                 random.setBackgroundResource(R.drawable.random_btn_red);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_red));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_red));
-                if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_red));
+                seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_red));
                 plus_1.setBackgroundResource(R.drawable.plus_btn_red);
                 plus_2.setBackgroundResource(R.drawable.plus_btn_red);
-                if(plus_3 != null) plus_3.setBackgroundResource(R.drawable.plus_btn_red);
+                plus_3.setBackgroundResource(R.drawable.plus_btn_red);
                 minus_1.setBackgroundResource(R.drawable.minus_btn_red);
                 minus_2.setBackgroundResource(R.drawable.minus_btn_red);
-                if(minus_3 != null) minus_3.setBackgroundResource(R.drawable.minus_btn_red);
+                minus_3.setBackgroundResource(R.drawable.minus_btn_red);
                 bottomNavigationView.setItemIconTintList(colorStateList_red);
                 bottomNavigationView.setItemTextColor(colorStateList_red);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_red);
                 break;
             case 3:
                 setTheme(R.style.Green_Theme);
@@ -458,15 +492,17 @@ public class HomeActivity extends AppCompatActivity {
                 random.setBackgroundResource(R.drawable.random_btn_green);
                 seekbar_1.setThumb(getDrawable(R.drawable.thumb_3_green));
                 seekbar_2.setThumb(getDrawable(R.drawable.thumb_3_green));
-                if(seekbar_3 != null) seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_green));
+                seekbar_3.setThumb(getDrawable(R.drawable.thumb_3_green));
                 plus_1.setBackgroundResource(R.drawable.plus_btn_green);
                 plus_2.setBackgroundResource(R.drawable.plus_btn_green);
-                if(plus_3 != null) plus_3.setBackgroundResource(R.drawable.plus_btn_green);
+                plus_3.setBackgroundResource(R.drawable.plus_btn_green);
                 minus_1.setBackgroundResource(R.drawable.minus_btn_green);
                 minus_2.setBackgroundResource(R.drawable.minus_btn_green);
-                if(minus_3 != null) minus_3.setBackgroundResource(R.drawable.minus_btn_green);
+                minus_3.setBackgroundResource(R.drawable.minus_btn_green);
                 bottomNavigationView.setItemIconTintList(colorStateList_green);
                 bottomNavigationView.setItemTextColor(colorStateList_green);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_green);
                 break;
         }
     }

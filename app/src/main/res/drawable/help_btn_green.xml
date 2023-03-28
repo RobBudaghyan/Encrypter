@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/change_orange_pressed"
+    <item android:drawable="@drawable/help_green_pressed"
         android:state_pressed="true"/>
 
-    <item android:drawable="@drawable/change_orange"/>
+    <item android:drawable="@drawable/help_green"/>
 </selector>

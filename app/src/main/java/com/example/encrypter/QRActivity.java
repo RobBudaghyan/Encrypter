@@ -16,8 +16,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -39,25 +45,44 @@ public class QRActivity extends AppCompatActivity {
     int BARCODE_INDEX = -1;
     String INPUT;
 
+
+    EditText input_text;
+    ImageView delete_btn;
+    ImageView share_btn;
+    ImageView download_btn;
+    ImageView result_txt;
+    ImageView help_btn;
+    SwitchCompat switch_decrypt;
+    RadioGroup radioGroup;
+    RadioButton one_radio_btn;
+    RadioButton two_radio_btn;
+    RadioButton three_radio_btn;
+    TextView one_txt;
+    TextView two_txt;
+    TextView three_txt;
+    BottomNavigationView bottomNavigationView;
+
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qractivity);
 
-        EditText input_text = findViewById(R.id.input_edittext);
-        ImageView delete_btn = findViewById(R.id.delete_btn);
-        ImageView share_btn = findViewById(R.id.share_btn);
-        ImageView download_btn = findViewById(R.id.download_btn);
-        ImageView result_txt = findViewById(R.id.result);
-        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
-        RadioGroup radioGroup = findViewById(R.id.code_radio_group);
-        TextView one_txt = findViewById(R.id.one_txt);
-        TextView two_txt = findViewById(R.id.two_txt);
-        TextView three_txt = findViewById(R.id.three_txt);
-        RadioButton one_radio_btn = findViewById(R.id.one_radio_btn);
-        RadioButton two_radio_btn = findViewById(R.id.two_radio_btn);
-        RadioButton three_radio_btn = findViewById(R.id.three_radio_btn);
+        input_text = findViewById(R.id.input_edittext);
+        delete_btn = findViewById(R.id.delete_btn);
+        share_btn = findViewById(R.id.share_btn);
+        download_btn = findViewById(R.id.download_btn);
+        result_txt = findViewById(R.id.result);
+        switch_decrypt = findViewById(R.id.switch_decrypt);
+        one_txt = findViewById(R.id.one_txt);
+        two_txt = findViewById(R.id.two_txt);
+        three_txt = findViewById(R.id.three_txt);
+        radioGroup = findViewById(R.id.code_radio_group);
+        one_radio_btn = findViewById(R.id.one_radio_btn);
+        two_radio_btn = findViewById(R.id.two_radio_btn);
+        three_radio_btn = findViewById(R.id.three_radio_btn);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        help_btn = findViewById(R.id.help_btn);
 
         // update globals from intent
         updateGlobals();
@@ -172,37 +197,34 @@ public class QRActivity extends AppCompatActivity {
 
     }
 
+
     // execute to barcode/from barcode and update result view bar
     private void convertRun(){
-        EditText input_text = findViewById(R.id.input_edittext);
+        String input = Home_Conversion.runConversion(input_text.getText().toString(),VAL1,VAL2,VAL3,false,getPrefsBoolean("hex_on"));
 
-        String input = Conversion.runConversion(input_text.getText().toString(),VAL1,VAL2,VAL3,false,getPrefsBoolean("hex_on"));
-
-        ImageView result = findViewById(R.id.result);
             try {
                 generateQR(input, BARCODE_FORMAT);
             }
             catch (Exception e) {
                 if(BARCODE_FORMAT == BarcodeFormat.CODE_128)
-                    result.setImageResource(R.drawable.error_qr_1);
+                    result_txt.setImageResource(R.drawable.error_qr_1);
                 else
-                    result.setImageResource(R.drawable.empty_image_icon);
+                    result_txt.setImageResource(R.drawable.empty_image_icon);
             }
-            if (Objects.equals(input, "")) result.setImageResource(R.drawable.empty_image_icon);
+            if (Objects.equals(input, "")) result_txt.setImageResource(R.drawable.empty_image_icon);
     }
 
     // generate barcode given text and format
     private void generateQR(String input, BarcodeFormat barcode_format){
-        ImageView result = findViewById(R.id.result);
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
             BitMatrix matrix = writer.encode(input, barcode_format,800,800);
             BarcodeEncoder encoder = new BarcodeEncoder();
             Bitmap bitmap = encoder.createBitmap(matrix);
-            result.setImageBitmap(bitmap);
+            result_txt.setImageBitmap(bitmap);
         }
         catch (WriterException e) {
-            result.setImageResource(R.drawable.empty_image_icon);
+            result_txt.setImageResource(R.drawable.empty_image_icon);
         }
     }
 
@@ -246,10 +268,6 @@ public class QRActivity extends AppCompatActivity {
 
     // set radiobutton check by index
     private void setRadioButton(int index){
-        RadioButton one_radio_btn = findViewById(R.id.one_radio_btn);
-        RadioButton two_radio_btn = findViewById(R.id.two_radio_btn);
-        RadioButton three_radio_btn = findViewById(R.id.three_radio_btn);
-
         one_radio_btn.setChecked(false);
         two_radio_btn.setChecked(false);
         three_radio_btn.setChecked(false);
@@ -275,10 +293,6 @@ public class QRActivity extends AppCompatActivity {
 
     // open activity with class name given to it
     private void openActivity(Class activity_class){
-        EditText input_text = findViewById(R.id.input_edittext);
-        RadioButton two_radio_btn = findViewById(R.id.two_radio_btn);
-        RadioButton three_radio_btn = findViewById(R.id.three_radio_btn);
-
         // send field values to new activity
         Intent i = new Intent(QRActivity.this, activity_class);
         if(!input_text.getText().toString().equals("")) {
@@ -322,8 +336,6 @@ public class QRActivity extends AppCompatActivity {
 
     // update all globals
     private void updateGlobals(){
-        EditText input_text = findViewById(R.id.input_edittext);
-
         Intent intent = getIntent();
         if(intent.getExtras() != null) {
             INPUT = intent.getExtras().getString("input_text");
@@ -336,10 +348,35 @@ public class QRActivity extends AppCompatActivity {
         }
     }
 
+    public void openPopUpWindow(View view) {
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.help_popup_qr, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+
     // bottom navigation bar
     @SuppressLint("NonConstantResourceId")
     private void bottomNavigation(){
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.qr_menu);
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
@@ -351,8 +388,11 @@ public class QRActivity extends AppCompatActivity {
                     return true;
                 case R.id.qr_menu:
                     return true;
-                case R.id.help_menu:
-                    openActivity(HelpActivity.class);
+                case R.id.aes_menu:
+                    openActivity(AES_Activity.class);
+                    return true;
+                case R.id.rsa_menu:
+                    openActivity(RSA_Encrypt.class);
                     return true;
                 case R.id.settings_menu:
                     openActivity(SettingsActivity.class);
@@ -364,12 +404,6 @@ public class QRActivity extends AppCompatActivity {
 
     // update color theme of app using shared preferences
     private void setTheme(){
-        ImageView delete = findViewById(R.id.delete_btn);
-        ImageView share = findViewById(R.id.share_btn);
-        ImageView download = findViewById(R.id.download_btn);
-        ImageView result = findViewById(R.id.result);
-        SwitchCompat switch_decrypt = findViewById(R.id.switch_decrypt);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         int [][] states = new int [][]{
                 new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected},
@@ -397,42 +431,50 @@ public class QRActivity extends AppCompatActivity {
             case 0:
                 setTheme(R.style.Orange_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_orange);
-                delete.setBackgroundResource(R.drawable.delete_btn_orange);
-                share.setBackgroundResource(R.drawable.share_btn_orange);
-                result.setBackgroundResource(R.drawable.qr_stroke_orange);
-                download.setBackgroundResource(R.drawable.download_btn_orange);
+                delete_btn.setBackgroundResource(R.drawable.delete_btn_orange);
+                share_btn.setBackgroundResource(R.drawable.share_btn_orange);
+                result_txt.setBackgroundResource(R.drawable.qr_stroke_orange);
+                download_btn.setBackgroundResource(R.drawable.download_btn_orange);
                 bottomNavigationView.setItemIconTintList(colorStateList_orange);
                 bottomNavigationView.setItemTextColor(colorStateList_orange);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_orange);
                 break;
             case 1:
                 setTheme(R.style.Blue_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_blue);
-                delete.setBackgroundResource(R.drawable.delete_btn_blue);
-                share.setBackgroundResource(R.drawable.share_btn_blue);
-                result.setBackgroundResource(R.drawable.qr_stroke_blue);
-                download.setBackgroundResource(R.drawable.download_btn_blue);
+                delete_btn.setBackgroundResource(R.drawable.delete_btn_blue);
+                share_btn.setBackgroundResource(R.drawable.share_btn_blue);
+                result_txt.setBackgroundResource(R.drawable.qr_stroke_blue);
+                download_btn.setBackgroundResource(R.drawable.download_btn_blue);
                 bottomNavigationView.setItemIconTintList(colorStateList_blue);
                 bottomNavigationView.setItemTextColor(colorStateList_blue);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_blue);
                 break;
             case 2:
                 setTheme(R.style.Red_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_red);
-                delete.setBackgroundResource(R.drawable.delete_btn_red);
-                share.setBackgroundResource(R.drawable.share_btn_red);
-                result.setBackgroundResource(R.drawable.qr_stroke_red);
-                download.setBackgroundResource(R.drawable.download_btn_red);
+                delete_btn.setBackgroundResource(R.drawable.delete_btn_red);
+                share_btn.setBackgroundResource(R.drawable.share_btn_red);
+                result_txt.setBackgroundResource(R.drawable.qr_stroke_red);
+                download_btn.setBackgroundResource(R.drawable.download_btn_red);
                 bottomNavigationView.setItemIconTintList(colorStateList_red);
                 bottomNavigationView.setItemTextColor(colorStateList_red);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_red);
                 break;
             case 3:
                 setTheme(R.style.Green_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_green);
-                delete.setBackgroundResource(R.drawable.delete_btn_green);
-                share.setBackgroundResource(R.drawable.share_btn_green);
-                result.setBackgroundResource(R.drawable.qr_stroke_green);
-                download.setBackgroundResource(R.drawable.download_btn_green);
+                delete_btn.setBackgroundResource(R.drawable.delete_btn_green);
+                share_btn.setBackgroundResource(R.drawable.share_btn_green);
+                result_txt.setBackgroundResource(R.drawable.qr_stroke_green);
+                download_btn.setBackgroundResource(R.drawable.download_btn_green);
                 bottomNavigationView.setItemIconTintList(colorStateList_green);
                 bottomNavigationView.setItemTextColor(colorStateList_green);
+
+                help_btn.setBackgroundResource(R.drawable.help_btn_green);
                 break;
         }
     }

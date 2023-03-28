@@ -7,120 +7,123 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.RGBLuminanceSource;
-import com.google.zxing.Result;
-import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import com.scottyab.aescrypt.AESCrypt;
 
-public class QRActivityDecrypt extends AppCompatActivity {
+import java.security.GeneralSecurityException;
+import java.util.Objects;
 
-    static int SELECT_PICTURE = 200;
+public class AES_Activity extends AppCompatActivity {
+
+
     // global values
     int VAL1 = -1, VAL2 = -1, VAL3 = -1;
     String INPUT;
     int BARCODE_INDEX = -1;
 
 
-    ImageView camera_btn;
-    ImageView copy_btn;
-    ImageView share_btn;
-    ImageView delete_btn;
-    ImageView gallery_btn;
-    ImageView help_btn;
-    TextView result_textview;
-    SwitchCompat switch_decrypt;
-    BottomNavigationView bottomNavigationView;
+    EditText input_key;
+    EditText input_text;
 
+    TextView result_textview;
+
+    SwitchCompat switch_decrypt;
+
+    ImageView copy;
+    ImageView share;
+    ImageView delete;
+    ImageView help_btn;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qractivity_decrypt);
+        setContentView(R.layout.activity_aes);
 
-        camera_btn = findViewById(R.id.camera_btn);
-        copy_btn = findViewById(R.id.copy_btn);
-        share_btn = findViewById(R.id.share_btn);
-        delete_btn = findViewById(R.id.delete_btn);
-        gallery_btn = findViewById(R.id.gallery_btn);
-        result_textview = findViewById(R.id.result_textview);
         switch_decrypt = findViewById(R.id.switch_decrypt);
+        input_key = findViewById(R.id.input_key);
+        input_text = findViewById(R.id.input_text);
+        result_textview = findViewById(R.id.result_textview);
+        copy = findViewById(R.id.copy_btn);
+        share = findViewById(R.id.share_btn);
+        delete = findViewById(R.id.delete_btn);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         help_btn = findViewById(R.id.help_btn);
 
-
-        // bottom navigation update
         bottomNavigation();
 
-        // theme color update
         setTheme();
 
-        // encrypt/decrypt switch
-        switch_decrypt.setChecked(true);
-        switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            makeClickSound();
-            if(!isChecked) openActivity(QRActivity.class);
-        });
-
-        // update globals from intent
         updateGlobals();
 
-        // camera scan button
-        camera_btn.setOnClickListener(v -> {
-            IntentIntegrator intentIntegrator = new IntentIntegrator(
-                    QRActivityDecrypt.this);
-            intentIntegrator.setPrompt("For flash use volume up key");
-            intentIntegrator.setOrientationLocked(true);
-            intentIntegrator.setBeepEnabled(false);
-            intentIntegrator.setCaptureActivity(Capture.class);
-            intentIntegrator.initiateScan();
-            makeClickSound();
-        });
+        result_textview.setMovementMethod(new ScrollingMovementMethod());
 
-        // choose from gallery button
-        gallery_btn.setOnClickListener(v -> {
-            Intent i = new Intent();
-            i.setType("image/*");
-            i.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
-        });
-
-        // delete result text button
-        delete_btn.setOnClickListener(v -> {
+        switch_decrypt.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                input_key.setHint("Key for Decryption");
+            }
+            else {
+                input_key.setHint("Key for Encryption");
+            }
+            input_text.setText("");
             result_textview.setText("");
-            makeClickSound();
         });
 
-        // share result text button
-        share_btn.setOnClickListener(v -> {
-            if(!result_textview.getText().toString().equals("")) {
+
+        input_key.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                runConversion();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        if (!Objects.equals(INPUT, "") && !switch_decrypt.isChecked()) {
+            input_text.setText(INPUT);
+            runConversion();
+        }
+        input_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                runConversion();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // delete input and result button
+        delete.setOnClickListener(v -> {
+            input_key.setText("");
+            input_text.setText("");
+            result_textview.setText("");
+        });
+        // share result button
+        share.setOnClickListener(v -> {
+            if (!result_textview.getText().toString().equals("") && !result_textview.getText().toString().equals("Invalid Key") && !result_textview.getText().toString().equals("Invalid Message")) {
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 String share1 = "";
@@ -130,89 +133,60 @@ public class QRActivityDecrypt extends AppCompatActivity {
                 shareIntent = Intent.createChooser(shareIntent, "Share Via: ");
                 startActivity(shareIntent);
             }
-            makeClickSound();
         });
-
-        // copy result text button
-        copy_btn.setOnClickListener(v -> {
-            if (!result_textview.getText().toString().equals("")) {
+        // copy result button
+        copy.setOnClickListener(v -> {
+            if (!result_textview.getText().toString().equals("") && !result_textview.getText().toString().equals("Invalid Key") && !result_textview.getText().toString().equals("Invalid Message")) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 String cop1 = result_textview.getText().toString();
-                ClipData clip1 = ClipData.newPlainText("a1", cop1);
+                ClipData clip1 = ClipData.newPlainText("text", cop1);
                 clipboard.setPrimaryClip(clip1);
             }
-            makeClickSound();
         });
+
     }
 
-    // scan with camera
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == SELECT_PICTURE){
-            Uri selectedImageUri = null;
-            if(data != null)
-                selectedImageUri = data.getData();
-            if (selectedImageUri != null) {
-                try {
-                    Bitmap  input = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                    printQrString(input);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
-            }
-        }
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(intentResult != null){
-            if (intentResult.getContents() != null) {
-                result_textview.setText(getDecryptedText(intentResult.getContents()));
-            } else {
-                result_textview.setText("");
-            }
-        }
-    }
 
-    // return encrypted text of input
-    private String getDecryptedText(String input){
-        return Home_Conversion.runConversion(input,VAL1,VAL2,VAL3,true,getPrefsBoolean("hex_on"));
-    }
 
-    // read barcode after scan
-    private void printQrString(Bitmap input){
-        MultiFormatReader mReader = new MultiFormatReader();
-        Map<DecodeHintType,Object> hints = new EnumMap<>(DecodeHintType.class);
-        hints.put(DecodeHintType.TRY_HARDER, true);
-        List<BarcodeFormat> formats = Arrays.asList(BarcodeFormat.QR_CODE,BarcodeFormat.AZTEC, BarcodeFormat.CODE_128, BarcodeFormat.PDF_417);
-        hints.put(DecodeHintType.POSSIBLE_FORMATS, formats);
-        mReader.setHints(hints);
-
-        int width = input.getWidth(), height = input.getHeight();
-        int[] pixels = new int[width * height];
-        input.getPixels(pixels, 0, width, 0, 0, width, height);
-        input.recycle();
-        input = null;
-        BinaryBitmap bb = new BinaryBitmap(new HybridBinarizer(new RGBLuminanceSource(width, height, pixels)));
-        Result result = null;
+    private void runConversion(){
         try {
-            result = mReader.decodeWithState(bb);
-            String resultString = result.getText();
-            resultString = getDecryptedText(resultString);
-            result_textview.setText(resultString);
+            if (switch_decrypt.isChecked()) {
+                decrypt();
+            } else {
+                encrypt();
+            }
+        } catch (GeneralSecurityException e) {
+            result_textview.setText("General Security Exception");
         }
-        catch (NotFoundException e) {
+
+    }
+
+
+    public void encrypt() throws GeneralSecurityException {
+        if(input_key.getText().toString().equals("") || input_text.getText().toString().equals("")){
             result_textview.setText("");
-            Toast.makeText(getApplicationContext(), "Couldn't find Barcode here", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String encrypted = AESCrypt.encrypt(input_key.getText().toString(), input_text.getText().toString());
+            result_textview.setText(encrypted);
         }
     }
 
-    // open activity with class name given to it
+    public void decrypt() throws GeneralSecurityException {
+        String decrypted = "";
+        try {
+            decrypted = AESCrypt.decrypt(input_key.getText().toString(), input_text.getText().toString());
+            result_textview.setText(decrypted);
+        } catch (Exception e) {
+            result_textview.setText("Invalid Key or Message");
+        }
+    }
+
+
+
     private void openActivity(Class activity_class){
         // send field values to new activity
-        Intent i = new Intent(QRActivityDecrypt.this, activity_class);
+        Intent i = new Intent(AES_Activity.this, activity_class);
         i.putExtra("val_1", VAL1);
         i.putExtra("val_2", VAL2);
         i.putExtra("val_3", VAL3);
@@ -229,18 +203,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getInt(key,0);
     }
-
-    // return boolean from shared preferences with given key
     private boolean getPrefsBoolean(String key){
         SharedPreferences prefs = getSharedPreferences("SAVED_PREFERENCES", MODE_PRIVATE);
         return prefs.getBoolean(key,false);
-    }
-
-    // make click sound
-    private void makeClickSound(){
-        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
-        boolean sounds_on = getPrefsBoolean("sounds_on");
-        if(sounds_on) clickSound.start();
     }
 
     // update all globals
@@ -259,7 +224,7 @@ public class QRActivityDecrypt extends AppCompatActivity {
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.help_popup_qr, null);
+        View popupView = inflater.inflate(R.layout.help_popup_aes, null);
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -281,10 +246,18 @@ public class QRActivityDecrypt extends AppCompatActivity {
         });
     }
 
+    // make click sound
+    private void makeClickSound(){
+        final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
+        boolean sounds_on = getPrefsBoolean("sounds_on");
+        if(sounds_on) clickSound.start();
+    }
+
     // bottom navigation bar
     @SuppressLint("NonConstantResourceId")
     private void bottomNavigation(){
-        bottomNavigationView.setSelectedItemId(R.id.qr_menu);
+        bottomNavigationView.setSelectedItemId(R.id.aes_menu);
+
         final MediaPlayer clickSound = MediaPlayer.create(this,R.raw.click_sound);
         boolean sounds_on = getPrefsBoolean("sounds_on");
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -294,9 +267,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
                     openActivity(HomeActivity.class);
                     return true;
                 case R.id.qr_menu:
+                    openActivity(QRActivity.class);
                     return true;
                 case R.id.aes_menu:
-                    openActivity(AES_Activity.class);
                     return true;
                 case R.id.rsa_menu:
                     openActivity(RSA_Encrypt.class);
@@ -310,9 +283,8 @@ public class QRActivityDecrypt extends AppCompatActivity {
     }
 
     // update color theme of app using shared preferences
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void setTheme(){
-
-
         int [][] states = new int [][]{
                 new int[] { android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_selected},
                 new int[] {-android.R.attr.state_enabled},
@@ -339,11 +311,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
             case 0:
                 setTheme(R.style.Orange_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_orange);
-                camera_btn.setBackgroundResource(R.drawable.camera_btn_orange);
-                gallery_btn.setBackgroundResource(R.drawable.gallery_btn_orange);
-                delete_btn.setBackgroundResource(R.drawable.delete_btn_orange);
-                share_btn.setBackgroundResource(R.drawable.share_btn_orange);
-                copy_btn.setBackgroundResource(R.drawable.copy_btn_orange);
+                delete.setBackgroundResource(R.drawable.delete_btn_orange);
+                share.setBackgroundResource(R.drawable.share_btn_orange);
+                copy.setBackgroundResource(R.drawable.copy_btn_orange);
                 bottomNavigationView.setItemIconTintList(colorStateList_orange);
                 bottomNavigationView.setItemTextColor(colorStateList_orange);
 
@@ -352,11 +322,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
             case 1:
                 setTheme(R.style.Blue_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_blue);
-                camera_btn.setBackgroundResource(R.drawable.camera_btn_blue);
-                gallery_btn.setBackgroundResource(R.drawable.gallery_btn_blue);
-                delete_btn.setBackgroundResource(R.drawable.delete_btn_blue);
-                share_btn.setBackgroundResource(R.drawable.share_btn_blue);
-                copy_btn.setBackgroundResource(R.drawable.copy_btn_blue);
+                delete.setBackgroundResource(R.drawable.delete_btn_blue);
+                share.setBackgroundResource(R.drawable.share_btn_blue);
+                copy.setBackgroundResource(R.drawable.copy_btn_blue);
                 bottomNavigationView.setItemIconTintList(colorStateList_blue);
                 bottomNavigationView.setItemTextColor(colorStateList_blue);
 
@@ -365,11 +333,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
             case 2:
                 setTheme(R.style.Red_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_red);
-                camera_btn.setBackgroundResource(R.drawable.camera_btn_red);
-                gallery_btn.setBackgroundResource(R.drawable.gallery_btn_red);
-                delete_btn.setBackgroundResource(R.drawable.delete_btn_red);
-                share_btn.setBackgroundResource(R.drawable.share_btn_red);
-                copy_btn.setBackgroundResource(R.drawable.copy_btn_red);
+                delete.setBackgroundResource(R.drawable.delete_btn_red);
+                share.setBackgroundResource(R.drawable.share_btn_red);
+                copy.setBackgroundResource(R.drawable.copy_btn_red);
                 bottomNavigationView.setItemIconTintList(colorStateList_red);
                 bottomNavigationView.setItemTextColor(colorStateList_red);
 
@@ -378,11 +344,9 @@ public class QRActivityDecrypt extends AppCompatActivity {
             case 3:
                 setTheme(R.style.Green_Theme);
                 switch_decrypt.setThumbResource(R.drawable.thumb_1_green);
-                camera_btn.setBackgroundResource(R.drawable.camera_btn_green);
-                gallery_btn.setBackgroundResource(R.drawable.gallery_btn_green);
-                delete_btn.setBackgroundResource(R.drawable.delete_btn_green);
-                share_btn.setBackgroundResource(R.drawable.share_btn_green);
-                copy_btn.setBackgroundResource(R.drawable.copy_btn_green);
+                delete.setBackgroundResource(R.drawable.delete_btn_green);
+                share.setBackgroundResource(R.drawable.share_btn_green);
+                copy.setBackgroundResource(R.drawable.copy_btn_green);
                 bottomNavigationView.setItemIconTintList(colorStateList_green);
                 bottomNavigationView.setItemTextColor(colorStateList_green);
 

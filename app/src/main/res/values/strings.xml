@@ -50,10 +50,22 @@
     2-րդ ռեժիմն ունի մուտքագրման երկու տեսակ. Դուք կարող եք մուտքագրել՝ սկանավորելով տեսախցիկի միջոցով կամ օգտագործել պատկերասրահի պահեստը՝ շտրիխ կոդը սկանավորելու համար: Ջնջել կոճակը՝ արդյունքի տեքստը ջնջելու համար, կիսվելու կոճակը՝ տեքստով կիսվելու համար և պատճենել կոճակը՝ այն պատճենելու համար:</string>
     <string name="arm_settings_title">Կարգավորումներ</string>
     <string name="arm_settings_content">4 տարբեր գունային թեմաներ կարող են սահմանվել վերևի 4 կոճակներով: Սեղմման ձայները կարող են միացվել և անջատվել: Տեքստի տասնվեցացակն համակարգով կոդավորման/վերծանման համար կա համապատասխան անջատիչ: Գաղտնագրման լրացուցիչ մակարդակի համար կարող է միացված լինել 3-րդ ռոտորը: Բոլոր կարգավորումները կարող են վերականգնել սկզբնական դիրք "Reset Settings" կոճակով։</string>
-    <string name="see_here">See here...</string>
+    <string name="see_here">See result here…</string>
     <string name="_0">0</string>
     <string name="version">Version</string>
     <string name="qr_code">QR Code</string>
     <string name="aztec_code">Aztec Code</string>
     <string name="code_128">Code 128</string>
+    <string name="rsa">RSA</string>
+    <string name="your_public_key">Your Public Key:</string>
+    <string name="private_key_error">Private Key could not decrypt this input</string>
+    <string name="invalid_key_format">Invalid Key format</string>
+
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <string name="default_public_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBqlOPalzYSL5zI8EscsU03Lk3HN9r+RI4D/7SVR93yKNN6mMSsDoeqZlu4DRfiwFKvU2yk2fQ2koVdPmbqVDfioDA95zTzCTc8UfhsJ6VbZQHBpJZ5u9adiCzpc5DVzqwNz1WiRWOfHytc9QxnFtbG/285/ZWMxSOPP1C77xv0UmDiwYkJjW95iC3WSCQHA4v8/uH4N7BP1CZEDd5PBBDDOyaJ6nH2iCLhFUmw1bsluSdJ+7Z1EhVBq1ScXmkleX/f1dVgyqYoylPFNAtDg+oKYTadavBJxal/SM527xoZwzOAhOWT2FZ9yuFEQRHzzpWCUAj2y8sKoavaarF0R/wIDAQAB</string>
+    <string name="default_private_key">MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCsGqU49qXNhIvnMjwSxyxTTcuTcc32v5EjgP/tJVH3fIo03qYxKwOh6pmW7gNF+LAUq9TbKTZ9DaShV0+ZupUN+KgMD3nNPMJNzxR+GwnpVtlAcGklnm71p2ILOlzkNXOrA3PVaJFY58fK1z1DGcW1sb/bzn9lYzFI48/ULvvG/RSYOLBiQmNb3mILdZIJAcDi/z+4fg3sE/UJkQN3k8EEMM7JonqcfaIIuEVSbDVuyW5J0n7tnUSFUGrVJxeaSV5f9/V1WDKpijKU8U0C0OD6gphNp1q8EnFqX9IznbvGhnDM4CE5ZPYVn3K4URBEfPOlYJQCPbLywqhq9pqsXRH/AgMBAAECggEAJUiScYAxVA/6VOgTjofaaOOKDhOR6HoAob3g84lps+EleaWgQDeOzmVpx4IhcGebEadV8fKALOAnQZKOGoIKp1+uXAqAOv+GImARku4dnBCl+OlBRhaH+Cy+Nyt6EzAnMi2JyvofvrBbnmw5h89N/voWU7Js89RkyWMc010oSyeOek4tR2X8nk0Yilnyu92ZebRj/ZI/1ikTiUA1S8t6JVTM4KtgFRTdfoSgRo4MxmTQbXhr2REnxE6zU/HYp9aRLOTEjsirrBCPmb+uvzbZYENcWWiVGPDInLdU+8S7fpbpQTqfirPw1/7pgRGv9AntwYBQx4AT8WahmJQj5Vn8gQKBgQDUod2hGRGwM2Ioc/ezWRDmhWOuqW9pXcUALLWlsNscJ5W0nEQlX0MnXSKqq6ETrGKolj7JIaMmPGcHZxjYGNIodZ4R0C+YHPZ3KKKloK3WBCbGRFnBCp3mmKKVHYNgKz/UpCcBMX3n9RdZ23ezFbg5I5MANFsCQc/Q+/3ri9bKgQKBgQDPNK/w1GDeye8dUc9MQhHhWOm2AXdcilM3pRl+EgGXQrNHTRus8cSpOGOUcgvCX+UFnhF9teN5U2Ny+rS9GYdrqJeDIabjE3KD8a4TZueJqqQLAGNKvhadtQZ6dEbavV/yZDXzg7386tRlkYBsipPCVXsPlW6UERvBNMDCpWicfwKBgDhQak85QXsGENAf7pFcXGKBH2Zpz2z7fapPLQil71HklfyQimfPdAyf2QeUjwOT20lFCXnhY8FDrBHE10qcQESg6e1T0tcZjJkAdRsilAejb9WA0riSpEEnWZ/egiXdLnmVxBLH1c2yFq4gtvICJZlUd6FNPHE7ltuFcbmJfqiBAoGASR92166bYQQydk5gsbC/Tp9qGuj5jpbiN0j0biE8nnzTd94mXioUFQPpYIG+1KGy2QCne42s8SwUdIc1MWbI+51LmuNNWeWLDDVGEWLHYzXtHlTMtZvPr2grGRvfxWH/cjMbNwzPB2p3+kAW6jcdXf98pks98tL20IAlZoupF1ECgYATKSB4lcu1MoSh+nEm8jdb/KKfvtqLq/QVUN6oullpPY5GSs0Npa/jcGK/pwjS7STg7H5LAKQdsoUvaenN3tlP/eF3TGCyPwzKBOBXiE71VJeDWTg3rtPuXvJZbFohACwt2B0SqtVxVYYfTC99MoBM01UYYcFLDeYe1OEGvktxiw==</string>
+    <string name="aes">AES</string>
+
 </resources>
