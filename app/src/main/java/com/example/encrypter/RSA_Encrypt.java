@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -364,7 +363,7 @@ public class RSA_Encrypt extends AppCompatActivity {
                     openActivity(HomeActivity.class);
                     return true;
                 case R.id.qr_menu:
-                    openActivity(QRActivity.class);
+                    openActivity(QR_Activity_Encrypt.class);
                     return true;
                 case R.id.aes_menu:
                     openActivity(AES_Activity.class);

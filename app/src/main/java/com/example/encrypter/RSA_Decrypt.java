@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -279,7 +278,7 @@ public class RSA_Decrypt extends AppCompatActivity {
                     openActivity(HomeActivity.class);
                     return true;
                 case R.id.qr_menu:
-                    openActivity(QRActivity.class);
+                    openActivity(QR_Activity_Encrypt.class);
                     return true;
                 case R.id.aes_menu:
                     openActivity(AES_Activity.class);

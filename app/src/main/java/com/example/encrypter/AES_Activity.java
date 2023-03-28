@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -84,6 +83,7 @@ public class AES_Activity extends AppCompatActivity {
             else {
                 input_key.setHint("Key for Encryption");
             }
+            INPUT = "";
             input_text.setText("");
             result_textview.setText("");
         });
@@ -267,7 +267,7 @@ public class AES_Activity extends AppCompatActivity {
                     openActivity(HomeActivity.class);
                     return true;
                 case R.id.qr_menu:
-                    openActivity(QRActivity.class);
+                    openActivity(QR_Activity_Encrypt.class);
                     return true;
                 case R.id.aes_menu:
                     return true;

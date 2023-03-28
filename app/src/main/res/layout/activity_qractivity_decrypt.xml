@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QRActivity">
+    tools:context=".QR_Activity_Encrypt">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,17 +26,17 @@
             app:showText="true"
             app:track="@drawable/switch_track" />
 
+
         <ImageView
             android:id="@+id/help_btn"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="64dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/help_menu_icon"
             android:onClick="openPopUpWindow"
             app:layout_constraintBottom_toBottomOf="@+id/switch_decrypt"
             app:layout_constraintStart_toEndOf="@+id/switch_decrypt" />
-
 
         <ImageView
             android:id="@+id/camera_btn"

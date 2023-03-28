@@ -13,8 +13,6 @@ import android.content.res.ColorStateList;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -369,7 +367,7 @@ public class SettingsActivity extends AppCompatActivity {
                     openActivity(HomeActivity.class);
                     return true;
                 case R.id.qr_menu:
-                    openActivity(QRActivity.class);
+                    openActivity(QR_Activity_Encrypt.class);
                     return true;
                 case R.id.aes_menu:
                     openActivity(AES_Activity.class);

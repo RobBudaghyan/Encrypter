@@ -378,7 +378,7 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.home_menu:
                     return true;
                 case R.id.qr_menu:
-                    openActivity(QRActivity.class);
+                    openActivity(QR_Activity_Encrypt.class);
                     return true;
                 case R.id.aes_menu:
                     openActivity(AES_Activity.class);
