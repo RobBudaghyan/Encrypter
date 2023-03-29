@@ -2,14 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="400dp"
-    android:layout_height="600dp"
+    android:layout_width="700dp"
+    android:layout_height="950dp"
     android:background="@drawable/popup_background">
 
 
     <ScrollView
-        android:layout_width="400dp"
-        android:layout_height="590dp"
+        android:layout_width="600dp"
+        android:layout_height="800dp"
         android:padding="15dp">
 
 
@@ -24,24 +24,24 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/help_qr_title_1"
+                android:text="@string/help_aes_title_1"
                 android:textColor="@color/gray_super_light"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/help_text_1"
-                android:layout_width="280dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/help_title_1"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/help_qr_text_1"
+                android:text="@string/help_aes_text_1"
                 android:textColor="@color/gray_super_light"
-                android:textSize="15sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="@+id/help_title_1"
                 app:layout_constraintEnd_toEndOf="@+id/help_title_1"
                 app:layout_constraintTop_toBottomOf="@+id/help_title_1" />
@@ -53,24 +53,24 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:text="@string/help_qr_title_2"
+                android:text="@string/help_aes_title_2"
                 android:textColor="@color/gray_super_light"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/help_text_1" />
 
             <TextView
                 android:id="@+id/help_text_2"
-                android:layout_width="280dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/help_title_1"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/help_qr_text_2"
+                android:text="@string/help_aes_text_2"
                 android:textColor="@color/gray_super_light"
-                android:textSize="15sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="@+id/help_title_2"
                 app:layout_constraintStart_toStartOf="@+id/help_title_2"
                 app:layout_constraintTop_toBottomOf="@+id/help_title_2" />
@@ -82,24 +82,24 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:text="@string/help_qr_title_3"
+                android:text="@string/help_aes_title_3"
                 android:textColor="@color/gray_super_light"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/help_text_2" />
 
             <TextView
                 android:id="@+id/help_text_3"
-                android:layout_width="280dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/help_title_1"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/help_qr_text_3"
+                android:text="@string/help_aes_text_3"
                 android:textColor="@color/gray_super_light"
-                android:textSize="15sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="@+id/help_title_3"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="@+id/help_title_3"
@@ -111,9 +111,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/help_qr_title_4"
+                android:text="@string/help_aes_title_4"
                 android:textColor="@color/gray_super_light"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="@+id/help_title_3"
                 app:layout_constraintHorizontal_bias="0.504"
@@ -122,15 +122,15 @@
 
             <TextView
                 android:id="@+id/help_text_4"
-                android:layout_width="280dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/help_title_1"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/help_qr_text_4"
+                android:text="@string/help_aes_text_4"
                 android:textColor="@color/gray_super_light"
-                android:textSize="15sp"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="@+id/help_title_4"
                 app:layout_constraintStart_toStartOf="@+id/help_title_4"
                 app:layout_constraintTop_toBottomOf="@+id/help_title_4" />

@@ -6,6 +6,7 @@
     android:layout_height="600dp"
     android:background="@drawable/popup_background">
 
+
     <ScrollView
         android:layout_width="400dp"
         android:layout_height="590dp"
@@ -21,10 +22,9 @@
                 android:id="@+id/help_title_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="Title 1"
+                android:text="@string/help_aes_title_1"
                 android:textColor="@color/gray_super_light"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/lorem_ipsum"
+                android:text="@string/help_aes_text_1"
                 android:textColor="@color/gray_super_light"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="@+id/help_title_1"
@@ -50,16 +50,14 @@
                 android:id="@+id/help_title_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:text="Title 2"
+                android:text="@string/help_aes_title_2"
                 android:textColor="@color/gray_super_light"
                 android:textSize="25sp"
-                app:layout_constraintEnd_toEndOf="@+id/help_title_1"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/help_title_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/help_text_1" />
 
             <TextView
@@ -70,12 +68,72 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/lorem_ipsum"
+                android:text="@string/help_aes_text_2"
                 android:textColor="@color/gray_super_light"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="@+id/help_title_2"
                 app:layout_constraintStart_toStartOf="@+id/help_title_2"
                 app:layout_constraintTop_toBottomOf="@+id/help_title_2" />
+
+            <TextView
+                android:id="@+id/help_title_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:text="@string/help_aes_title_3"
+                android:textColor="@color/gray_super_light"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/help_text_2" />
+
+            <TextView
+                android:id="@+id/help_text_3"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/help_title_1"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:text="@string/help_aes_text_3"
+                android:textColor="@color/gray_super_light"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@+id/help_title_3"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="@+id/help_title_3"
+                app:layout_constraintTop_toBottomOf="@+id/help_title_3" />
+
+            <TextView
+                android:id="@+id/help_title_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/help_aes_title_4"
+                android:textColor="@color/gray_super_light"
+                android:textSize="25sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/help_title_3"
+                app:layout_constraintHorizontal_bias="0.504"
+                app:layout_constraintStart_toStartOf="@+id/help_title_3"
+                app:layout_constraintTop_toBottomOf="@+id/help_text_3" />
+
+            <TextView
+                android:id="@+id/help_text_4"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/help_title_1"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:text="@string/help_aes_text_4"
+                android:textColor="@color/gray_super_light"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@+id/help_title_4"
+                app:layout_constraintStart_toStartOf="@+id/help_title_4"
+                app:layout_constraintTop_toBottomOf="@+id/help_title_4" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
