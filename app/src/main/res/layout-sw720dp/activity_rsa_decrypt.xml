@@ -44,7 +44,7 @@
             android:layout_marginTop="36dp"
             android:background="@drawable/input_text_xml"
             android:ems="10"
-            android:hint="Encrypted text"
+            android:hint="@string/your_message"
             android:inputType="textPersonName"
             android:maxLength="3000"
             android:paddingLeft="17dp"

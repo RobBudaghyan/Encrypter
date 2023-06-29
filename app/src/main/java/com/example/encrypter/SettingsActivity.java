@@ -257,8 +257,11 @@ public class SettingsActivity extends AppCompatActivity {
         privateKey = stringToPrivateKey(prefs.getString("private_key",getResources().getString(R.string.default_private_key)));
         publicKey = stringToPublicKey(prefs.getString("public_key",getResources().getString(R.string.default_public_key)));
 
-        public_key_txt.setText("Your Public Key:  " + getPreviewOfKey(publicKeyToString(publicKey)));
-        private_key_txt.setText("Your Private Key:  " + getPreviewOfKey(privateKeyToString(privateKey)));
+        String pub_temp = getResources().getString(R.string.your_public_key), priv_temp = getResources().getString(R.string.your_private_key);
+        pub_temp = pub_temp + getPreviewOfKey(publicKeyToString(publicKey));
+        priv_temp = priv_temp + getPreviewOfKey(privateKeyToString(privateKey));
+        public_key_txt.setText(pub_temp);
+        private_key_txt.setText(priv_temp);
     }
 
     public PrivateKey stringToPrivateKey(String privateK) {

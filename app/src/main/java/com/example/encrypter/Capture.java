@@ -4,5 +4,5 @@ import com.journeyapps.barcodescanner.CaptureActivity;
 
 public class Capture extends CaptureActivity {
     //just a class for camera capture
-    //nothing to see here
+    //nothing to see here ;)
 }

@@ -44,7 +44,7 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/input_text_xml"
             android:ems="10"
-            android:hint="Encrypted text"
+            android:hint="@string/encrypted_text"
             android:inputType="textLongMessage"
             android:paddingLeft="17dp"
             android:paddingRight="17dp"

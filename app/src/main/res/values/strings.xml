@@ -7,13 +7,15 @@
     <string name="off_">Off</string>
     <string name="on_">On</string>
 
-    <string name="write_here">Write here…</string>
+    <string name="write_here">Write here</string>
     <string name="home">Home</string>
     <string name="qr">QR</string>
     <string name="help">Help</string>
     <string name="settings">Settings</string>
 
-    <string name="see_here">See result here…</string>
+    <string name="see_here">See result here</string>
+    <string name="your_message">Your Message</string>
+    <string name="encrypted_text">Encrypted text</string>
     <string name="_0">0</string>
     <string name="version">Version</string>
     <string name="qr_code">QR Code</string>
@@ -70,5 +72,16 @@
     <string name="help_rsa_text_3">Paste the Public Key of Receiver in it\'s space and write message you want to send. On Result Board the encrypted text is shown. Note that the encrypted text can be decrypted only by the owner of Public Key by Private Key.</string>
     <string name="help_rsa_title_4">Decryption</string>
     <string name="help_rsa_text_4">In Decrypt mode You can decrypt only the texts which are initially encrypted by Your Public Key, because You have Private Key of that Cipher. The original message is shown on Result Board.</string>
+
+    <string name="key_for_conversion">Key for Conversion</string>
+    <string name="public_key_of_receiver">Public Key of Receiver</string>
+    <string name="color_theme">Color Theme</string>
+    <string name="sounds">Sounds</string>
+    <string name="biometric_verification">Biometric Verification</string>
+    <string name="home_and_qr_settings">Home and QR Settings</string>
+    <string name="hexadecimal_encryption">Hexadecimal System</string>
+    <string name="rsa_settings">RSA Settings</string>
+    <string name="your_private_key">Your Private Key:</string>
+    <string name="invalid_key_or_message">Invalid Key or Message</string>
 
 </resources>

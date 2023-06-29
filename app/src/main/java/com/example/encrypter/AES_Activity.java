@@ -182,7 +182,7 @@ public class AES_Activity extends AppCompatActivity {
             decrypted = AESCrypt.decrypt(input_key.getText().toString(), input_text.getText().toString());
             result_textview.setText(decrypted);
         } catch (Exception e) {
-            result_textview.setText("Invalid Key or Message");
+            result_textview.setText(R.string.invalid_key_or_message);
         }
     }
 
