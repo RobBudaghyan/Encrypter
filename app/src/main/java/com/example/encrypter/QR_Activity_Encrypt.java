@@ -232,7 +232,7 @@ public class QR_Activity_Encrypt extends AppCompatActivity {
             result_txt.setImageResource(R.drawable.empty_image_icon);
         }
     }
-
+    //
     // share barcode given bitmap of it
     private void shareBitmap(Bitmap bitmap) {
         Intent i = new Intent(Intent.ACTION_SEND);
