@@ -4,8 +4,8 @@
     <string name="switch_1">Encrypt</string>
     <string name="switch_2">Decrypt</string>
 
-    <string name="off">Off</string>
-    <string name="on">On</string>
+    <string name="off_">Off</string>
+    <string name="on_">On</string>
 
     <string name="write_here">Write here…</string>
     <string name="home">Home</string>

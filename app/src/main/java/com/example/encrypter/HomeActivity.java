@@ -32,30 +32,30 @@ public class HomeActivity extends AppCompatActivity {
 
 
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    int BARCODE_INDEX;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private int BARCODE_INDEX;
 
-    EditText input_text;
-    TextView result_textview;
-    TextView seekbar_text_1;
-    TextView seekbar_text_2;
-    TextView seekbar_text_3;
-    ImageView delete;
-    ImageView share;
-    ImageView copy;
-    ImageView random;
-    ImageView plus_1;
-    ImageView plus_2;
-    ImageView plus_3;
-    ImageView minus_1;
-    ImageView minus_2;
-    ImageView minus_3;
-    ImageView help_btn;
-    SeekBar seekbar_1;
-    SeekBar seekbar_2;
-    SeekBar seekbar_3;
-    SwitchCompat switch_decrypt;
-    BottomNavigationView bottomNavigationView;
+    private EditText input_text;
+    private TextView result_textview;
+    private TextView seekbar_text_1;
+    private TextView seekbar_text_2;
+    private TextView seekbar_text_3;
+    private ImageView delete;
+    private ImageView share;
+    private ImageView copy;
+    private ImageView random;
+    private ImageView plus_1;
+    private ImageView plus_2;
+    private ImageView plus_3;
+    private ImageView minus_1;
+    private ImageView minus_2;
+    private ImageView minus_3;
+    private ImageView help_btn;
+    private SeekBar seekbar_1;
+    private SeekBar seekbar_2;
+    private SeekBar seekbar_3;
+    private SwitchCompat switch_decrypt;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override

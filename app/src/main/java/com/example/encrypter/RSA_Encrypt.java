@@ -46,29 +46,26 @@ import javax.crypto.NoSuchPaddingException;
 
 public class RSA_Encrypt extends AppCompatActivity {
 
-    static PublicKey publicKey;
-    static PrivateKey privateKey;
+    private static PublicKey publicKey;
+    private static PrivateKey privateKey;
 
-    static int KEY_SIZE = 2048;
+    private static int KEY_SIZE = 2048;
 
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    String INPUT;
-    int BARCODE_INDEX = -1;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private String INPUT;
+    private int BARCODE_INDEX = -1;
 
 
-    EditText input_public_key;
-    EditText input_text;
-
-    TextView result_textview;
-
-    SwitchCompat switch_decrypt;
-
-    ImageView copy;
-    ImageView share;
-    ImageView delete;
-    ImageView help_btn;
-    BottomNavigationView bottomNavigationView;
+    private EditText input_public_key;
+    private EditText input_text;
+    private TextView result_textview;
+    private SwitchCompat switch_decrypt;
+    private ImageView copy;
+    private ImageView share;
+    private ImageView delete;
+    private ImageView help_btn;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -276,10 +273,13 @@ public class RSA_Encrypt extends AppCompatActivity {
     private void openActivity(Class activity_class){
         // send field values to new activity
         Intent i = new Intent(RSA_Encrypt.this, activity_class);
+        if(!input_text.getText().toString().equals("")) {
+            String input = input_text.getText().toString();
+            i.putExtra("input_text", input);
+        }
         i.putExtra("val_1", VAL1);
         i.putExtra("val_2", VAL2);
         i.putExtra("val_3", VAL3);
-        i.putExtra("input_text", INPUT);
         i.putExtra("barcode_index",BARCODE_INDEX);
         i.putExtra("lock_passed", true);
         startActivity(i);

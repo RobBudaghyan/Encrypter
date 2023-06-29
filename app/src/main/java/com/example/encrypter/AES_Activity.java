@@ -35,23 +35,23 @@ public class AES_Activity extends AppCompatActivity {
 
 
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    String INPUT;
-    int BARCODE_INDEX = -1;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private String INPUT;
+    private int BARCODE_INDEX = -1;
 
 
-    EditText input_key;
-    EditText input_text;
+    private EditText input_key;
+    private EditText input_text;
 
-    TextView result_textview;
+    private TextView result_textview;
 
-    SwitchCompat switch_decrypt;
+    private SwitchCompat switch_decrypt;
 
-    ImageView copy;
-    ImageView share;
-    ImageView delete;
-    ImageView help_btn;
-    BottomNavigationView bottomNavigationView;
+    private ImageView copy;
+    private ImageView share;
+    private ImageView delete;
+    private ImageView help_btn;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,10 +191,13 @@ public class AES_Activity extends AppCompatActivity {
     private void openActivity(Class activity_class){
         // send field values to new activity
         Intent i = new Intent(AES_Activity.this, activity_class);
+        if(!input_text.getText().toString().equals("")) {
+            String input = input_text.getText().toString();
+            i.putExtra("input_text", input);
+        }
         i.putExtra("val_1", VAL1);
         i.putExtra("val_2", VAL2);
         i.putExtra("val_3", VAL3);
-        i.putExtra("input_text", INPUT);
         i.putExtra("barcode_index",BARCODE_INDEX);
         i.putExtra("lock_passed", true);
         startActivity(i);

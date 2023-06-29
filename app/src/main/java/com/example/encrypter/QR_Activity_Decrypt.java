@@ -42,22 +42,22 @@ import java.util.Map;
 
 public class QR_Activity_Decrypt extends AppCompatActivity {
 
-    static int SELECT_PICTURE = 200;
+    private static final int SELECT_PICTURE = 200;
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    String INPUT;
-    int BARCODE_INDEX = -1;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private String INPUT;
+    private int BARCODE_INDEX = -1;
 
 
-    ImageView camera_btn;
-    ImageView copy_btn;
-    ImageView share_btn;
-    ImageView delete_btn;
-    ImageView gallery_btn;
-    ImageView help_btn;
-    TextView result_textview;
-    SwitchCompat switch_decrypt;
-    BottomNavigationView bottomNavigationView;
+    private ImageView camera_btn;
+    private ImageView copy_btn;
+    private ImageView share_btn;
+    private ImageView delete_btn;
+    private ImageView gallery_btn;
+    private ImageView help_btn;
+    private TextView result_textview;
+    private SwitchCompat switch_decrypt;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override

@@ -17,9 +17,9 @@ public class BiometricPrompt extends AppCompatActivity {
     androidx.biometric.BiometricPrompt.PromptInfo promptInfo;
 
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    String INPUT;
-    int BARCODE_INDEX = -1;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private String INPUT;
+    private int BARCODE_INDEX = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

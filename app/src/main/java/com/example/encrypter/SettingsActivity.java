@@ -30,31 +30,31 @@ import java.util.Base64;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    int THEME_COLOR = 0;
+    private int THEME_COLOR = 0;
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    String INPUT;
-    int BARCODE_INDEX = -1;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private String INPUT;
+    private int BARCODE_INDEX = -1;
 
     // key values
-    PublicKey publicKey;
-    PrivateKey privateKey;
-    static int KEY_SIZE = 2048;
+    private PublicKey publicKey;
+    private PrivateKey privateKey;
+    private static int KEY_SIZE = 2048;
 
-    ImageView copy_public_key;
-    ImageView copy_private_key;
-    ImageView change_keys_btn;
-    ImageView orange_theme;
-    ImageView blue_theme;
-    ImageView red_theme;
-    ImageView green_theme;
-    ImageView reset;
-    TextView public_key_txt;
-    TextView private_key_txt;
-    SwitchCompat switch_sounds;
-    SwitchCompat switch_hexadecimal;
-    SwitchCompat switch_biometric;
-    BottomNavigationView bottomNavigationView;
+    private ImageView copy_public_key;
+    private ImageView copy_private_key;
+    private ImageView change_keys_btn;
+    private ImageView orange_theme;
+    private ImageView blue_theme;
+    private ImageView red_theme;
+    private ImageView green_theme;
+    private ImageView reset;
+    private TextView public_key_txt;
+    private TextView private_key_txt;
+    private SwitchCompat switch_sounds;
+    private SwitchCompat switch_hexadecimal;
+    private SwitchCompat switch_biometric;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override

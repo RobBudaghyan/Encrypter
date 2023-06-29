@@ -23,7 +23,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.049"
+            app:layout_constraintVertical_bias="0.04"
             app:showText="true"
             app:track="@drawable/switch_track" />
 
@@ -31,12 +31,11 @@
             android:id="@+id/help_btn"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/help_menu_icon"
             android:onClick="openPopUpWindow"
             app:layout_constraintBottom_toBottomOf="@+id/switch_decrypt"
-            app:layout_constraintStart_toEndOf="@+id/switch_decrypt" />
+            app:layout_constraintEnd_toEndOf="@+id/input_edittext" />
 
         <EditText
             android:id="@+id/input_edittext"
@@ -90,9 +89,9 @@
 
         <ImageView
             android:id="@+id/result"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/qr_stroke_orange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
@@ -104,7 +103,7 @@
             android:id="@+id/code_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@+id/two_txt"

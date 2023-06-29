@@ -39,28 +39,28 @@ import java.util.Objects;
 
 public class QR_Activity_Encrypt extends AppCompatActivity {
 
-    BarcodeFormat BARCODE_FORMAT;
+    private BarcodeFormat BARCODE_FORMAT;
     // global values
-    int VAL1, VAL2, VAL3;
-    int BARCODE_INDEX = -1;
-    String INPUT;
+    private int VAL1, VAL2, VAL3;
+    private int BARCODE_INDEX = -1;
+    private String INPUT;
 
 
-    EditText input_text;
-    ImageView delete_btn;
-    ImageView share_btn;
-    ImageView download_btn;
-    ImageView result_txt;
-    ImageView help_btn;
-    SwitchCompat switch_decrypt;
-    RadioGroup radioGroup;
-    RadioButton one_radio_btn;
-    RadioButton two_radio_btn;
-    RadioButton three_radio_btn;
+    private EditText input_text;
+    private ImageView delete_btn;
+    private ImageView share_btn;
+    private ImageView download_btn;
+    private ImageView result_txt;
+    private ImageView help_btn;
+    private SwitchCompat switch_decrypt;
+    private RadioGroup radioGroup;
+    private RadioButton one_radio_btn;
+    private RadioButton two_radio_btn;
+    private RadioButton three_radio_btn;
     TextView one_txt;
     TextView two_txt;
     TextView three_txt;
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -182,6 +182,7 @@ public class QR_Activity_Encrypt extends AppCompatActivity {
 
         // share barcode button
         share_btn.setOnClickListener(v -> {
+           try {
             Drawable d = result_txt.getDrawable();
             Bitmap bitmap = null;
             bitmap = ((BitmapDrawable) d).getBitmap();
@@ -192,6 +193,10 @@ public class QR_Activity_Encrypt extends AppCompatActivity {
                 shareBitmap(bitmap);
             }
             makeClickSound();
+
+           } catch (Exception e) {
+               throw new RuntimeException(e);
+           }
         });
 
 

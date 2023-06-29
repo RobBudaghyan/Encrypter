@@ -22,7 +22,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.049"
+            app:layout_constraintVertical_bias="0.04"
             app:showText="true"
             app:track="@drawable/switch_track" />
 
@@ -89,7 +89,7 @@
         <TextView
             android:id="@+id/result_textview"
             android:layout_width="350dp"
-            android:layout_height="145dp"
+            android:layout_height="115dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/input_text_xml"
             android:hint="@string/see_here"
@@ -109,7 +109,7 @@
             android:id="@+id/seekbar_1"
             android:layout_width="360dp"
             android:layout_height="30dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:indeterminate="false"
             android:max="25"
             android:min="0"
@@ -117,7 +117,7 @@
             android:progressDrawable="@drawable/seekbar_background"
             android:thumb="@drawable/thumb_3_orange"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/result_textview" />
 
@@ -145,12 +145,11 @@
             android:id="@+id/help_btn"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/help_menu_icon"
             android:onClick="openPopUpWindow"
             app:layout_constraintBottom_toBottomOf="@+id/switch_decrypt"
-            app:layout_constraintStart_toEndOf="@+id/switch_decrypt" />
+            app:layout_constraintEnd_toEndOf="@+id/input_edittext" />
 
         <TextView
             android:id="@+id/seekbar_text_1"
@@ -169,7 +168,7 @@
             android:id="@+id/seekbar_2"
             android:layout_width="360dp"
             android:layout_height="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:indeterminate="false"
             android:max="10"
             android:min="0"
@@ -218,7 +217,7 @@
             android:id="@+id/seekbar_3"
             android:layout_width="360dp"
             android:layout_height="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:indeterminate="false"
             android:max="10"
             android:min="0"

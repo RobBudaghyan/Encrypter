@@ -41,25 +41,25 @@ import javax.crypto.NoSuchPaddingException;
 
 public class RSA_Decrypt extends AppCompatActivity {
 
-    PrivateKey privateKey;
-    PublicKey publicKey;
+    private PrivateKey privateKey;
+    private PublicKey publicKey;
 
     // global values
-    int VAL1 = -1, VAL2 = -1, VAL3 = -1;
-    String INPUT;
-    int BARCODE_INDEX = -1;
+    private int VAL1 = -1, VAL2 = -1, VAL3 = -1;
+    private String INPUT;
+    private int BARCODE_INDEX = -1;
 
-    EditText input_text;
+    private EditText input_text;
 
-    TextView result_textview;
+    private TextView result_textview;
 
-    SwitchCompat switch_decrypt;
+    private SwitchCompat switch_decrypt;
 
-    ImageView copy;
-    ImageView share;
-    ImageView delete;
-    ImageView help_btn;
-    BottomNavigationView bottomNavigationView;
+    private ImageView copy;
+    private ImageView share;
+    private ImageView delete;
+    private ImageView help_btn;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override
