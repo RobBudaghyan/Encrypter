@@ -15,12 +15,11 @@ Need to encrypt your text for personal use? Check out Encrypter, a multi-platfor
 
 ## Youtube Guide
 
-[![Watch the video](https://img.youtube.com/vi/HOHr7EVyHq0/maxresdefault.jpg)](https://youtu.be/HOHr7EVyHq0)
-
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/HOHr7EVyHq0/0.jpg)](https://www.youtube.com/watch?v=HOHr7EVyHq0)
 
 #### Installation
 
-Folder with latest Orion version - [APK Download](https://drive.google.com/drive/folders/1vNKswAx-Fpkmz-yexMaAC5pFCoXFwzSW?usp=drive_link)
+Folder with latest Encrypter version - [APK Download](https://drive.google.com/drive/folders/19iehT5bpUYQWtkXJScjYokpmNmRohFEs?usp=sharing)
 
 ---
 
