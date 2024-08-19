@@ -10,7 +10,8 @@ ENCRYPTER - secure, fast and easy way to encrypt any text with multiple tools!
 
 ## Description
 
-#### Need to encrypt your text for personal use? Check out Encrypter, a multi-platform tool for encrypting and decrypting text. From the simple Enigma cipher used during WWII to the advanced 256-bit AES encryption, Encrypter has you covered!
+Need to encrypt your text for personal use? Check out Encrypter, a multi-platform tool for encrypting and decrypting text. From the simple Enigma cipher used during WWII to the advanced 256-bit AES encryption, Encrypter has you covered!
+
 ---
 
 ## Youtube Guide
@@ -20,7 +21,6 @@ ENCRYPTER - secure, fast and easy way to encrypt any text with multiple tools!
 ## Installation
 
 Folder with latest Encrypter version - [APK Download](https://drive.google.com/drive/folders/19iehT5bpUYQWtkXJScjYokpmNmRohFEs?usp=sharing)
-
 
 ---
 
