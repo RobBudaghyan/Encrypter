@@ -13,35 +13,10 @@ SECURE, FAST AND EASY!
 Need to encrypt your text for personal use? Check out Encrypter, a multi-platform tool for encrypting and decrypting text. From the simple Enigma cipher used during WWII to the advanced 256-bit AES encryption, Encrypter has you covered!
 ---
 
-## How To Use
+## Youtube Guide
 
-#### Send Message
+[![Watch the video](https://img.youtube.com/vi/HOHr7EVyHq0/maxresdefault.jpg)](https://youtu.be/HOHr7EVyHq0)
 
-In order to send a message to a user, you need to have user's ID (every user has its own unique ID). Then write the message in message input space, and press "Send" button.
-
-<img src="https://drive.google.com/uc?export=view&id=1k8jSRjdx20qXXxBQtuS3Xp3ul1zak9JP" alt="img" width="1000">
-
-#### Receive Message
-
-When a user sends you a message, a notification of a new message will appear in lower space. The notifications contains information about the date when the message has been received and the ID of the sender. Note that when you open the message it will be automatically DELETED and you can NEVER recover it's content.
-
-<img src="https://drive.google.com/uc?export=view&id=1eoV4hDSTnEjdrumRXK0jnBlknD-5nO6R" alt="img" width="1000">
-
-#### Add Contacts
-
-If you want to save an ID of a user, you can save a user's contact by adding contact's exact user ID and give a name to it.
-
-<img src="https://drive.google.com/uc?export=view&id=1a9EbYe9qz2zPm1UN8fRCpLroeliNIH1C" alt="img" width="1000">
-
-#### Preferences
-
-In settings you can:
-- enable interface sounds
-- biometric verification that uses fingerprints and patterns in order to restrict access to Orion on your device
-- change your unique User ID for security reasons (Note that you WILL NOT be able to retrieve your previous ID and it's messages)
-- open online Orion guide if you need any help
-
-<img src="https://drive.google.com/uc?export=view&id=14onGR89cMkaY-4Vwz_75pzaGgqV7TuOL" alt="img" width="1000">
 
 #### Installation
 
